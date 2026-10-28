@@ -1,0 +1,98 @@
+// Sizes come from Figma "1. Logo animation" (696 x 184), scaled by --s.
+.intro {
+  --s: 1;
+
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(1deg, #313ae5 1.22%, #797ef3 98.76%);
+    transition: opacity 0.5s ease-out;
+  }
+
+  &.moving::before {
+    opacity: 0;
+  }
+}
+
+.stage {
+  position: absolute;
+  top: calc(50% - 92px * var(--s));
+  left: calc(50% - 348px * var(--s));
+  width: calc(696px * var(--s));
+  height: calc(184px * var(--s));
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(187px * var(--s));
+  height: calc(184px * var(--s));
+  animation: icon-aside 0.3s ease-out 0.5s backwards;
+}
+
+.name-clip {
+  position: absolute;
+  top: calc(45px * var(--s));
+  left: calc(226px * var(--s));
+  width: calc(470px * var(--s));
+  height: calc(105px * var(--s));
+  overflow: hidden;
+}
+
+.name {
+  position: absolute;
+  top: calc(17px * var(--s));
+  left: calc(-2px * var(--s));
+  width: calc(472px * var(--s));
+  height: calc(72px * var(--s));
+  filter: brightness(0) invert(1);
+  animation: name-out 0.5s ease-out 0.8s backwards;
+}
+
+.pinned {
+  .icon,
+  .name {
+    position: fixed;
+  }
+}
+
+.moving {
+  .icon,
+  .name {
+    transition: all 0.5s ease-out;
+  }
+
+  .name {
+    filter: none;
+  }
+}
+
+@keyframes icon-aside {
+  from {
+    transform: translateX(calc(208px * var(--s)));
+  }
+}
+
+@keyframes name-out {
+  from {
+    transform: translateX(calc(-500px * var(--s)));
+  }
+}
+
+@media (max-width: 900px) {
+  .intro {
+    --s: 0.6;
+  }
+}
+
+@media (max-width: 600px) {
+  .intro {
+    --s: 0.378;
+  }
+}
