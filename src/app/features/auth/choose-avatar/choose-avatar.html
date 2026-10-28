@@ -1,0 +1,49 @@
+<div class="auth-page">
+  <header>
+    <app-logo />
+  </header>
+
+  <main class="auth-main">
+    <section class="auth-card avatar-card">
+      <a class="back-button" routerLink="/registrierung" aria-label="Zurück zur Registrierung">
+        <img src="img/icons/arrow-back.svg" alt="" />
+      </a>
+      <h1>Wähle deinen Avatar</h1>
+
+      <div class="preview">
+        @if (registration.avatar(); as avatar) {
+          <img class="preview-avatar" [src]="avatar" alt="Gewählter Avatar" />
+        } @else {
+          <div class="preview-placeholder">
+            <img src="img/icons/person.svg" alt="" />
+          </div>
+        }
+      </div>
+
+      <p class="user-name">{{ registration.data()?.name }}</p>
+
+      <div class="avatar-list">
+        <p>Aus der Liste wählen</p>
+        <div class="avatars">
+          @for (avatar of registration.avatars; track avatar; let i = $index) {
+            <button
+              type="button"
+              class="avatar-option"
+              [class.selected]="registration.avatar() === avatar"
+              [attr.aria-label]="'Avatar ' + (i + 1) + ' wählen'"
+              (click)="selectAvatar(avatar)"
+            >
+              <img [src]="avatar" alt="" />
+            </button>
+          }
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" [disabled]="!registration.avatar()" (click)="finish()">Weiter</button>
+      </div>
+    </section>
+  </main>
+
+  <app-legal-links />
+</div>

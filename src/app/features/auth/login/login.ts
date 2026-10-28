@@ -1,12 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
+import { Logo } from '../../../shared/components/logo/logo';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, Logo, LegalLinks],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })

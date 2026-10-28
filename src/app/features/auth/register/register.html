@@ -1,0 +1,77 @@
+<div class="auth-page">
+  <header>
+    <app-logo />
+  </header>
+
+  <main class="auth-main">
+    <section class="auth-card">
+      <a class="back-button" routerLink="/" aria-label="Zurück zur Anmeldung">
+        <img src="img/icons/arrow-back.svg" alt="" />
+      </a>
+      <h1>Konto erstellen</h1>
+      <p class="auth-intro">Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.</p>
+
+      <form class="form" [formGroup]="registerForm" (ngSubmit)="continue()" novalidate>
+        <div class="input-group">
+          <label class="input-field">
+            <img src="img/icons/person-filled.svg" alt="" />
+            <input type="text" formControlName="name" placeholder="Name und Nachname" autocomplete="name" />
+          </label>
+          @if (showError('name')) {
+            <p class="error-message">
+              {{ hasError('name', 'pattern') ? '*Bitte geben Sie Vor- und Nachnamen ein.' : '*Bitte schreiben Sie einen Namen.' }}
+            </p>
+          }
+        </div>
+
+        <div class="input-group">
+          <label class="input-field">
+            <img src="img/icons/mail.svg" alt="" />
+            <input type="email" formControlName="email" placeholder="beispielname@email.com" autocomplete="email" />
+          </label>
+          @if (showError('email')) {
+            <p class="error-message">*Diese E-Mail-Adresse ist leider ungültig.</p>
+          }
+        </div>
+
+        <div class="input-group">
+          <label class="input-field">
+            <img src="img/icons/lock.svg" alt="" />
+            <input type="password" formControlName="password" placeholder="Passwort" autocomplete="new-password" />
+          </label>
+          @if (showError('password')) {
+            <p class="error-message">
+              {{ hasError('password', 'minlength') ? '*Das Passwort muss mindestens 8 Zeichen lang sein.' : '*Bitte geben Sie ein Passwort ein.' }}
+            </p>
+          }
+        </div>
+
+        <div class="input-group privacy-group">
+          <div class="privacy">
+            <button
+              type="button"
+              class="checkbox"
+              role="checkbox"
+              [attr.aria-checked]="registerForm.controls.privacy.value"
+              (click)="togglePrivacy()"
+            >
+              <img [src]="registerForm.controls.privacy.value ? 'img/icons/checkbox-checked.svg' : 'img/icons/checkbox.svg'" alt="" />
+            </button>
+            <span>Ich stimme der</span>
+            <a class="text-link privacy-link" routerLink="/datenschutz">Datenschutzerklärung</a>
+            <span>zu.</span>
+          </div>
+          @if (showError('privacy')) {
+            <p class="error-message">*Bitte stimmen Sie der Datenschutzerklärung zu.</p>
+          }
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary" [disabled]="registerForm.invalid">Weiter</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <app-legal-links />
+</div>
