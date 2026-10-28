@@ -1,0 +1,56 @@
+@use 'variables' as *;
+
+// Figma: 2. Email / 3. Password / 4. Name
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.input-field {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  width: 100%;
+  padding: 18px 32px;
+  border: 1px solid transparent;
+  border-radius: $radius-input;
+  background-color: $color-bg;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: $color-text-gray;
+  }
+
+  &:focus-within {
+    border-color: $color-purple-3;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+    font-size: $font-size-18;
+    font-weight: 500;
+    line-height: $line-height;
+    color: $color-black;
+
+    &::placeholder {
+      color: $color-text-gray;
+    }
+  }
+}
+
+.error-message {
+  margin: 0;
+  font-size: $font-size-14;
+  color: $color-error;
+}

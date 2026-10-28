@@ -1,3 +1,8 @@
+@use 'fonts';
+@use 'variables' as *;
+@use 'buttons';
+@use 'inputs';
+
 *,
 *::before,
 *::after {
@@ -9,6 +14,12 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+}
+
+body {
+  font-family: $font-family;
+  background-color: $color-bg;
+  color: $color-black;
 }
 
 button,
