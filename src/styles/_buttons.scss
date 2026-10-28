@@ -1,0 +1,63 @@
+@use 'variables' as *;
+
+// Figma: 10. Button primary / 11. Button secondary
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 25px;
+  border-radius: $radius-button;
+  border: 1px solid transparent;
+  font-size: $font-size-18;
+  font-weight: 700;
+  white-space: nowrap;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.btn-primary {
+  background-color: $color-purple-1;
+  color: $color-white;
+
+  &:hover:not(:disabled) {
+    background-color: $color-purple-2;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $color-purple-1;
+  }
+
+  &:disabled {
+    background-color: $color-text-gray;
+  }
+}
+
+.btn-secondary {
+  background-color: $color-white;
+  border-color: $color-purple-2;
+  color: $color-purple-1;
+
+  &:hover:not(:disabled) {
+    background-color: $color-purple-3;
+    border-color: $color-purple-3;
+    color: $color-white;
+  }
+
+  &:active:not(:disabled) {
+    background-color: $color-purple-1;
+    border-color: $color-purple-1;
+    color: $color-white;
+  }
+
+  &:disabled {
+    border-color: $color-text-gray;
+    color: $color-text-gray;
+  }
+}
