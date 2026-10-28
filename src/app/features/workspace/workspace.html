@@ -1,0 +1,12 @@
+<div class="workspace">
+  <app-logo />
+  @if (user$ | async; as user) {
+    <div class="user">
+      @if (user.photoURL) {
+        <img [src]="user.photoURL" alt="" />
+      }
+      <p>Angemeldet als <strong>{{ user.displayName }}</strong></p>
+    </div>
+  }
+  <button type="button" class="btn-secondary" (click)="logOut()">Abmelden</button>
+</div>
