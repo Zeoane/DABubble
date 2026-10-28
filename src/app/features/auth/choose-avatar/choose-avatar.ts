@@ -73,7 +73,7 @@ export class ChooseAvatar {
   private handleError(error: unknown): void {
     this.loading.set(false);
     if (authErrorCode(error) === 'auth/email-already-in-use') {
-      this.registration.emailTaken.set(true);
+      this.registration.takenEmail.set(this.registration.data()?.email ?? null);
       this.router.navigate(['/registrierung']);
       return;
     }
