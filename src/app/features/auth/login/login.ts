@@ -3,8 +3,10 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService, authErrorCode } from '../../../core/services/auth.service';
+import { IntroService } from '../../../core/services/intro.service';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
+import { Intro } from '../intro/intro';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -16,7 +18,7 @@ const DEFAULT_LOGIN_ERROR = '*Die Anmeldung ist fehlgeschlagen. Bitte versuchen 
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink, Logo, LegalLinks],
+  imports: [ReactiveFormsModule, RouterLink, Logo, LegalLinks, Intro],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -30,6 +32,7 @@ export class Login {
     password: ['', Validators.required],
   });
 
+  showIntro = signal(inject(IntroService).shouldPlay());
   loading = signal(false);
   loginError = signal<string | null>(null);
 

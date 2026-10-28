@@ -1,6 +1,6 @@
 <div class="auth-page">
   <header class="header">
-    <app-logo />
+    <app-logo [class.hidden]="showIntro()" />
     <div class="sign-up">
       <span>Neu bei DABubble?</span>
       <a class="text-link" routerLink="/registrierung">Konto erstellen</a>
@@ -58,4 +58,8 @@
   </main>
 
   <app-legal-links />
+
+  @if (showIntro()) {
+    <app-intro (done)="showIntro.set(false)" />
+  }
 </div>
