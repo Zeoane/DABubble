@@ -29,6 +29,14 @@ export class Register {
   });
 
 
+  constructor() {
+    if (this.registration.emailTaken()) {
+      this.registerForm.controls.email.setErrors({ taken: true });
+      this.registerForm.controls.email.markAsTouched();
+    }
+  }
+
+
   /**
    * Shows the error of a field only after the user has left it.
    */

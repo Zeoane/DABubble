@@ -1,0 +1,23 @@
+@use 'variables' as *;
+
+.workspace {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  min-height: 100dvh;
+  padding: 32px 16px;
+  font-size: $font-size-20;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  img {
+    width: 64px;
+    height: 64px;
+  }
+}

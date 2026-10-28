@@ -30,6 +30,8 @@
           </label>
           @if (showError('password')) {
             <p class="error-message">*Bitte geben Sie ein Passwort ein.</p>
+          } @else if (loginError(); as error) {
+            <p class="error-message">{{ error }}</p>
           }
         </div>
 
@@ -43,7 +45,7 @@
         </button>
 
         <div class="actions">
-          <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">Anmelden</button>
+          <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || loading()">Anmelden</button>
           <button type="button" class="btn-secondary">Gäste-Login</button>
         </div>
       </form>

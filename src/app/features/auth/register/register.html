@@ -29,7 +29,9 @@
             <img src="img/icons/mail.svg" alt="" />
             <input type="email" formControlName="email" placeholder="beispielname@email.com" autocomplete="email" />
           </label>
-          @if (showError('email')) {
+          @if (hasError('email', 'taken')) {
+            <p class="error-message">*Diese E-Mail-Adresse wird bereits verwendet.</p>
+          } @else if (showError('email')) {
             <p class="error-message">*Diese E-Mail-Adresse ist leider ungültig.</p>
           }
         </div>
