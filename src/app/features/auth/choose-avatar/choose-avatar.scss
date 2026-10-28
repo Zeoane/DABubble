@@ -1,0 +1,143 @@
+@use 'variables' as *;
+
+.avatar-card {
+  min-height: 669px;
+}
+
+.preview {
+  margin-top: 58px;
+}
+
+.preview-placeholder,
+.preview-avatar {
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+}
+
+.preview-placeholder {
+  display: flex;
+  padding: 16px;
+  background-color: $color-purple-2;
+
+  img {
+    width: 136px;
+    height: 136px;
+  }
+}
+
+.user-name {
+  margin: 32px 0 0;
+  font-size: $font-size-32;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.avatar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+  text-align: left;
+
+  p {
+    margin: 0;
+    font-size: $font-size-20;
+  }
+}
+
+.avatars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+// Figma: 80. avatar interaction
+.avatar-option {
+  display: flex;
+  padding: 4px;
+  background: transparent;
+
+  img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    outline: 4px solid transparent;
+    transition: outline-color 0.15s ease;
+  }
+
+  &:hover img {
+    outline-color: $color-avatar-hover;
+  }
+
+  &.selected img {
+    outline-color: $color-bg;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 65px;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .avatar-card {
+    min-height: 0;
+  }
+
+  .preview {
+    margin-top: 20px;
+  }
+
+  .preview-placeholder,
+  .preview-avatar {
+    width: 120px;
+    height: 120px;
+  }
+
+  .preview-placeholder {
+    padding: 12px;
+
+    img {
+      width: 96px;
+      height: 96px;
+    }
+  }
+
+  .user-name {
+    margin-top: 20px;
+    font-size: $font-size-26;
+  }
+
+  .avatar-list {
+    p {
+      font-size: $font-size-17;
+    }
+  }
+
+  .avatars {
+    gap: 4px;
+  }
+
+  .avatar-option img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .actions {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 400px) {
+  .avatars {
+    gap: 0;
+  }
+
+  .avatar-option img {
+    width: 32px;
+    height: 32px;
+  }
+}

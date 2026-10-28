@@ -1,0 +1,33 @@
+@use 'variables' as *;
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-icon {
+  width: 70px;
+  height: 70px;
+}
+
+.logo-name {
+  width: 157px;
+  height: 24px;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .logo {
+    gap: 12.8px;
+  }
+
+  .logo-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .logo-name {
+    width: 136px;
+    height: 21px;
+  }
+}

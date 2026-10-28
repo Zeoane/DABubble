@@ -1,33 +1,9 @@
 @use 'variables' as *;
 
-.page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding: 75px 75px 48px;
-}
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.logo-icon {
-  width: 70px;
-  height: 70px;
-}
-
-.logo-name {
-  width: 157px;
-  height: 24px;
 }
 
 .sign-up {
@@ -46,41 +22,12 @@
   display: none;
 }
 
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 11px 0 40px;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 606px;
-  max-width: 100%;
+.login-card {
   padding: 50px 53px;
-  border-radius: $radius-card;
-  background-color: $color-white;
-  box-shadow: $shadow-card;
-  text-align: center;
-
-  h1 {
-    margin: 0;
-    font-size: $font-size-46;
-    font-weight: 700;
-    line-height: $line-height;
-    color: $color-purple-1;
-  }
 }
 
-.intro {
-  max-width: 486px;
-  margin: 30px 0 46px;
-  font-size: $font-size-20;
-  line-height: $line-height;
+.login-card .auth-intro {
+  margin-bottom: 46px;
 }
 
 .form {
@@ -90,10 +37,6 @@
   gap: 40px;
   width: 100%;
   max-width: 500px;
-}
-
-.input-group {
-  text-align: left;
 }
 
 .forgot {
@@ -160,55 +103,17 @@
   margin-top: 3px;
 }
 
-.footer {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-}
-
 @media (max-width: $breakpoint-mobile) {
-  .page {
-    align-items: center;
-    gap: 32px;
-    padding: 72px 16px 32px;
+  .login-card {
+    padding: 35px 20px;
   }
 
-  .logo-icon {
-    width: 56px;
-    height: 56px;
-  }
-
-  .logo {
-    gap: 12.8px;
-  }
-
-  .logo-name {
-    width: 136px;
-    height: 21px;
+  .login-card .auth-intro {
+    margin-bottom: 20px;
   }
 
   .header .sign-up {
     display: none;
-  }
-
-  .main {
-    flex: 0;
-    width: 100%;
-    gap: 32px;
-    padding: 0;
-  }
-
-  .card {
-    padding: 35px 20px;
-
-    h1 {
-      font-size: $font-size-32;
-    }
-  }
-
-  .intro {
-    margin: 15px 0 20px;
-    font-size: $font-size-17;
   }
 
   .form {
