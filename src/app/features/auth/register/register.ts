@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { RegistrationService } from '../../../core/services/registration.service';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
@@ -21,17 +21,23 @@ export class Register {
   private router = inject(Router);
   private registration = inject(RegistrationService);
 
+  /**
+   * Flags the address that Firebase already rejected as taken.
+   */
+  private emailNotTaken: ValidatorFn = (control: AbstractControl) =>
+    control.value === this.registration.takenEmail() ? { taken: true } : null;
+
+
   registerForm = this.formBuilder.nonNullable.group({
     name: [this.registration.data()?.name ?? '', [Validators.required, Validators.pattern(NAME_PATTERN)]],
-    email: [this.registration.data()?.email ?? '', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
+    email: [this.registration.data()?.email ?? '', [Validators.required, Validators.pattern(EMAIL_PATTERN), this.emailNotTaken]],
     password: [this.registration.data()?.password ?? '', [Validators.required, Validators.minLength(8)]],
     privacy: [this.registration.data() !== null, Validators.requiredTrue],
   });
 
 
   constructor() {
-    if (this.registration.emailTaken()) {
-      this.registerForm.controls.email.setErrors({ taken: true });
+    if (this.registration.takenEmail()) {
       this.registerForm.controls.email.markAsTouched();
     }
   }
