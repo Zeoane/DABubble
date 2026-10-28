@@ -12,20 +12,27 @@ $color-online: #92c83e;
 
 // Schrift (Figma: 00d. Font size - Nunito)
 $font-family: 'Nunito', sans-serif;
+$font-family-link: 'Figtree', sans-serif;
 $font-size-46: 46px;
 $font-size-38: 38px;
 $font-size-32: 32px;
 $font-size-26: 26px;
 $font-size-22: 22px;
+$font-size-20: 20px;
 $font-size-18: 18px;
+$font-size-17: 17px;
 $font-size-15: 15px;
 $font-size-14: 14px;
 $font-size-12: 12px;
 $line-height: 1.2;
 
+// Schatten (Figma: header)
+$shadow-card: 0 2px 10px 0 rgba(0, 0, 0, 0.08);
+
 // Radien
 $radius-button: 25px;
 $radius-input: 100px;
+$radius-card: 30px;
 
 // Breakpoints
 $breakpoint-mobile: 600px;

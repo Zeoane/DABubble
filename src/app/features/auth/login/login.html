@@ -1,0 +1,65 @@
+<div class="page">
+  <header class="header">
+    <a class="logo" routerLink="/">
+      <img class="logo-icon" src="img/logo-icon.svg" alt="" />
+      <img class="logo-name" src="img/logo-name.svg" alt="DABubble" />
+    </a>
+    <div class="sign-up">
+      <span>Neu bei DABubble?</span>
+      <a class="text-link" routerLink="/registrierung">Konto erstellen</a>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="card">
+      <h1>Anmeldung</h1>
+      <p class="intro">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</p>
+
+      <form class="form" [formGroup]="loginForm" (ngSubmit)="logIn()" novalidate>
+        <div class="input-group">
+          <label class="input-field">
+            <img src="img/icons/mail.svg" alt="" />
+            <input type="email" formControlName="email" placeholder="beispielname@email.com" autocomplete="email" />
+          </label>
+          @if (showError('email')) {
+            <p class="error-message">*Diese E-Mail-Adresse ist leider ungültig.</p>
+          }
+        </div>
+
+        <div class="input-group">
+          <label class="input-field">
+            <img src="img/icons/lock.svg" alt="" />
+            <input type="password" formControlName="password" placeholder="Passwort" autocomplete="current-password" />
+          </label>
+          @if (showError('password')) {
+            <p class="error-message">*Bitte gib dein Passwort ein.</p>
+          }
+        </div>
+
+        <a class="text-link forgot" routerLink="/passwort-vergessen">Passwort vergessen?</a>
+
+        <div class="divider"><span>ODER</span></div>
+
+        <button type="button" class="google-btn">
+          <img src="img/icons/google.svg" alt="" />
+          <span>Anmelden mit Google</span>
+        </button>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">Anmelden</button>
+          <button type="button" class="btn-secondary">Gäste-Login</button>
+        </div>
+      </form>
+    </section>
+
+    <div class="sign-up sign-up-mobile">
+      <span>Neu bei DABubble?</span>
+      <a class="btn-secondary btn-small" routerLink="/registrierung">Konto erstellen</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <a class="text-link" routerLink="/impressum">Impressum</a>
+    <a class="text-link" routerLink="/datenschutz">Datenschutz</a>
+  </footer>
+</div>
