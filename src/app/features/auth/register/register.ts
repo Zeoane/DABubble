@@ -2,11 +2,9 @@ import { Component, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { RegistrationService } from '../../../core/services/registration.service';
+import { EMAIL_PATTERN, NAME_PATTERN } from '../../../core/validators/patterns';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-const NAME_PATTERN = /^\S+(\s+\S+)+$/;
 
 type RegisterField = 'name' | 'email' | 'password' | 'privacy';
 

@@ -70,6 +70,14 @@
   }
 }
 
+.google-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  text-align: left;
+}
+
 .google-btn {
   display: flex;
   align-items: center;

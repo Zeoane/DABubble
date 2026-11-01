@@ -4,17 +4,17 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService, authErrorCode } from '../../../core/services/auth.service';
 import { IntroService } from '../../../core/services/intro.service';
+import { EMAIL_PATTERN } from '../../../core/validators/patterns';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
 import { Intro } from '../intro/intro';
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const LOGIN_ERRORS: Record<string, string> = {
   'auth/invalid-credential': '*Falsches Passwort oder E-Mail. Bitte noch einmal versuchen.',
   'auth/too-many-requests': '*Zu viele Versuche. Bitte versuchen Sie es später erneut.',
 };
 const DEFAULT_LOGIN_ERROR = '*Die Anmeldung ist fehlgeschlagen. Bitte versuchen Sie es später erneut.';
+const POPUP_CLOSED = ['auth/popup-closed-by-user', 'auth/cancelled-popup-request'];
 
 @Component({
   selector: 'app-login',
@@ -35,6 +35,7 @@ export class Login {
   showIntro = signal(inject(IntroService).shouldPlay());
   loading = signal(false);
   loginError = signal<string | null>(null);
+  googleError = signal<string | null>(null);
 
 
   constructor() {
@@ -66,6 +67,24 @@ export class Login {
       this.router.navigate(['/workspace']);
     } catch (error) {
       this.loginError.set(LOGIN_ERRORS[authErrorCode(error)] ?? DEFAULT_LOGIN_ERROR);
+      this.loading.set(false);
+    }
+  }
+
+
+  /**
+   * Opens the Google popup; closing it on purpose shows no error.
+   */
+  async logInWithGoogle(): Promise<void> {
+    if (this.loading()) return;
+    this.loading.set(true);
+    this.googleError.set(null);
+    try {
+      await this.auth.logInWithGoogle();
+      this.router.navigate(['/workspace']);
+    } catch (error) {
+      const code = authErrorCode(error);
+      if (!POPUP_CLOSED.includes(code)) this.googleError.set(LOGIN_ERRORS[code] ?? DEFAULT_LOGIN_ERROR);
       this.loading.set(false);
     }
   }
