@@ -1,0 +1,53 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+:host {
+  display: block;
+  min-width: 0;
+}
+
+// Desktop: 70px, padding 17.5/45, radius 42, text 24px gray, icon 35px.
+.search {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 70px;
+  padding: 0 45px;
+  border-radius: 42px;
+  background-color: $color-white;
+  cursor: text;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+    font-size: 24px;
+    color: $color-black;
+
+    &::placeholder {
+      color: $color-text-gray;
+    }
+  }
+
+  .icon {
+    @include icon('search', 35px);
+    color: $color-text-gray;
+  }
+}
+
+// Mobile: 48px, 1px border, padding 8/24, text 17px, icon 32px.
+.search.compact {
+  height: 48px;
+  padding: 0 24px;
+  border: 1px solid $color-lines;
+
+  input {
+    font-size: $font-size-17;
+  }
+
+  .icon {
+    width: 32px;
+    height: 32px;
+  }
+}

@@ -1,0 +1,29 @@
+@use 'variables' as *;
+
+// Figma: Avatar 50px with "Online" 14px at 36/36; 70px with 17px and a 2px ring.
+:host {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--size);
+  height: var(--size);
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: $color-white;
+  object-fit: cover;
+}
+
+.online {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 28%;
+  height: 28%;
+  border-radius: 50%;
+  background-color: $color-online;
+}

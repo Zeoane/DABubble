@@ -1,0 +1,28 @@
+@if (users.currentUser(); as me) {
+  <button
+    type="button"
+    class="trigger"
+    [attr.aria-expanded]="open()"
+    aria-haspopup="menu"
+    (click)="toggle()"
+  >
+    <span class="name">{{ me.name }}</span>
+    <app-avatar [src]="me.avatar" [size]="70" [online]="true" />
+    <span class="arrow" aria-hidden="true"></span>
+  </button>
+}
+
+@if (open()) {
+  <div class="backdrop" (click)="close()"></div>
+  <div class="popup" role="menu">
+    <span class="handle" aria-hidden="true"></span>
+    <button type="button" class="item" role="menuitem" (click)="close()">
+      <span class="icon icon-profile" aria-hidden="true"></span>
+      Profil
+    </button>
+    <button type="button" class="item" role="menuitem" (click)="logOut()">
+      <span class="icon icon-logout" aria-hidden="true"></span>
+      Log out
+    </button>
+  </div>
+}
