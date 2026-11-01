@@ -1,0 +1,13 @@
+<div class="legal-page">
+  <header>
+    <app-logo />
+  </header>
+
+  <main class="content" [class.card]="card()">
+    <button type="button" class="legal-back" aria-label="Zurück" (click)="goBack()">
+      <img src="img/icons/arrow-back.svg" alt="" />
+    </button>
+    <h1>{{ title() }}</h1>
+    <ng-content />
+  </main>
+</div>
