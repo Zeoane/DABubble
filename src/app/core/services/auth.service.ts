@@ -2,12 +2,15 @@ import { EnvironmentInjector, Injectable, inject, runInInjectionContext } from '
 import {
   Auth,
   authState,
+  confirmPasswordReset,
   createUserWithEmailAndPassword,
   deleteUser,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
   User,
+  verifyPasswordResetCode,
 } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -50,6 +53,29 @@ export class AuthService {
 
   async logOut(): Promise<void> {
     await this.inContext(() => signOut(this.auth));
+  }
+
+
+  /**
+   * Sends the reset mail; its link opens "/passwort-zuruecksetzen" once the
+   * action URL is set in the Firebase console (Authentication → Templates).
+   */
+  async sendPasswordReset(email: string): Promise<void> {
+    this.auth.languageCode = 'de';
+    await this.inContext(() => sendPasswordResetEmail(this.auth, email));
+  }
+
+
+  /**
+   * Checks the code from the mail link and returns the account's email.
+   */
+  verifyResetCode(code: string): Promise<string> {
+    return this.inContext(() => verifyPasswordResetCode(this.auth, code));
+  }
+
+
+  async resetPassword(code: string, password: string): Promise<void> {
+    await this.inContext(() => confirmPasswordReset(this.auth, code, password));
   }
 
 

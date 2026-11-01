@@ -7,11 +7,17 @@ import { Component, input } from '@angular/core';
   selector: 'app-toast',
   template: `
     <div class="backdrop">
-      <p class="toast" role="status">{{ message() }}</p>
+      <p class="toast" role="status">
+        @if (icon(); as icon) {
+          <img [src]="icon" alt="" />
+        }
+        {{ message() }}
+      </p>
     </div>
   `,
   styleUrl: './toast.scss',
 })
 export class Toast {
   readonly message = input.required<string>();
+  readonly icon = input<string>();
 }

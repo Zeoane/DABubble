@@ -4,11 +4,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService, authErrorCode } from '../../../core/services/auth.service';
 import { IntroService } from '../../../core/services/intro.service';
+import { EMAIL_PATTERN } from '../../../core/validators/patterns';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
 import { Intro } from '../intro/intro';
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const LOGIN_ERRORS: Record<string, string> = {
   'auth/invalid-credential': '*Falsches Passwort oder E-Mail. Bitte noch einmal versuchen.',
