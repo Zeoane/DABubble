@@ -39,10 +39,15 @@
 
         <div class="divider"><span>ODER</span></div>
 
-        <button type="button" class="google-btn">
-          <img src="img/icons/google.svg" alt="" />
-          <span>Anmelden mit Google</span>
-        </button>
+        <div class="google-group">
+          <button type="button" class="google-btn" [disabled]="loading()" (click)="logInWithGoogle()">
+            <img src="img/icons/google.svg" alt="" />
+            <span>Anmelden mit Google</span>
+          </button>
+          @if (googleError(); as error) {
+            <p class="error-message">{{ error }}</p>
+          }
+        </div>
 
         <div class="actions">
           <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || loading()">Anmelden</button>

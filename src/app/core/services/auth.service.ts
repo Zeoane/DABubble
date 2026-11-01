@@ -5,16 +5,26 @@ import {
   confirmPasswordReset,
   createUserWithEmailAndPassword,
   deleteUser,
+  GoogleAuthProvider,
   sendPasswordResetEmail,
+  signInWithPopup,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
   User,
   verifyPasswordResetCode,
 } from '@angular/fire/auth';
-import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { RegistrationData } from './registration.service';
+
+interface UserProfile {
+  name: string;
+  email: string;
+  avatar: string;
+}
+
+const DEFAULT_AVATAR = 'img/avatars/avatar-1.svg';
 
 /**
  * Wraps Firebase Authentication and keeps the user document in Firestore.
@@ -38,7 +48,7 @@ export class AuthService {
     );
     try {
       await this.inContext(() => updateProfile(user, { displayName: data.name, photoURL: avatar }));
-      await this.saveUser(user, data, avatar);
+      await this.saveUser(user.uid, { name: data.name, email: data.email, avatar });
     } catch (error) {
       await this.inContext(() => deleteUser(user));
       throw error;
@@ -48,6 +58,20 @@ export class AuthService {
 
   async logIn(email: string, password: string): Promise<void> {
     await this.inContext(() => signInWithEmailAndPassword(this.auth, email, password));
+  }
+
+
+  /**
+   * Signs in with a Google popup; on the first login the profile is created
+   * from the Google account (name, email, photo).
+   */
+  async logInWithGoogle(): Promise<void> {
+    const { user } = await this.inContext(() => signInWithPopup(this.auth, new GoogleAuthProvider()));
+    const profileRef = doc(this.firestore, 'users', user.uid);
+    const existing = await this.inContext(() => getDoc(profileRef));
+    if (!existing.exists()) {
+      await this.saveUser(user.uid, googleProfile(user));
+    }
   }
 
 
@@ -82,9 +106,8 @@ export class AuthService {
   /**
    * Stores the profile in "users/{uid}" so other members can see it.
    */
-  private saveUser(user: User, data: RegistrationData, avatar: string): Promise<void> {
-    const profile = { name: data.name, email: data.email, avatar };
-    return this.inContext(() => setDoc(doc(this.firestore, 'users', user.uid), profile));
+  private saveUser(uid: string, profile: UserProfile): Promise<void> {
+    return this.inContext(() => setDoc(doc(this.firestore, 'users', uid), profile));
   }
 
 
@@ -102,4 +125,13 @@ export class AuthService {
  */
 export function authErrorCode(error: unknown): string {
   return (error as { code?: string })?.code ?? '';
+}
+
+
+function googleProfile(user: User): UserProfile {
+  return {
+    name: user.displayName ?? user.email ?? 'Gast',
+    email: user.email ?? '',
+    avatar: user.photoURL ?? DEFAULT_AVATAR,
+  };
 }
