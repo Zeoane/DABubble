@@ -1,0 +1,78 @@
+@use 'variables' as *;
+
+// Figma: 18. Impressum / 19. Datenschutz
+.legal-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  min-height: 100dvh;
+  padding: 25px 50px 48px;
+
+  header {
+    align-self: flex-start;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+  max-width: 1312px;
+
+  h1 {
+    margin: 0;
+    font-size: $font-size-46;
+    font-weight: 700;
+    line-height: $line-height;
+    color: $color-purple-1;
+  }
+
+  &.card {
+    width: auto;
+    max-width: 676px;
+    margin: auto 0;
+    padding: 48px 56px;
+    border-radius: $radius-card;
+    background-color: $color-white;
+    box-shadow: $shadow-card;
+  }
+}
+
+.legal-back {
+  display: flex;
+  padding: 8px;
+  border-radius: 50%;
+  background: transparent;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: $color-bg;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .legal-page {
+    gap: 24px;
+    padding: 24px 16px 32px;
+  }
+
+  .content {
+    gap: 16px;
+
+    h1 {
+      font-size: $font-size-32;
+    }
+
+    &.card {
+      padding: 32px 20px;
+    }
+  }
+}
