@@ -8,6 +8,7 @@ import {
   GoogleAuthProvider,
   sendPasswordResetEmail,
   signInWithPopup,
+  signInAnonymously,
   signInWithEmailAndPassword,
   signOut,
   updateProfile,
@@ -25,6 +26,7 @@ interface UserProfile {
 }
 
 const DEFAULT_AVATAR = 'img/avatars/avatar-1.svg';
+const GUEST_PROFILE: UserProfile = { name: 'Gast', email: '', avatar: DEFAULT_AVATAR };
 
 /**
  * Wraps Firebase Authentication and keeps the user document in Firestore.
@@ -77,6 +79,18 @@ export class AuthService {
 
   async logOut(): Promise<void> {
     await this.inContext(() => signOut(this.auth));
+  }
+
+
+  /**
+   * Signs in without an account (Firebase "anonymous") and stores a guest profile.
+   */
+  async logInAsGuest(): Promise<void> {
+    const { user } = await this.inContext(() => signInAnonymously(this.auth));
+    await this.inContext(() =>
+      updateProfile(user, { displayName: GUEST_PROFILE.name, photoURL: GUEST_PROFILE.avatar }),
+    );
+    await this.saveUser(user.uid, GUEST_PROFILE);
   }
 
 
