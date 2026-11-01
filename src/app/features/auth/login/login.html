@@ -51,8 +51,11 @@
 
         <div class="actions">
           <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || loading()">Anmelden</button>
-          <button type="button" class="btn-secondary">Gäste-Login</button>
+          <button type="button" class="btn-secondary" [disabled]="loading()" (click)="logInAsGuest()">Gäste-Login</button>
         </div>
+        @if (guestError(); as error) {
+          <p class="error-message">{{ error }}</p>
+        }
       </form>
     </section>
 

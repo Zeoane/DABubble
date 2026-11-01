@@ -36,6 +36,7 @@ export class Login {
   loading = signal(false);
   loginError = signal<string | null>(null);
   googleError = signal<string | null>(null);
+  guestError = signal<string | null>(null);
 
 
   constructor() {
@@ -85,6 +86,23 @@ export class Login {
     } catch (error) {
       const code = authErrorCode(error);
       if (!POPUP_CLOSED.includes(code)) this.googleError.set(LOGIN_ERRORS[code] ?? DEFAULT_LOGIN_ERROR);
+      this.loading.set(false);
+    }
+  }
+
+
+  /**
+   * Signs in as guest, without email or password.
+   */
+  async logInAsGuest(): Promise<void> {
+    if (this.loading()) return;
+    this.loading.set(true);
+    this.guestError.set(null);
+    try {
+      await this.auth.logInAsGuest();
+      this.router.navigate(['/workspace']);
+    } catch (error) {
+      this.guestError.set(LOGIN_ERRORS[authErrorCode(error)] ?? DEFAULT_LOGIN_ERROR);
       this.loading.set(false);
     }
   }
