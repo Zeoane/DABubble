@@ -1,0 +1,57 @@
+@use 'variables' as *;
+
+// Desktop: logo at 45px, search aligned with the chat column, profile at the right.
+:host {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 70px;
+}
+
+.desktop-logo {
+  width: 366px;
+  padding-left: 25px;
+  flex-shrink: 0;
+}
+
+.mobile-logo {
+  display: none;
+}
+
+.search {
+  flex: 1;
+  max-width: 989px;
+}
+
+app-profile-menu {
+  margin-left: auto;
+  padding-right: 14px;
+}
+
+@media (max-width: 1400px) {
+  .desktop-logo {
+    width: auto;
+  }
+}
+
+// Mobile (69. head mobile): 80px, padding 15/16, small logo and avatar only.
+@media (max-width: $breakpoint-tablet) {
+  :host {
+    height: 80px;
+    padding: 15px 16px;
+    background-color: $color-bg;
+  }
+
+  .desktop-logo,
+  .search {
+    display: none;
+  }
+
+  .mobile-logo {
+    display: block;
+  }
+
+  app-profile-menu {
+    padding-right: 0;
+  }
+}

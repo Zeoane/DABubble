@@ -1,27 +1,21 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
-import { Logo } from '../../shared/components/logo/logo';
+import { Component, signal } from '@angular/core';
+import { WorkspaceHeader } from './header/workspace-header';
+import { WorkspaceMenu } from './workspace-menu/workspace-menu';
 
 /**
- * Placeholder after login until the real workspace is built.
+ * Workspace layout: header, menu with channels and direct messages, chat area.
  */
 @Component({
   selector: 'app-workspace',
-  imports: [AsyncPipe, Logo],
+  imports: [WorkspaceHeader, WorkspaceMenu],
   templateUrl: './workspace.html',
   styleUrl: './workspace.scss',
 })
 export class Workspace {
-  private auth = inject(AuthService);
-  private router = inject(Router);
-
-  user$ = this.auth.user$;
+  menuOpen = signal(true);
 
 
-  async logOut(): Promise<void> {
-    await this.auth.logOut();
-    this.router.navigate(['/']);
+  toggleMenu(): void {
+    this.menuOpen.update((open) => !open);
   }
 }

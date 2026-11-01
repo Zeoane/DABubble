@@ -17,13 +17,8 @@ import {
 } from '@angular/fire/auth';
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { UserProfile } from '../models/user-profile';
 import { RegistrationData } from './registration.service';
-
-interface UserProfile {
-  name: string;
-  email: string;
-  avatar: string;
-}
 
 const DEFAULT_AVATAR = 'img/avatars/avatar-1.svg';
 const GUEST_PROFILE: UserProfile = { name: 'Gast', email: '', avatar: DEFAULT_AVATAR };
