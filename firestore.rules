@@ -26,6 +26,16 @@ service cloud.firestore {
       }
     }
 
+    // Direct chats: the id is "uidA_uidB" (sorted), so only those two read and write.
+    match /directMessages/{chatId}/messages/{messageId} {
+      allow read: if request.auth != null && request.auth.uid in chatId.split('_');
+      allow create: if request.auth != null
+        && request.auth.uid in chatId.split('_')
+        && request.resource.data.authorId == request.auth.uid
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0;
+    }
+
     function isMember(channelId) {
       return request.auth != null
         && request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members;
