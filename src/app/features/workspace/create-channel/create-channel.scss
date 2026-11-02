@@ -1,0 +1,381 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+// 37. Channel erstellen: 872 wide, padding 40, gap 20, radius 30.
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 21;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 872px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
+  padding: 40px;
+  overflow-y: auto;
+  border-radius: $radius-card;
+  background-color: $color-white;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%);
+  animation: fade-in 0.15s ease-in;
+
+  // 38. Leute hinzufügen: 710 wide.
+  &.members {
+    width: 710px;
+  }
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 20px;
+  background: none;
+
+  &:hover {
+    background-color: $color-bg;
+    color: $color-purple-3;
+  }
+}
+
+.handle {
+  display: none;
+}
+
+.intro {
+  margin: 0;
+  font-size: $font-size-18;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.label {
+  font-size: $font-size-18;
+  font-weight: 700;
+}
+
+.optional {
+  font-weight: 400;
+}
+
+.name-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 20px;
+  border: 1px solid $color-lines;
+  border-radius: 40px;
+  color: $color-text-gray;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: $color-text-gray;
+  }
+
+  &:focus-within {
+    border-color: $color-purple-1;
+  }
+
+  &.invalid {
+    border-color: $color-error;
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    font-size: $font-size-18;
+    color: $color-black;
+  }
+}
+
+textarea {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid $color-lines;
+  border-radius: 30px;
+  font-family: inherit;
+  font-size: $font-size-18;
+  resize: vertical;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: $color-text-gray;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-purple-1;
+  }
+}
+
+input {
+  font-family: inherit;
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: $color-text-gray;
+}
+
+.error-message {
+  margin: -10px 0 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+// 38. Radios 20px with a 12px purple dot.
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 6px;
+  padding-left: 35px;
+  font-size: $font-size-18;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &:hover .radio {
+    border-color: $color-purple-1;
+  }
+
+  input:focus-visible + .radio {
+    outline: 2px solid $color-purple-2;
+    outline-offset: 2px;
+  }
+
+  input:checked + .radio::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: $color-purple-1;
+  }
+}
+
+.radio {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid $color-lines;
+  border-radius: 50%;
+}
+
+.highlight {
+  color: $color-purple-3;
+}
+
+.picker {
+  position: relative;
+}
+
+.people-field {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 20px;
+  border: 1px solid $color-lines;
+  border-radius: 30px;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: $color-text-gray;
+  }
+
+  &:focus-within {
+    border-color: $color-purple-1;
+  }
+
+  input {
+    flex: 1;
+    min-width: 120px;
+    border: none;
+    font-size: $font-size-18;
+  }
+}
+
+// Chip: background #eceefe, radius 35, avatar 34, name 18, close 30.
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 3px 5px 3px 10px;
+  border-radius: 35px;
+  background-color: $color-bg;
+  font-size: $font-size-18;
+}
+
+.chip-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chip-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 15px;
+  background: none;
+
+  &:hover {
+    color: $color-purple-3;
+  }
+
+  .icon-close {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Users menu: border #adb0d9, radius 0 20 20 20, padding 20/21, gap 15.
+.suggestions {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: min(100%, 350px);
+  max-height: 260px;
+  margin: 0;
+  padding: 20px 21px;
+  overflow-y: auto;
+  list-style: none;
+  border: 1px solid $color-lines;
+  border-radius: 0 20px 20px 20px;
+  background-color: $color-white;
+}
+
+.suggestion {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 4px 20px;
+  border-radius: 35px;
+  background: none;
+  font-size: $font-size-18;
+  text-align: left;
+
+  &:hover {
+    background-color: $color-bg;
+  }
+}
+
+.no-match {
+  margin: 10px 0 0 20px;
+  color: $color-text-gray;
+}
+
+.icon-close {
+  @include icon('close');
+}
+
+.icon-tag {
+  @include icon('tag', 23px);
+}
+
+// Mobile: 37 is a full-width top sheet, 38 a bottom sheet with handle.
+@media (max-width: $breakpoint-mobile) {
+  .dialog {
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 40px 20px;
+    border-radius: 0 0 30px 30px;
+    transform: none;
+
+    &.members {
+      top: auto;
+      bottom: 0;
+      width: 100%;
+      padding-top: 20px;
+      border-radius: 30px 30px 0 0;
+    }
+  }
+
+  .handle {
+    display: block;
+    align-self: center;
+    width: 62px;
+    height: 6px;
+    border-radius: 23px;
+    background-color: $color-lines;
+  }
+
+  .intro,
+  .choice {
+    font-size: $font-size-17;
+  }
+
+  .suggestions {
+    position: static;
+    width: 100%;
+    margin-top: 5px;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}

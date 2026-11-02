@@ -1,0 +1,52 @@
+import { Component, computed, inject, input } from '@angular/core';
+import { Channel } from '../../../core/models/channel';
+import { ChannelService } from '../../../core/services/channel.service';
+import { UserService } from '../../../core/services/user.service';
+
+const PREVIEW_MEMBERS = 3;
+
+/**
+ * Open channel: header with name and members, intro at the start of the channel
+ * (Figma 10 – Desktop Office Team). Messages follow in the next step.
+ */
+@Component({
+  selector: 'app-channel-view',
+  templateUrl: './channel-view.html',
+  styleUrl: './channel-view.scss',
+})
+export class ChannelView {
+  private channels = inject(ChannelService);
+  private users = inject(UserService);
+
+  /** Route parameter ":id". */
+  readonly id = input.required<string>();
+
+  loaded = this.channels.loaded;
+  channel = computed(() => this.channels.byId(this.id()));
+
+  members = computed(() => {
+    const ids = this.channel()?.members ?? [];
+    return this.users.users().filter((user) => ids.includes(user.uid));
+  });
+
+  preview = computed(() => this.members().slice(0, PREVIEW_MEMBERS));
+
+
+  /** "Du hast diesen Channel heute erstellt." or "Noah Braun hat … am 14. Januar erstellt." */
+  createdText(channel: Channel): string {
+    const creator = channel.createdBy === this.users.uid() ? 'Du hast' : `${this.creatorName(channel)} hat`;
+    return `${creator} diesen Channel ${createdWhen(channel)} erstellt. Das ist der Anfang des Channels`;
+  }
+
+
+  private creatorName(channel: Channel): string {
+    return this.users.users().find((user) => user.uid === channel.createdBy)?.name ?? 'Jemand';
+  }
+}
+
+
+function createdWhen(channel: Channel): string {
+  const date = channel.createdAt?.toDate() ?? new Date();
+  if (date.toDateString() === new Date().toDateString()) return 'heute';
+  return 'am ' + date.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' });
+}

@@ -114,6 +114,42 @@ button {
   gap: 13px;
 }
 
+// 18. # Menu button: indented 25px, padding 4/20, gap 10, 18px; hover/active background, active bold purple.
+.channel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 25px);
+  margin-left: 25px;
+  padding: 4px 20px;
+  border-radius: 35px;
+  font-size: $font-size-18;
+  color: inherit;
+  text-decoration: none;
+  transition: background-color 0.1s ease;
+
+  &:hover {
+    background-color: $color-bg;
+    color: $color-purple-3;
+  }
+
+  &.active {
+    background-color: $color-bg;
+    color: $color-purple-3;
+    font-weight: 700;
+  }
+}
+
+.channel-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon-tag {
+  @include icon('tag');
+}
+
 // 20. Channel hinzufügen: indented 35px, padding 4/10, hover purple.
 .add-channel {
   display: flex;

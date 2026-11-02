@@ -14,7 +14,7 @@ export class UserService {
   private firestore = inject(Firestore);
   private injector = inject(EnvironmentInjector);
 
-  private readonly uid = toSignal(this.auth.user$.pipe(map((user) => user?.uid ?? null)), {
+  readonly uid = toSignal(this.auth.user$.pipe(map((user) => user?.uid ?? null)), {
     initialValue: null,
   });
 

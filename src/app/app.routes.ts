@@ -7,7 +7,9 @@ import { Register } from './features/auth/register/register';
 import { ResetPassword } from './features/auth/reset-password/reset-password';
 import { Imprint } from './features/legal/imprint/imprint';
 import { Privacy } from './features/legal/privacy/privacy';
+import { ChannelView } from './features/workspace/channel-view/channel-view';
 import { Workspace } from './features/workspace/workspace';
+import { WorkspaceHome } from './features/workspace/workspace-home/workspace-home';
 
 export const routes: Routes = [
   { path: '', component: Login },
@@ -17,6 +19,14 @@ export const routes: Routes = [
   { path: 'passwort-zuruecksetzen', component: ResetPassword },
   { path: 'impressum', component: Imprint },
   { path: 'datenschutz', component: Privacy },
-  { path: 'workspace', component: Workspace, canActivate: [authGuard] },
+  {
+    path: 'workspace',
+    component: Workspace,
+    canActivate: [authGuard],
+    children: [
+      { path: '', component: WorkspaceHome },
+      { path: 'channel/:id', component: ChannelView },
+    ],
+  },
   { path: '**', redirectTo: '' },
 ];

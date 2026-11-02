@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'mixins' as *;
 
 // Desktop: logo at 45px, search aligned with the chat column, profile at the right.
 :host {
@@ -14,8 +15,38 @@
   flex-shrink: 0;
 }
 
-.mobile-logo {
+.mobile-logo,
+.mobile-back {
   display: none;
+}
+
+// Mobile chat header (Figma "Component 2"): arrow 25px, Devspace logo 50px.
+.mobile-back {
+  align-items: center;
+  gap: 2px;
+  color: $color-black;
+  text-decoration: none;
+
+  &:hover {
+    color: $color-purple-3;
+  }
+}
+
+.back-icon {
+  @include icon('keyboard-arrow-down', 25px);
+  transform: rotate(90deg);
+}
+
+.devspace-logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.devspace-name {
+  font-size: 24px;
+  font-weight: 700;
 }
 
 .search {
@@ -49,6 +80,10 @@ app-profile-menu {
 
   .mobile-logo {
     display: block;
+  }
+
+  .mobile-back {
+    display: flex;
   }
 
   app-profile-menu {
