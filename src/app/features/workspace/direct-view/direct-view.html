@@ -1,0 +1,43 @@
+@let person = contact();
+@let chatPath = path();
+@if (person && chatPath) {
+  <header class="head">
+    <div class="person">
+      <app-avatar [src]="person.avatar" [online]="isMe()" />
+      <h1>{{ person.name }}@if (isMe()) { (Du)}</h1>
+    </div>
+  </header>
+
+  <app-message-list [path]="chatPath">
+    <div class="intro">
+      <div class="intro-person">
+        <app-avatar [src]="person.avatar" [size]="100" />
+        <p class="intro-name">{{ person.name }}@if (isMe()) { (Du)}</p>
+      </div>
+      @if (isMe()) {
+        <p class="intro-text">
+          Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos auf oder bewahre
+          Links und Dateien griffbereit auf. Du kannst hier auch gerne Dinge mit dir selbst besprechen.
+        </p>
+      } @else {
+        <p class="intro-text">
+          Diese Unterhaltung findet nur zwischen <span class="mention">&#64;{{ person.name }}</span> und dir statt.
+        </p>
+      }
+    </div>
+  </app-message-list>
+
+  <div class="write">
+    <app-message-box
+      [placeholder]="'Nachricht an ' + person.name"
+      [focusKey]="chatPath"
+      [busy]="sending()"
+      (sent)="send(chatPath, $event)"
+    />
+    @if (sendFailed()) {
+      <p class="error-message">*Die Nachricht konnte nicht gesendet werden. Bitte versuche es erneut.</p>
+    }
+  </div>
+} @else if (usersLoaded()) {
+  <p class="missing">Diesen Kontakt gibt es nicht.</p>
+}

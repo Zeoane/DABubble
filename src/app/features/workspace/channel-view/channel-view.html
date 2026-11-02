@@ -25,14 +25,25 @@
     </div>
   </header>
 
-  <app-channel-messages [channel]="channel" />
+  <app-message-list [path]="'channels/' + channel.id">
+    <div class="intro">
+      <p class="intro-title"><span class="tag" aria-hidden="true"></span>{{ channel.name }}</p>
+      <p class="intro-text">
+        {{ createdText(channel) }}
+        <span class="intro-name"><span class="tag small" aria-hidden="true"></span>{{ channel.name }}.</span>
+      </p>
+      @if (channel.description) {
+        <p class="intro-description">{{ channel.description }}</p>
+      }
+    </div>
+  </app-message-list>
 
   <div class="write">
     <app-message-box
       [placeholder]="'Nachricht an #' + channel.name"
       [focusKey]="channel.id"
       [busy]="sending()"
-      (sent)="send(channel.id, $event)"
+      (sent)="send('channels/' + channel.id, $event)"
     />
     @if (sendFailed()) {
       <p class="error-message">*Die Nachricht konnte nicht gesendet werden. Bitte versuche es erneut.</p>

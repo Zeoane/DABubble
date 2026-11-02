@@ -17,53 +17,9 @@
   overflow-y: auto;
 }
 
-.intro {
-  display: flex;
+.intro-slot {
   margin-top: auto;
   padding: 0 45px 20px;
-  flex-direction: column;
-  gap: 7px;
-  max-width: 780px;
-
-  p {
-    margin: 0;
-  }
-}
-
-.intro-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 0;
-  font-size: 24px;
-  font-weight: 700;
-  overflow-wrap: anywhere;
-}
-
-.intro-text,
-.intro-description {
-  font-size: $font-size-20;
-  line-height: 1.35;
-}
-
-.intro-name {
-  color: $color-purple-3;
-  white-space: nowrap;
-}
-
-.intro-description {
-  color: $color-text-gray;
-}
-
-.tag {
-  @include icon('tag', 32px);
-
-  &.small {
-    width: 20px;
-    height: 20px;
-    color: $color-purple-3;
-    vertical-align: -3px;
-  }
 }
 
 // Time separator: line #adb0d9 with the day in a white pill (padding 5/15, radius 30).
@@ -93,16 +49,11 @@
 }
 
 @media (max-width: $breakpoint-tablet) {
-  .intro {
+  .intro-slot {
     padding: 0 16px 20px;
   }
 
   .day {
     margin: 15px 16px;
-  }
-
-  .tag {
-    width: 27px;
-    height: 27px;
   }
 }

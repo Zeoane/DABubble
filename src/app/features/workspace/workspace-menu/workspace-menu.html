@@ -66,10 +66,10 @@
       @let myId = users.currentUser()?.uid;
       @for (user of users.contacts(); track user.uid) {
         <li>
-          <button type="button" class="contact">
+          <a class="contact" [routerLink]="['/workspace/dm', user.uid]" routerLinkActive="active">
             <app-avatar [src]="user.avatar" [online]="user.uid === myId" />
             <span class="contact-name">{{ user.name }}@if (user.uid === myId) { (Du)}</span>
-          </button>
+          </a>
         </li>
       }
     </ul>

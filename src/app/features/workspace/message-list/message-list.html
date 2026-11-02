@@ -1,0 +1,13 @@
+<div class="scroller" #scroller>
+  <div class="intro-slot"><ng-content /></div>
+
+  @let myId = users.uid();
+  @for (day of days(); track day.label) {
+    <div class="day" role="separator">
+      <span>{{ day.label }}</span>
+    </div>
+    @for (message of day.messages; track message.id) {
+      <app-message-item [message]="message" [author]="author(message)" [own]="message.authorId === myId" />
+    }
+  }
+</div>
