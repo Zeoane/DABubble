@@ -1,0 +1,93 @@
+@use 'variables' as *;
+
+// Message 1: padding 10/45, gap 30, avatar 70; hover background #eceefe.
+:host {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  padding: 10px 45px;
+  transition: background-color 0.1s ease;
+
+  &:hover {
+    background-color: $color-bg;
+
+    .bubble {
+      background-color: $color-white;
+    }
+  }
+}
+
+// Message 2 (own): mirrored, purple bubble with white text.
+:host(.own) {
+  flex-direction: row-reverse;
+
+  .content {
+    align-items: flex-end;
+  }
+
+  .meta {
+    flex-direction: row-reverse;
+  }
+
+  .bubble,
+  &:hover .bubble {
+    border-radius: 30px 0 30px 30px;
+    background-color: $color-purple-2;
+    color: $color-white;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  max-width: 678px;
+}
+
+p {
+  margin: 0;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.name {
+  font-size: $font-size-18;
+  font-weight: 700;
+}
+
+time {
+  font-size: $font-size-14;
+  color: $color-text-gray;
+}
+
+.bubble {
+  padding: 15px;
+  border-radius: 0 30px 30px 30px;
+  background-color: $color-bg;
+  font-size: $font-size-18;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  transition: background-color 0.1s ease;
+}
+
+// Mobile (48B): padding 10/16, gap 16, avatar 50, text 17.
+@media (max-width: $breakpoint-tablet) {
+  :host {
+    gap: 16px;
+    padding: 10px 16px;
+  }
+
+  app-avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .bubble {
+    font-size: $font-size-17;
+  }
+}
