@@ -1,0 +1,147 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li {
+  position: relative;
+}
+
+// Reaction indicator: padding 5/10, gap 10, radius 20, border #adb0d9; hover #797ef3.
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 34px;
+  padding: 5px 10px;
+  border: 1px solid $color-lines;
+  border-radius: 20px;
+  background-color: $color-white;
+
+  &:hover {
+    border-color: $color-purple-2;
+  }
+
+  &.mine {
+    border-color: $color-purple-2;
+    background-color: $color-bg;
+  }
+}
+
+.emoji {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.count {
+  font-size: $font-size-16;
+}
+
+// Bubble: #444df2, radius 30 30 30 0, padding 15/10, emoji 30, name 18 bold, text 16.
+.bubble {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  z-index: 5;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: max-content;
+  max-width: 200px;
+  padding: 15px 10px;
+  border-radius: 30px 30px 30px 0;
+  background-color: $color-purple-1;
+  color: $color-white;
+  font-size: $font-size-16;
+  text-align: center;
+
+  strong {
+    font-size: $font-size-18;
+  }
+}
+
+.bubble-emoji {
+  font-size: 26px;
+  line-height: 30px;
+}
+
+li:hover .bubble {
+  display: flex;
+}
+
+// 59. add reaction: 34px round, hover #eceefe.
+.add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 20px;
+  background: none;
+
+  &:hover {
+    background-color: $color-bg;
+    color: $color-purple-3;
+  }
+}
+
+.icon-add-reaction {
+  @include icon('add-reaction');
+}
+
+app-emoji-picker {
+  bottom: calc(100% + 5px);
+  left: 0;
+}
+
+:host-context(.own) {
+  app-emoji-picker {
+    right: 0;
+    left: auto;
+  }
+
+  .bubble {
+    right: 50%;
+    left: auto;
+    border-radius: 30px 30px 0 30px;
+  }
+}
+
+.more {
+  display: none;
+}
+
+.more-button {
+  height: 34px;
+  padding: 5px 12px;
+  border: 1px solid $color-lines;
+  border-radius: 20px;
+  background-color: $color-white;
+  font-size: $font-size-16;
+  color: $color-purple-3;
+
+  &:hover {
+    border-color: $color-purple-2;
+  }
+}
+
+// Mobile: 7 reactions, then "+ x weitere".
+@media (max-width: $breakpoint-tablet) {
+  .pills:not(.expanded) li:nth-child(n + 8):not(.more):not(.add-wrap) {
+    display: none;
+  }
+
+  .more {
+    display: block;
+  }
+}

@@ -5,4 +5,19 @@
     <time>{{ time() }}</time>
   </p>
   <p class="bubble">{{ message().text }}</p>
+  <app-message-reactions [reactions]="message().reactions ?? {}" (toggled)="toggle($event)" />
+</div>
+
+<div class="bar" role="toolbar" aria-label="Reagieren">
+  @for (emoji of recent.recent(); track emoji) {
+    <button type="button" class="bar-button emoji" [attr.aria-label]="'Mit ' + emoji + ' reagieren'" (click)="toggle(emoji)">
+      {{ emoji }}
+    </button>
+  }
+  <button type="button" class="bar-button" aria-label="Reaktion hinzufügen" (click)="picking.set(true)">
+    <span class="icon icon-add-reaction" aria-hidden="true"></span>
+  </button>
+  @if (picking()) {
+    <app-emoji-picker (picked)="toggle($event)" (closed)="picking.set(false)" />
+  }
 </div>

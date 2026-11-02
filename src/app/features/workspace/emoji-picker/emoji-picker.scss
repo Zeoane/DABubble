@@ -1,0 +1,44 @@
+@use 'variables' as *;
+
+:host {
+  position: absolute;
+  z-index: 31;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+}
+
+// Same look as the users menu: white, border #adb0d9, radius 20.
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 40px);
+  gap: 5px;
+  padding: 15px;
+  border: 1px solid $color-lines;
+  border-radius: 20px;
+  background-color: $color-white;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.emoji {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 20px;
+  background: none;
+  font-size: 24px;
+  line-height: 40px;
+
+  &:hover {
+    background-color: $color-bg;
+  }
+}
+
+@media (max-width: 360px) {
+  .grid {
+    grid-template-columns: repeat(5, 40px);
+  }
+}

@@ -23,6 +23,7 @@ service cloud.firestore {
           && request.resource.data.authorId == request.auth.uid
           && request.resource.data.text is string
           && request.resource.data.text.size() > 0;
+        allow update: if isMember(channelId) && onlyReactions();
       }
     }
 
@@ -34,6 +35,14 @@ service cloud.firestore {
         && request.resource.data.authorId == request.auth.uid
         && request.resource.data.text is string
         && request.resource.data.text.size() > 0;
+      allow update: if request.auth != null
+        && request.auth.uid in chatId.split('_')
+        && onlyReactions();
+    }
+
+    // Reacting changes nothing but the "reactions" field.
+    function onlyReactions() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions']);
     }
 
     function isMember(channelId) {
