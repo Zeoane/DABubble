@@ -1,6 +1,16 @@
 import { EnvironmentInjector, Injectable, computed, inject, runInInjectionContext } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Firestore, addDoc, collection, collectionData, serverTimestamp } from '@angular/fire/firestore';
+import {
+  Firestore,
+  addDoc,
+  arrayRemove,
+  arrayUnion,
+  collection,
+  collectionData,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from '@angular/fire/firestore';
 import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { Channel } from '../models/channel';
 import { AuthService } from './auth.service';
@@ -43,9 +53,9 @@ export class ChannelService {
   /**
    * Channel names are unique, ignoring upper/lower case.
    */
-  isNameTaken(name: string): boolean {
+  isNameTaken(name: string, exceptId?: string): boolean {
     const wanted = normalizeName(name).toLowerCase();
-    return this.all().some((channel) => channel.name.toLowerCase() === wanted);
+    return this.all().some((channel) => channel.id !== exceptId && channel.name.toLowerCase() === wanted);
   }
 
 
@@ -64,6 +74,32 @@ export class ChannelService {
     };
     const ref = await this.inContext(() => addDoc(collection(this.firestore, 'channels'), data));
     return ref.id;
+  }
+
+
+  rename(id: string, name: string): Promise<void> {
+    return this.change(id, { name: normalizeName(name) });
+  }
+
+
+  describe(id: string, description: string): Promise<void> {
+    return this.change(id, { description: description.trim() });
+  }
+
+
+  addMembers(id: string, memberIds: string[]): Promise<void> {
+    return this.change(id, { members: arrayUnion(...memberIds) });
+  }
+
+
+  /** Removes the signed-in member from the channel. */
+  leave(id: string): Promise<void> {
+    return this.change(id, { members: arrayRemove(this.users.uid()) });
+  }
+
+
+  private change(id: string, data: Record<string, unknown>): Promise<void> {
+    return this.inContext(() => updateDoc(doc(this.firestore, 'channels', id), data));
   }
 
 

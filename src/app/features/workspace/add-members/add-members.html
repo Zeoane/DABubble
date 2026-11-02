@@ -1,0 +1,27 @@
+<div class="backdrop" (click)="close()"></div>
+
+<section class="dialog" role="dialog" aria-modal="true" aria-labelledby="add-title">
+  <span class="handle" aria-hidden="true"></span>
+  <header>
+    <h2 id="add-title">Leute hinzufügen</h2>
+    <button type="button" class="close" aria-label="Schließen" (click)="close()">
+      <span class="icon icon-close" aria-hidden="true"></span>
+    </button>
+  </header>
+  <p class="channel"><span class="icon icon-tag" aria-hidden="true"></span>{{ channel().name }}</p>
+
+  @if (candidates().length) {
+    <app-people-picker [candidates]="candidates()" [(picked)]="picked" />
+  } @else {
+    <p class="all-in">Alle sind schon Mitglied in diesem Channel.</p>
+  }
+
+  @if (failed()) {
+    <p class="error-message">*Das hat nicht geklappt. Bitte versuche es erneut.</p>
+  }
+  <div class="actions">
+    <button type="button" class="btn-primary" [disabled]="!picked().length || saving()" (click)="add()">
+      Hinzufügen
+    </button>
+  </div>
+</section>

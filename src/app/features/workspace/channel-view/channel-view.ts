@@ -1,16 +1,20 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { Channel } from '../../../core/models/channel';
 import { ChannelService } from '../../../core/services/channel.service';
 import { UserService } from '../../../core/services/user.service';
+import { AddMembers } from '../add-members/add-members';
+import { ChannelEdit } from '../channel-edit/channel-edit';
+import { ChannelMembers } from '../channel-members/channel-members';
 
 const PREVIEW_MEMBERS = 3;
 
 /**
  * Open channel: header with name and members, intro at the start of the channel
- * (Figma 10 – Desktop Office Team). Messages follow in the next step.
+ * (Figma 10 – Desktop Office Team), plus the channel popups. Messages follow in the next step.
  */
 @Component({
   selector: 'app-channel-view',
+  imports: [ChannelEdit, ChannelMembers, AddMembers],
   templateUrl: './channel-view.html',
   styleUrl: './channel-view.scss',
 })
@@ -30,6 +34,16 @@ export class ChannelView {
   });
 
   preview = computed(() => this.members().slice(0, PREVIEW_MEMBERS));
+
+  /** Open popup: channel details, member list or "Leute hinzufügen". */
+  panel = signal<'edit' | 'members' | 'add' | null>(null);
+
+  constructor() {
+    effect(() => {
+      this.id();
+      this.panel.set(null);
+    });
+  }
 
 
   /** "Du hast diesen Channel heute erstellt." or "Noah Braun hat … am 14. Januar erstellt." */

@@ -1,19 +1,18 @@
 import { Component, computed, inject, output, signal } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppUser } from '../../../core/models/user-profile';
-import { ChannelService, normalizeName } from '../../../core/services/channel.service';
+import { ChannelService } from '../../../core/services/channel.service';
 import { UserService } from '../../../core/services/user.service';
-import { Avatar } from '../../../shared/components/avatar/avatar';
-
-const NAME_MAX = 30;
+import { channelNameError, channelNameValidators } from '../channel-name';
+import { PeoplePicker } from '../people-picker/people-picker';
 
 /**
  * "Channel erstellen" (Figma 37) followed by "Leute hinzufügen" (Figma 38).
  */
 @Component({
   selector: 'app-create-channel',
-  imports: [ReactiveFormsModule, Avatar],
+  imports: [ReactiveFormsModule, PeoplePicker],
   templateUrl: './create-channel.html',
   styleUrl: './create-channel.scss',
   host: { '(document:keydown.escape)': 'close()' },
@@ -24,32 +23,23 @@ export class CreateChannel {
   private router = inject(Router);
 
   readonly closed = output<void>();
-  readonly nameMax = NAME_MAX;
 
   step = signal<'details' | 'members'>('details');
   addAll = signal(true);
   picked = signal<AppUser[]>([]);
-  query = signal('');
   saving = signal(false);
   failed = signal(false);
 
   form = new FormGroup({
     name: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(NAME_MAX), (c) => this.uniqueName(c)],
+      validators: channelNameValidators(this.channels),
     }),
     description: new FormControl('', { nonNullable: true }),
   });
 
   /** Everyone who could join: all members except me and guests. */
-  private others = computed(() => this.users.contacts().filter((u) => u.uid !== this.users.uid()));
-
-  suggestions = computed(() => {
-    const term = this.query().trim().toLowerCase();
-    const pickedIds = this.picked().map((u) => u.uid);
-    if (!term) return [];
-    return this.others().filter((u) => !pickedIds.includes(u.uid) && u.name.toLowerCase().includes(term));
-  });
+  others = computed(() => this.users.contacts().filter((u) => u.uid !== this.users.uid()));
 
   canCreate = computed(() => !this.saving() && (this.addAll() || this.picked().length > 0));
 
@@ -60,11 +50,7 @@ export class CreateChannel {
 
 
   nameError(): string | null {
-    const name = this.form.controls.name;
-    if (!name.invalid || !(name.touched || name.dirty)) return null;
-    if (name.hasError('taken')) return '*Diesen Channel-Namen gibt es schon. Bitte wähle einen anderen.';
-    if (name.hasError('maxlength')) return `*Der Name darf höchstens ${NAME_MAX} Zeichen lang sein.`;
-    return '*Bitte gib einen Channel-Namen ein.';
+    return channelNameError(this.form.controls.name);
   }
 
 
@@ -73,17 +59,6 @@ export class CreateChannel {
     this.form.markAllAsTouched();
     this.form.controls.name.updateValueAndValidity();
     if (this.form.valid) this.step.set('members');
-  }
-
-
-  pick(user: AppUser): void {
-    this.picked.update((list) => [...list, user]);
-    this.query.set('');
-  }
-
-
-  unpick(user: AppUser): void {
-    this.picked.update((list) => list.filter((u) => u.uid !== user.uid));
   }
 
 
@@ -107,12 +82,5 @@ export class CreateChannel {
 
   private memberIds(): string[] {
     return (this.addAll() ? this.others() : this.picked()).map((user) => user.uid);
-  }
-
-
-  private uniqueName(control: AbstractControl): ValidationErrors | null {
-    const name = normalizeName(control.value ?? '');
-    if (!name) return { required: true };
-    return this.channels.isNameTaken(name) ? { taken: true } : null;
   }
 }

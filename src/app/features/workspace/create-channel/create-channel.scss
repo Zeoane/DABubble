@@ -215,116 +215,6 @@ textarea::placeholder {
   color: $color-purple-3;
 }
 
-.picker {
-  position: relative;
-}
-
-.people-field {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  padding: 15px 20px;
-  border: 1px solid $color-lines;
-  border-radius: 30px;
-  transition: border-color 0.15s ease;
-
-  &:hover {
-    border-color: $color-text-gray;
-  }
-
-  &:focus-within {
-    border-color: $color-purple-1;
-  }
-
-  input {
-    flex: 1;
-    min-width: 120px;
-    border: none;
-    font-size: $font-size-18;
-  }
-}
-
-// Chip: background #eceefe, radius 35, avatar 34, name 18, close 30.
-.chip {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  max-width: 100%;
-  padding: 3px 5px 3px 10px;
-  border-radius: 35px;
-  background-color: $color-bg;
-  font-size: $font-size-18;
-}
-
-.chip-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.chip-remove {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 30px;
-  height: 30px;
-  padding: 0;
-  border-radius: 15px;
-  background: none;
-
-  &:hover {
-    color: $color-purple-3;
-  }
-
-  .icon-close {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-// Users menu: border #adb0d9, radius 0 20 20 20, padding 20/21, gap 15.
-.suggestions {
-  position: absolute;
-  top: calc(100% + 5px);
-  left: 0;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: min(100%, 350px);
-  max-height: 260px;
-  margin: 0;
-  padding: 20px 21px;
-  overflow-y: auto;
-  list-style: none;
-  border: 1px solid $color-lines;
-  border-radius: 0 20px 20px 20px;
-  background-color: $color-white;
-}
-
-.suggestion {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  width: 100%;
-  padding: 4px 20px;
-  border-radius: 35px;
-  background: none;
-  font-size: $font-size-18;
-  text-align: left;
-
-  &:hover {
-    background-color: $color-bg;
-  }
-}
-
-.no-match {
-  margin: 10px 0 0 20px;
-  color: $color-text-gray;
-}
-
 .icon-close {
   @include icon('close');
 }
@@ -367,11 +257,6 @@ textarea::placeholder {
     font-size: $font-size-17;
   }
 
-  .suggestions {
-    position: static;
-    width: 100%;
-    margin-top: 5px;
-  }
 }
 
 @keyframes fade-in {
