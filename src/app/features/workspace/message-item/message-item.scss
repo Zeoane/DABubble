@@ -1,18 +1,25 @@
 @use 'variables' as *;
+@use 'mixins' as *;
 
 // Message 1: padding 10/45, gap 30, avatar 70; hover background #eceefe.
 :host {
+  position: relative;
   display: flex;
   align-items: flex-start;
   gap: 30px;
   padding: 10px 45px;
   transition: background-color 0.1s ease;
 
-  &:hover {
+  &:hover,
+  &.picking {
     background-color: $color-bg;
 
     .bubble {
       background-color: $color-white;
+    }
+
+    .bar {
+      display: flex;
     }
   }
 }
@@ -75,6 +82,62 @@ time {
   transition: background-color 0.1s ease;
 }
 
+// 52. Reaction bar: on hover above the message, padding 3/15/3/20, radius 25 25 0 25.
+.bar {
+  position: absolute;
+  top: -23px;
+  right: 45px;
+  z-index: 2;
+  display: none;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 15px 3px 20px;
+  border: 1px solid $color-lines;
+  border-radius: 25px 25px 0 25px;
+  background-color: $color-white;
+}
+
+:host(.own) .bar {
+  right: auto;
+  left: 45px;
+  padding: 3px 20px 3px 15px;
+  border-radius: 25px 25px 25px 0;
+}
+
+.bar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 20px;
+  background: none;
+
+  &.emoji {
+    font-size: 20px;
+  }
+
+  &:hover {
+    background-color: $color-bg;
+    color: $color-purple-3;
+  }
+}
+
+.icon-add-reaction {
+  @include icon('add-reaction');
+}
+
+.bar app-emoji-picker {
+  bottom: calc(100% + 5px);
+  right: 0;
+}
+
+:host(.own) .bar app-emoji-picker {
+  right: auto;
+  left: 0;
+}
+
 // Mobile (48B): padding 10/16, gap 16, avatar 50, text 17.
 @media (max-width: $breakpoint-tablet) {
   :host {
@@ -89,5 +152,13 @@ time {
 
   .bubble {
     font-size: $font-size-17;
+  }
+
+  .bar {
+    right: 16px;
+  }
+
+  :host(.own) .bar {
+    left: 16px;
   }
 }

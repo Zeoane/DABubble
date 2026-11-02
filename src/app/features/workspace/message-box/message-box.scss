@@ -46,7 +46,40 @@ textarea {
 .tools {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.add-elements {
+  position: relative;
+  display: flex;
+  gap: 5px;
+
+  app-emoji-picker {
+    bottom: calc(100% + 10px);
+    left: 0;
+  }
+}
+
+// Icons: 40px, padding 8, radius 20; hover background #eceefe and purple icon.
+.tool {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 20px;
+  background: none;
+  color: $color-text-gray;
+
+  &:hover {
+    background-color: $color-bg;
+    color: $color-purple-3;
+  }
+}
+
+.icon-emoji {
+  @include icon('sentiment-satisfied');
 }
 
 .send {

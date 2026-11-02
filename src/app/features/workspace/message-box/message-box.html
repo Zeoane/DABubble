@@ -9,6 +9,14 @@
     (keydown)="onKeydown($event)"
   ></textarea>
   <div class="tools">
+    <div class="add-elements">
+      <button type="button" class="tool" aria-label="Emoji einfügen" (click)="picking.set(true)">
+        <span class="icon icon-emoji" aria-hidden="true"></span>
+      </button>
+      @if (picking()) {
+        <app-emoji-picker (picked)="insertEmoji($event)" (closed)="picking.set(false)" />
+      }
+    </div>
     <button type="button" class="send" aria-label="Nachricht senden" [disabled]="!canSend()" (click)="send()">
       <span class="icon icon-send" aria-hidden="true"></span>
     </button>

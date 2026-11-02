@@ -1,5 +1,18 @@
 import { EnvironmentInjector, Injectable, inject, runInInjectionContext } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, orderBy, query, serverTimestamp } from '@angular/fire/firestore';
+import {
+  FieldPath,
+  Firestore,
+  addDoc,
+  arrayRemove,
+  arrayUnion,
+  collection,
+  collectionData,
+  doc,
+  orderBy,
+  query,
+  serverTimestamp,
+  updateDoc,
+} from '@angular/fire/firestore';
 import { Observable, catchError, of } from 'rxjs';
 import { Message } from '../models/message';
 import { UserService } from './user.service';
@@ -29,6 +42,17 @@ export class MessageService {
     if (!authorId) throw new Error('Nicht angemeldet');
     const data = { text: text.trim(), authorId, createdAt: serverTimestamp() };
     await this.inContext(() => addDoc(collection(this.firestore, chatPath, 'messages'), data));
+  }
+
+
+  /** Adds or removes the signed-in member's reaction with this emoji. */
+  async react(chatPath: string, messageId: string, emoji: string, add: boolean): Promise<void> {
+    const uid = this.users.uid();
+    if (!uid) return;
+    const change = add ? arrayUnion(uid) : arrayRemove(uid);
+    await this.inContext(() =>
+      updateDoc(doc(this.firestore, chatPath, 'messages', messageId), new FieldPath('reactions', emoji), change),
+    );
   }
 
 

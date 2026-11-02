@@ -1,0 +1,37 @@
+@let all = list();
+@if (all.length) {
+  <ul class="pills" [class.expanded]="expanded()">
+    @for (reaction of all; track reaction.emoji) {
+      <li>
+        <button
+          type="button"
+          class="pill"
+          [class.mine]="reaction.mine"
+          [attr.aria-label]="reaction.emoji + ' ' + reaction.count + ', ' + reaction.names"
+          (click)="toggled.emit(reaction.emoji)"
+        >
+          <span class="emoji">{{ reaction.emoji }}</span>
+          <span class="count">{{ reaction.count }}</span>
+        </button>
+        <span class="bubble" aria-hidden="true">
+          <span class="bubble-emoji">{{ reaction.emoji }}</span>
+          <strong>{{ reaction.names }}</strong>
+          {{ reaction.verb }} reagiert
+        </span>
+      </li>
+    }
+    @if (all.length > 7 && !expanded()) {
+      <li class="more">
+        <button type="button" class="more-button" (click)="expanded.set(true)">+ {{ all.length - 7 }} weitere</button>
+      </li>
+    }
+    <li class="add-wrap">
+      <button type="button" class="add" aria-label="Reaktion hinzufügen" (click)="picking.set(true)">
+        <span class="icon icon-add-reaction" aria-hidden="true"></span>
+      </button>
+      @if (picking()) {
+        <app-emoji-picker (picked)="pick($event)" (closed)="picking.set(false)" />
+      }
+    </li>
+  </ul>
+}
