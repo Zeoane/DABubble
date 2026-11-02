@@ -2,6 +2,7 @@
 @use 'mixins' as *;
 
 :host {
+  position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -19,16 +20,41 @@
   z-index: 1;
 }
 
+// 39. Channel title button: padding 6/10, radius 100; hover background and purple.
 .title {
   display: flex;
   align-items: center;
   gap: 10px;
   min-width: 0;
-  margin: 0;
   padding: 6px 10px;
+  border-radius: 100px;
+  background: none;
   font-size: 24px;
   font-weight: 700;
-  overflow-wrap: anywhere;
+  text-align: left;
+
+  &:hover {
+    background-color: $color-bg;
+    color: $color-purple-3;
+  }
+}
+
+.title-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  @include icon('keyboard-arrow-down', 30px);
+}
+
+.head-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 .tag {
@@ -47,8 +73,38 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-shrink: 0;
   padding: 3px 10px;
+  border-radius: 30px;
+  background: none;
+
+  &:hover {
+    background-color: $color-bg;
+
+    .count {
+      font-weight: 700;
+      color: $color-purple-3;
+    }
+  }
+}
+
+// 44. Add members button: 40px round on #eceefe.
+.add-member {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 20px;
+  background-color: $color-bg;
+
+  &:hover {
+    color: $color-purple-3;
+  }
+}
+
+.person-add {
+  @include icon('person-add');
 }
 
 .faces {
@@ -135,7 +191,7 @@
 
   .title {
     gap: 5px;
-    padding: 2px 0;
+    padding: 2px 6px;
     font-size: $font-size-20;
   }
 
@@ -146,6 +202,16 @@
 
   .members {
     display: none;
+  }
+
+  .chevron {
+    width: 25px;
+    height: 25px;
+  }
+
+  .add-member {
+    width: 34px;
+    height: 34px;
   }
 
   .messages {

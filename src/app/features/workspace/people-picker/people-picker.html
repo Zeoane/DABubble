@@ -1,0 +1,33 @@
+<div class="people-field">
+  @for (user of picked(); track user.uid) {
+    <span class="chip">
+      <app-avatar [src]="user.avatar" [size]="34" />
+      <span class="chip-name">{{ user.name }}</span>
+      <button type="button" class="chip-remove" [attr.aria-label]="user.name + ' entfernen'" (click)="unpick(user)">
+        <span class="icon icon-close" aria-hidden="true"></span>
+      </button>
+    </span>
+  }
+  <input
+    type="text"
+    placeholder="Name eingeben"
+    aria-label="Name eingeben"
+    autocomplete="off"
+    [value]="query()"
+    (input)="query.set($any($event.target).value)"
+  />
+</div>
+@if (suggestions().length) {
+  <ul class="suggestions">
+    @for (user of suggestions(); track user.uid) {
+      <li>
+        <button type="button" class="suggestion" (click)="pick(user)">
+          <app-avatar [src]="user.avatar" [size]="50" />
+          <span>{{ user.name }}</span>
+        </button>
+      </li>
+    }
+  </ul>
+} @else if (query().trim()) {
+  <p class="no-match">Niemand gefunden.</p>
+}

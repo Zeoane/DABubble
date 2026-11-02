@@ -1,0 +1,302 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+// Desktop: 872 wide below the channel title, padding 40, radius 0 30 30 30.
+.dialog {
+  position: absolute;
+  top: 85px;
+  left: 45px;
+  z-index: 21;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 872px;
+  max-width: calc(100% - 90px);
+  max-height: calc(100% - 100px);
+  padding: 40px;
+  overflow-y: auto;
+  border-radius: 0 30px 30px 30px;
+  background-color: $color-white;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  animation: fade-in 0.15s ease-in;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 0;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+}
+
+h3 {
+  margin: 0;
+  font-size: $font-size-18;
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 20px;
+  background: none;
+
+  &:hover {
+    background-color: $color-bg;
+    color: $color-purple-3;
+  }
+}
+
+// 71./72.: card with border #adb0d9, radius 20, padding 20; no frame while editing.
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid $color-lines;
+  border-radius: 20px;
+
+  &.editing {
+    padding: 0;
+    border-color: transparent;
+  }
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+// 40. Bearbeiten: 18 semibold purple, bold on hover.
+.link {
+  padding: 0;
+  background: none;
+  font-size: $font-size-18;
+  font-weight: 600;
+  color: $color-purple-3;
+
+  &:hover {
+    font-weight: 700;
+    color: $color-purple-1;
+  }
+}
+
+// 70./75. Mobile: 30px round button on #eceefe.
+.round {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 40px;
+  background-color: $color-bg;
+
+  &:hover {
+    color: $color-purple-3;
+  }
+}
+
+.value {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: $font-size-18;
+  overflow-wrap: anywhere;
+}
+
+.name-field {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px 20px;
+  border: 1px solid $color-lines;
+  border-radius: 40px;
+  color: $color-text-gray;
+
+  &:hover {
+    border-color: $color-text-gray;
+  }
+
+  &:focus-within {
+    border-color: $color-purple-1;
+  }
+
+  &.invalid {
+    border-color: $color-error;
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: $font-size-18;
+    color: $color-black;
+  }
+}
+
+textarea {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid $color-lines;
+  border-radius: 30px;
+  font-family: inherit;
+  font-size: $font-size-18;
+  resize: vertical;
+
+  &:hover {
+    border-color: $color-text-gray;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-purple-1;
+  }
+
+  &::placeholder {
+    color: $color-text-gray;
+  }
+}
+
+hr {
+  width: 100%;
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid $color-lines;
+}
+
+.creator {
+  margin-top: -5px;
+  font-size: 24px;
+  color: $color-purple-3;
+  overflow-wrap: anywhere;
+}
+
+.error-message {
+  margin: -10px 0 0;
+}
+
+.mobile-members {
+  display: none;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.icon-close {
+  @include icon('close');
+}
+
+.icon-tag {
+  @include icon('tag', 30px);
+
+  &.small {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.icon-edit {
+  @include icon('edit');
+}
+
+.icon-check {
+  @include icon('check-circle');
+}
+
+// Mobile: full screen with the channel name on top, round edit buttons and the members.
+@media (max-width: $breakpoint-tablet) {
+  .backdrop {
+    display: none;
+  }
+
+  .dialog {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    gap: 25px;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    padding: 40px 16px 30px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  header h2 {
+    gap: 5px;
+    font-size: $font-size-20;
+  }
+
+  .icon-tag {
+    width: 25px;
+    height: 25px;
+  }
+
+  .link {
+    display: none;
+  }
+
+  .round {
+    display: flex;
+  }
+
+  .card.editing {
+    padding: 20px 0 0;
+    border-color: transparent;
+  }
+
+  .creator {
+    font-size: $font-size-20;
+  }
+
+  .mobile-members {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
+
+  .mobile-members h3 {
+    font-size: 24px;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
