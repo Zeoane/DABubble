@@ -1,0 +1,28 @@
+@if (channel(); as channel) {
+  <header class="head">
+    <h1 class="title"><span class="tag" aria-hidden="true"></span>{{ channel.name }}</h1>
+    <div class="members" [attr.aria-label]="members().length + ' Mitglieder'">
+      <div class="faces">
+        @for (member of preview(); track member.uid) {
+          <img [src]="member.avatar" alt="" referrerpolicy="no-referrer" />
+        }
+      </div>
+      <span class="count">{{ members().length }}</span>
+    </div>
+  </header>
+
+  <section class="messages">
+    <div class="intro">
+      <p class="intro-title"><span class="tag" aria-hidden="true"></span>{{ channel.name }}</p>
+      <p class="intro-text">
+        {{ createdText(channel) }}
+        <span class="intro-name"><span class="tag small" aria-hidden="true"></span>{{ channel.name }}.</span>
+      </p>
+      @if (channel.description) {
+        <p class="intro-description">{{ channel.description }}</p>
+      }
+    </div>
+  </section>
+} @else if (loaded()) {
+  <p class="missing">Diesen Channel gibt es nicht oder du bist kein Mitglied.</p>
+}

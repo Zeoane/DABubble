@@ -1,5 +1,5 @@
-<div class="workspace">
-  <app-workspace-header class="header" />
+<div class="workspace" [class.chat-open]="chatOpen()">
+  <app-workspace-header class="header" [chatOpen]="chatOpen()" />
 
   <div class="content" [class.menu-closed]="!menuOpen()">
     <aside class="menu" [attr.aria-hidden]="!menuOpen()" [inert]="!menuOpen()">
@@ -7,7 +7,7 @@
     </aside>
 
     <main class="chat">
-      <p class="chat-hint">Wähle links einen Channel oder eine Direktnachricht aus.</p>
+      <router-outlet />
     </main>
   </div>
 

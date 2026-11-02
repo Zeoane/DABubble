@@ -44,19 +44,11 @@
 .chat {
   display: flex;
   flex: 1;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   min-width: 0;
-  padding: 32px;
+  overflow: hidden;
   border-radius: $radius-card;
   background-color: $color-white;
-}
-
-.chat-hint {
-  margin: 0;
-  font-size: $font-size-20;
-  color: $color-text-gray;
-  text-align: center;
 }
 
 // 77. Hide/show navigation bar: tab on the left edge, vertical label.
@@ -129,5 +121,19 @@
   .chat,
   .menu-toggle {
     display: none;
+  }
+
+  .chat {
+    border-radius: 0;
+  }
+
+  .chat-open {
+    .menu {
+      display: none;
+    }
+
+    .chat {
+      display: flex;
+    }
   }
 }

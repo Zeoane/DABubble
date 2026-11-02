@@ -1,0 +1,112 @@
+<div class="backdrop" (click)="close()"></div>
+
+@if (step() === 'details') {
+  <section class="dialog details" role="dialog" aria-modal="true" aria-labelledby="create-title">
+    <header>
+      <h2 id="create-title">Channel erstellen</h2>
+      <button type="button" class="close" aria-label="Schließen" (click)="close()">
+        <span class="icon icon-close" aria-hidden="true"></span>
+      </button>
+    </header>
+    <p class="intro">
+      Channels dienen deinem Team zur Kommunikation. Am besten sollten sie themenbezogen sein #marketing zum Beispiel.
+    </p>
+
+    <form class="form" novalidate [formGroup]="form" (ngSubmit)="next()">
+      <label class="label" for="channel-name">Channel-Name</label>
+      <div class="name-field" [class.invalid]="nameError()">
+        <span class="icon icon-tag" aria-hidden="true"></span>
+        <input
+          id="channel-name"
+          type="text"
+          formControlName="name"
+          placeholder="z.B. Kooperationsprojekte"
+          autocomplete="off"
+        />
+      </div>
+      @if (nameError(); as error) {
+        <p class="error-message">{{ error }}</p>
+      }
+
+      <label class="label" for="channel-description">Beschreibung <span class="optional">(optional)</span></label>
+      <textarea
+        id="channel-description"
+        formControlName="description"
+        placeholder="Dein Text hier"
+        rows="1"
+      ></textarea>
+
+      <div class="actions">
+        <button type="submit" class="btn-primary">Erstellen</button>
+      </div>
+    </form>
+  </section>
+} @else {
+  <section class="dialog members" role="dialog" aria-modal="true" aria-labelledby="members-title">
+    <span class="handle" aria-hidden="true"></span>
+    <header>
+      <h2 id="members-title">Leute hinzufügen</h2>
+      <button type="button" class="close" aria-label="Schließen" (click)="close()">
+        <span class="icon icon-close" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <div class="choices" role="radiogroup" aria-label="Wer soll Mitglied werden?">
+      <label class="choice">
+        <input type="radio" name="who" [checked]="addAll()" (change)="addAll.set(true)" />
+        <span class="radio" aria-hidden="true"></span>
+        Alle Mitglieder von <strong class="highlight">Devspace</strong> hinzufügen
+      </label>
+      <label class="choice">
+        <input type="radio" name="who" [checked]="!addAll()" (change)="addAll.set(false)" />
+        <span class="radio" aria-hidden="true"></span>
+        Bestimmte Leute hinzufügen
+      </label>
+    </div>
+
+    @if (!addAll()) {
+      <div class="picker">
+        <div class="people-field">
+          @for (user of picked(); track user.uid) {
+            <span class="chip">
+              <app-avatar [src]="user.avatar" [size]="34" />
+              <span class="chip-name">{{ user.name }}</span>
+              <button type="button" class="chip-remove" [attr.aria-label]="user.name + ' entfernen'" (click)="unpick(user)">
+                <span class="icon icon-close" aria-hidden="true"></span>
+              </button>
+            </span>
+          }
+          <input
+            type="text"
+            placeholder="Name eingeben"
+            aria-label="Name eingeben"
+            autocomplete="off"
+            [value]="query()"
+            (input)="query.set($any($event.target).value)"
+          />
+        </div>
+        @if (suggestions().length) {
+          <ul class="suggestions">
+            @for (user of suggestions(); track user.uid) {
+              <li>
+                <button type="button" class="suggestion" (click)="pick(user)">
+                  <app-avatar [src]="user.avatar" [size]="50" />
+                  <span>{{ user.name }}</span>
+                </button>
+              </li>
+            }
+          </ul>
+        } @else if (query().trim()) {
+          <p class="no-match">Niemand gefunden.</p>
+        }
+      </div>
+    }
+
+    @if (failed()) {
+      <p class="error-message">*Der Channel konnte nicht erstellt werden. Bitte versuche es erneut.</p>
+    }
+    <div class="actions">
+      <button type="button" class="btn-primary" [disabled]="!canCreate()" (click)="create()">Erstellen</button>
+    </div>
+  </section>
+}
