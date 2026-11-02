@@ -1,0 +1,79 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+:host {
+  display: block;
+}
+
+// 61. Message box: padding 20, gap 40, radius 20, border #adb0d9; hover #797ef3, typing #444df2.
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 20px;
+  border: 1px solid $color-lines;
+  border-radius: 20px;
+  background-color: $color-white;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: $color-purple-2;
+  }
+
+  &:focus-within {
+    border-color: $color-purple-1;
+  }
+}
+
+textarea {
+  width: 100%;
+  min-height: 25px;
+  max-height: 150px;
+  padding: 0;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  font-size: $font-size-18;
+  line-height: 25px;
+  field-sizing: content;
+
+  &::placeholder {
+    color: $color-text-gray;
+  }
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.send {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  background: none;
+  color: $color-purple-1;
+
+  &:hover:not(:disabled) {
+    color: $color-purple-2;
+  }
+
+  &:disabled {
+    color: $color-lines;
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .box {
+    gap: 20px;
+  }
+}
+
+.icon-send {
+  @include icon('send', 30px);
+}

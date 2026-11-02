@@ -15,6 +15,20 @@ service cloud.firestore {
         && request.resource.data.createdBy == request.auth.uid
         && request.auth.uid in request.resource.data.members;
       allow update: if request.auth != null && request.auth.uid in resource.data.members;
+
+      // Only members read and write messages; everyone writes in their own name.
+      match /messages/{messageId} {
+        allow read: if isMember(channelId);
+        allow create: if isMember(channelId)
+          && request.resource.data.authorId == request.auth.uid
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0;
+      }
+    }
+
+    function isMember(channelId) {
+      return request.auth != null
+        && request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members;
     }
   }
 }

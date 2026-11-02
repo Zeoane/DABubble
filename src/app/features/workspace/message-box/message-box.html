@@ -1,0 +1,16 @@
+<div class="box">
+  <textarea
+    #field
+    rows="1"
+    [placeholder]="placeholder()"
+    [attr.aria-label]="placeholder()"
+    [value]="text()"
+    (input)="text.set($any($event.target).value)"
+    (keydown)="onKeydown($event)"
+  ></textarea>
+  <div class="tools">
+    <button type="button" class="send" aria-label="Nachricht senden" [disabled]="!canSend()" (click)="send()">
+      <span class="icon icon-send" aria-hidden="true"></span>
+    </button>
+  </div>
+</div>
