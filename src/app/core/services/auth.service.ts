@@ -15,7 +15,7 @@ import {
   User,
   verifyPasswordResetCode,
 } from '@angular/fire/auth';
-import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { UserProfile } from '../models/user-profile';
 import { RegistrationData } from './registration.service';
@@ -109,6 +109,17 @@ export class AuthService {
 
   async resetPassword(code: string, password: string): Promise<void> {
     await this.inContext(() => confirmPasswordReset(this.auth, code, password));
+  }
+
+
+  /**
+   * Changes name and avatar of the signed-in user, in Auth and in "users/{uid}".
+   */
+  async updateOwnProfile(name: string, avatar: string): Promise<void> {
+    const user = this.auth.currentUser;
+    if (!user) throw new Error('Nicht angemeldet');
+    await this.inContext(() => updateProfile(user, { displayName: name, photoURL: avatar }));
+    await this.inContext(() => updateDoc(doc(this.firestore, 'users', user.uid), { name, avatar }));
   }
 
 

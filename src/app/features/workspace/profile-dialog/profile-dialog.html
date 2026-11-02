@@ -1,0 +1,69 @@
+<div class="backdrop" (click)="close()"></div>
+
+@if (me(); as user) {
+  <section class="dialog" [class.editing]="editing()" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+    <header>
+      <h2 id="profile-title">{{ editing() ? 'Dein Profil bearbeiten' : 'Profil' }}</h2>
+      <button type="button" class="close" aria-label="Schließen" (click)="close()">
+        <span class="icon icon-close" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <img class="picture" [src]="editing() ? avatar() : user.avatar" alt="" referrerpolicy="no-referrer" />
+
+    @if (!editing()) {
+      <div class="identity">
+        <div class="name-row">
+          <p class="name">{{ user.name }}</p>
+          <button type="button" class="edit-link" (click)="startEditing(user)">Bearbeiten</button>
+          <button type="button" class="edit-icon" aria-label="Profil bearbeiten" (click)="startEditing(user)">
+            <span class="icon icon-edit" aria-hidden="true"></span>
+          </button>
+        </div>
+        <p class="status"><span class="dot"></span>Aktiv</p>
+      </div>
+
+      @if (user.email) {
+        <div class="email">
+          <p class="label"><span class="icon icon-mail" aria-hidden="true"></span>E-Mail-Adresse</p>
+          <a [href]="'mailto:' + user.email">{{ user.email }}</a>
+        </div>
+      }
+    } @else {
+      <div class="avatars" role="radiogroup" aria-label="Avatar wählen">
+        @for (option of avatars(); track option; let i = $index) {
+          <button
+            type="button"
+            class="avatar-option"
+            role="radio"
+            [class.selected]="avatar() === option"
+            [attr.aria-checked]="avatar() === option"
+            [attr.aria-label]="'Avatar ' + (i + 1)"
+            (click)="avatar.set(option)"
+          >
+            <img [src]="option" alt="" referrerpolicy="no-referrer" />
+          </button>
+        }
+      </div>
+
+      <form class="edit-form" novalidate [formGroup]="form" (ngSubmit)="save()">
+        <label class="label" for="profile-name">
+          <span class="icon icon-person" aria-hidden="true"></span>Vollständiger Name
+        </label>
+        <input id="profile-name" type="text" formControlName="name" placeholder="Name eingeben" autocomplete="name" />
+        @if (showNameError()) {
+          <p class="error-message">
+            {{ name.hasError('pattern') ? '*Bitte geben Sie Vor- und Nachnamen ein.' : '*Bitte schreiben Sie einen Namen.' }}
+          </p>
+        }
+        @if (failed()) {
+          <p class="error-message">*Das Profil konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.</p>
+        }
+        <div class="buttons">
+          <button type="button" class="btn-secondary" (click)="cancel()">Abbrechen</button>
+          <button type="submit" class="btn-primary" [disabled]="name.invalid || saving()">Speichern</button>
+        </div>
+      </form>
+    }
+  </section>
+}
