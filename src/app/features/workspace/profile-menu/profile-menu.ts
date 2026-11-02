@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { UserService } from '../../../core/services/user.service';
 import { Avatar } from '../../../shared/components/avatar/avatar';
+import { ProfileDialog } from '../profile-dialog/profile-dialog';
 
 /**
  * Name and avatar at the top right; opens "Profil" / "Log out"
@@ -10,7 +11,7 @@ import { Avatar } from '../../../shared/components/avatar/avatar';
  */
 @Component({
   selector: 'app-profile-menu',
-  imports: [Avatar],
+  imports: [Avatar, ProfileDialog],
   templateUrl: './profile-menu.html',
   styleUrl: './profile-menu.scss',
   host: { '(document:keydown.escape)': 'close()' },
@@ -21,6 +22,7 @@ export class ProfileMenu {
   users = inject(UserService);
 
   open = signal(false);
+  profileOpen = signal(false);
 
 
   toggle(): void {
@@ -30,6 +32,12 @@ export class ProfileMenu {
 
   close(): void {
     this.open.set(false);
+  }
+
+
+  showProfile(): void {
+    this.close();
+    this.profileOpen.set(true);
   }
 
 

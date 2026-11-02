@@ -16,7 +16,7 @@
   <div class="backdrop" (click)="close()"></div>
   <div class="popup" role="menu">
     <span class="handle" aria-hidden="true"></span>
-    <button type="button" class="item" role="menuitem" (click)="close()">
+    <button type="button" class="item" role="menuitem" (click)="showProfile()">
       <span class="icon icon-profile" aria-hidden="true"></span>
       Profil
     </button>
@@ -25,4 +25,8 @@
       Log out
     </button>
   </div>
+}
+
+@if (profileOpen()) {
+  <app-profile-dialog (closed)="profileOpen.set(false)" />
 }
