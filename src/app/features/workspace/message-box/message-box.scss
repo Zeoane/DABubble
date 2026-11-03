@@ -7,6 +7,7 @@
 
 // 61. Message box: padding 20, gap 40, radius 20, border #adb0d9; hover #797ef3, typing #444df2.
 .box {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -80,6 +81,16 @@ textarea {
 
 .icon-emoji {
   @include icon('sentiment-satisfied');
+}
+
+.icon-mention {
+  @include icon('alternate-email');
+}
+
+// Suggestions open upwards from the text field.
+app-mention-list {
+  bottom: calc(100% - 15px);
+  left: 20px;
 }
 
 .send {

@@ -7,10 +7,6 @@ import { Register } from './features/auth/register/register';
 import { ResetPassword } from './features/auth/reset-password/reset-password';
 import { Imprint } from './features/legal/imprint/imprint';
 import { Privacy } from './features/legal/privacy/privacy';
-import { ChannelView } from './features/workspace/channel-view/channel-view';
-import { DirectView } from './features/workspace/direct-view/direct-view';
-import { Workspace } from './features/workspace/workspace';
-import { WorkspaceHome } from './features/workspace/workspace-home/workspace-home';
 
 export const routes: Routes = [
   { path: '', component: Login },
@@ -22,12 +18,21 @@ export const routes: Routes = [
   { path: 'datenschutz', component: Privacy },
   {
     path: 'workspace',
-    component: Workspace,
+    loadComponent: () => import('./features/workspace/workspace').then((m) => m.Workspace),
     canActivate: [authGuard],
     children: [
-      { path: '', component: WorkspaceHome },
-      { path: 'channel/:id', component: ChannelView },
-      { path: 'dm/:uid', component: DirectView },
+      {
+        path: '',
+        loadComponent: () => import('./features/workspace/workspace-home/workspace-home').then((m) => m.WorkspaceHome),
+      },
+      {
+        path: 'channel/:id',
+        loadComponent: () => import('./features/workspace/channel-view/channel-view').then((m) => m.ChannelView),
+      },
+      {
+        path: 'dm/:uid',
+        loadComponent: () => import('./features/workspace/direct-view/direct-view').then((m) => m.DirectView),
+      },
     ],
   },
   { path: '**', redirectTo: '' },
