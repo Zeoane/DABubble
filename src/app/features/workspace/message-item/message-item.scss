@@ -128,6 +128,60 @@ time {
   @include icon('add-reaction');
 }
 
+.icon-comment {
+  @include icon('comment');
+}
+
+// "2 Antworten" in purple 1, "Letzte Antwort 14:56" gray 14px, gap 20.
+.answers {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 20px;
+}
+
+.answers-link {
+  padding: 0;
+  background: none;
+  font-size: $font-size-18;
+  color: $color-purple-3;
+
+  &:hover {
+    font-weight: 700;
+  }
+}
+
+.last-reply {
+  font-size: $font-size-14;
+  color: $color-text-gray;
+}
+
+// Thread (Figma 49. Direct messages): padding 10/40, gap 20, bubble radius 20.
+:host(.compact) {
+  gap: 20px;
+  padding: 10px 40px;
+
+  .bubble {
+    border-radius: 0 20px 20px 20px;
+  }
+
+  .bar {
+    right: 40px;
+  }
+}
+
+:host(.compact.own) {
+  .bubble,
+  &:hover .bubble {
+    border-radius: 20px 0 20px 20px;
+  }
+
+  .bar {
+    right: auto;
+    left: 40px;
+  }
+}
+
 .bar app-emoji-picker {
   bottom: calc(100% + 5px);
   right: 0;
@@ -159,6 +213,18 @@ time {
   }
 
   :host(.own) .bar {
+    left: 16px;
+  }
+
+  :host(.compact) {
+    padding: 10px 16px;
+
+    .bar {
+      right: 16px;
+    }
+  }
+
+  :host(.compact.own) .bar {
     left: 16px;
   }
 }

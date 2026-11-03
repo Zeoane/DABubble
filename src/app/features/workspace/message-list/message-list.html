@@ -7,7 +7,7 @@
       <span>{{ day.label }}</span>
     </div>
     @for (message of day.messages; track message.id) {
-      <app-message-item [message]="message" [chatPath]="path()" [author]="author(message)" [own]="message.authorId === myId" />
+      <app-message-item [message]="message" [listPath]="path() + '/messages'" [author]="author(message)" [own]="message.authorId === myId" />
     }
   }
 </div>

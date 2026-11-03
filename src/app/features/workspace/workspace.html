@@ -1,4 +1,4 @@
-<div class="workspace" [class.chat-open]="chatOpen()">
+<div class="workspace" [class.chat-open]="chatOpen()" [class.thread-open]="thread()">
   <app-workspace-header class="header" [chatOpen]="chatOpen()" />
 
   <div class="content" [class.menu-closed]="!menuOpen()">
@@ -9,6 +9,12 @@
     <main class="chat">
       <router-outlet />
     </main>
+
+    @if (thread(); as target) {
+      <aside class="thread" aria-label="Thread">
+        <app-thread-view [target]="target" />
+      </aside>
+    }
   </div>
 
   <button type="button" class="menu-toggle" [attr.aria-expanded]="menuOpen()" (click)="toggleMenu()">

@@ -1,0 +1,55 @@
+<header>
+  <h2>
+    Thread
+    @if (subtitle()) {
+      <span class="subtitle">
+        @if (target().kind === 'channel') {
+          <span class="icon icon-tag" aria-hidden="true"></span>
+        }
+        {{ subtitle() }}
+      </span>
+    }
+  </h2>
+  <button type="button" class="close" aria-label="Thread schließen" (click)="close()">
+    <span class="icon icon-close" aria-hidden="true"></span>
+  </button>
+</header>
+
+@let myId = users.uid();
+@let result = message();
+<div class="scroller" #scroller>
+  @if (result?.message; as parent) {
+    <app-message-item
+      [message]="parent"
+      [listPath]="listPath()"
+      [author]="author(parent)"
+      [own]="parent.authorId === myId"
+      [threadable]="false"
+    />
+    @if (replies().length) {
+      <div class="count" role="separator">
+        <span>{{ count() }}</span>
+      </div>
+    }
+    @for (reply of replies(); track reply.id) {
+      <app-message-item
+        [message]="reply"
+        [listPath]="repliesPath()"
+        [author]="author(reply)"
+        [own]="reply.authorId === myId"
+        [threadable]="false"
+      />
+    }
+  } @else if (result) {
+    <p class="missing">Diese Nachricht gibt es nicht mehr.</p>
+  }
+</div>
+
+@if (result?.message) {
+  <div class="write">
+    <app-message-box placeholder="Antworten..." [focusKey]="target().messageId" [busy]="sending()" (sent)="send($event)" />
+    @if (sendFailed()) {
+      <p class="error-message">*Die Antwort konnte nicht gesendet werden. Bitte versuche es erneut.</p>
+    }
+  </div>
+}

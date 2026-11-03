@@ -19,25 +19,36 @@ service cloud.firestore {
       // Only members read and write messages; everyone writes in their own name.
       match /messages/{messageId} {
         allow read: if isMember(channelId);
-        allow create: if isMember(channelId)
-          && request.resource.data.authorId == request.auth.uid
-          && request.resource.data.text is string
-          && request.resource.data.text.size() > 0;
-        allow update: if isMember(channelId) && onlyReactions();
+        allow create: if isMember(channelId) && validNew();
+        allow update: if isMember(channelId) && (onlyReactions() || countsReply());
+
+        // Answers in the thread of the message.
+        match /replies/{replyId} {
+          allow read: if isMember(channelId);
+          allow create: if isMember(channelId) && validNew();
+          allow update: if isMember(channelId) && onlyReactions();
+        }
       }
     }
 
     // Direct chats: the id is "uidA_uidB" (sorted), so only those two read and write.
     match /directMessages/{chatId}/messages/{messageId} {
-      allow read: if request.auth != null && request.auth.uid in chatId.split('_');
-      allow create: if request.auth != null
-        && request.auth.uid in chatId.split('_')
-        && request.resource.data.authorId == request.auth.uid
+      allow read: if inChat(chatId);
+      allow create: if inChat(chatId) && validNew();
+      allow update: if inChat(chatId) && (onlyReactions() || countsReply());
+
+      match /replies/{replyId} {
+        allow read: if inChat(chatId);
+        allow create: if inChat(chatId) && validNew();
+        allow update: if inChat(chatId) && onlyReactions();
+      }
+    }
+
+    // A new message or answer: own name and a text that is not empty.
+    function validNew() {
+      return request.resource.data.authorId == request.auth.uid
         && request.resource.data.text is string
         && request.resource.data.text.size() > 0;
-      allow update: if request.auth != null
-        && request.auth.uid in chatId.split('_')
-        && onlyReactions();
     }
 
     // Reacting changes nothing but the "reactions" field.
@@ -45,9 +56,20 @@ service cloud.firestore {
       return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions']);
     }
 
+    // An answer raises the count by one and sets the time of the last answer.
+    function countsReply() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['replyCount', 'lastReplyAt'])
+        && request.resource.data.replyCount == resource.data.get('replyCount', 0) + 1
+        && request.resource.data.lastReplyAt == request.time;
+    }
+
     function isMember(channelId) {
       return request.auth != null
         && request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members;
+    }
+
+    function inChat(chatId) {
+      return request.auth != null && request.auth.uid in chatId.split('_');
     }
   }
 }

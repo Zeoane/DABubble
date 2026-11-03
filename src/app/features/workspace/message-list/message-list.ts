@@ -30,7 +30,7 @@ export class MessageList {
   readonly path = input.required<string>();
   private scroller = viewChild.required<ElementRef<HTMLElement>>('scroller');
 
-  messages = toSignal(toObservable(this.path).pipe(switchMap((path) => this.messageService.watch(path))), {
+  messages = toSignal(toObservable(this.path).pipe(switchMap((path) => this.messageService.watch(path + '/messages'))), {
     initialValue: [] as Message[],
   });
 
