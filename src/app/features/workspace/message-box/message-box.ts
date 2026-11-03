@@ -83,8 +83,19 @@ export class MessageBox {
   }
 
 
-  /** The "@" button: starts a mention at the cursor. */
-  startMention(): void {
+  /**
+   * The "@" button: starts a mention at the cursor. A second click closes the
+   * list again and takes back the "@" if nothing was typed after it.
+   */
+  toggleMention(): void {
+    const trigger = this.trigger();
+    if (!trigger) return this.startMention();
+    if (!trigger.query) this.replace(trigger.start, trigger.start + 1, '');
+    this.trigger.set(null);
+  }
+
+
+  private startMention(): void {
     const field = this.field().nativeElement;
     const start = field.selectionStart ?? this.text().length;
     const before = this.text().slice(0, start);
@@ -131,7 +142,6 @@ export class MessageBox {
     field.focus();
     const cursor = start + insert.length;
     field.setSelectionRange(cursor, cursor);
-    setTimeout(() => field.setSelectionRange(cursor, cursor));
   }
 
 

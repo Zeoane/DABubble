@@ -18,7 +18,7 @@
       <button type="button" class="tool" aria-label="Emoji einfügen" (click)="picking.set(true)">
         <span class="icon icon-emoji" aria-hidden="true"></span>
       </button>
-      <button type="button" class="tool" aria-label="Person erwähnen" (mousedown)="$event.preventDefault()" (click)="startMention()">
+      <button type="button" class="tool" aria-label="Person erwähnen" (mousedown)="$event.preventDefault()" [attr.aria-expanded]="!!trigger()" (click)="toggleMention()">
         <span class="icon icon-mention" aria-hidden="true"></span>
       </button>
       @if (picking()) {
