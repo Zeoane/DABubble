@@ -51,6 +51,37 @@
   background-color: $color-white;
 }
 
+// Secondary chat: 485px wide, 20px from the chat.
+.thread {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 485px;
+  margin-left: 20px;
+  border-radius: $radius-card;
+  background-color: $color-white;
+  overflow: hidden;
+
+  app-thread-view {
+    flex: 1;
+  }
+}
+
+// Not enough room for three columns: the thread pushes the menu away.
+@media (max-width: 1400px) and (min-width: $breakpoint-tablet + 1) {
+  .thread-open {
+    .menu {
+      width: 0;
+      margin-right: 0;
+      opacity: 0;
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+  }
+}
+
 // 77. Hide/show navigation bar: tab on the left edge, vertical label.
 .menu-toggle {
   position: absolute;
@@ -123,8 +154,19 @@
     display: none;
   }
 
-  .chat {
+  .chat,
+  .thread {
     border-radius: 0;
+  }
+
+  .thread {
+    flex: 1;
+    width: auto;
+    margin-left: 0;
+  }
+
+  .thread-open.chat-open .chat {
+    display: none;
   }
 
   .chat-open {

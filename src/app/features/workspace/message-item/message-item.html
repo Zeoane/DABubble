@@ -5,6 +5,12 @@
     <time>{{ time() }}</time>
   </p>
   <p class="bubble">{{ message().text }}</p>
+  @if (threadable() && message().replyCount) {
+    <p class="answers">
+      <button type="button" class="answers-link" (click)="openThread()">{{ replies() }}</button>
+      <span class="last-reply">Letzte Antwort {{ lastReply() }}</span>
+    </p>
+  }
   <app-message-reactions [reactions]="message().reactions ?? {}" (toggled)="toggle($event)" />
 </div>
 
@@ -17,6 +23,11 @@
   <button type="button" class="bar-button" aria-label="Reaktion hinzufügen" (click)="picking.set(true)">
     <span class="icon icon-add-reaction" aria-hidden="true"></span>
   </button>
+  @if (threadable()) {
+    <button type="button" class="bar-button" aria-label="Im Thread antworten" (click)="openThread()">
+      <span class="icon icon-comment" aria-hidden="true"></span>
+    </button>
+  }
   @if (picking()) {
     <app-emoji-picker (picked)="toggle($event)" (closed)="picking.set(false)" />
   }

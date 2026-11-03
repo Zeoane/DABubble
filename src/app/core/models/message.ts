@@ -1,7 +1,8 @@
 import { Timestamp } from '@angular/fire/firestore';
 
 /**
- * Message stored in Firestore under "channels/{channelId}/messages/{id}".
+ * Message stored in Firestore under "{chat}/messages/{id}", an answer under
+ * "{chat}/messages/{messageId}/replies/{id}".
  */
 export interface Message {
   id: string;
@@ -11,4 +12,7 @@ export interface Message {
   createdAt: Timestamp | null;
   /** Emoji → ids of the members who reacted with it. */
   reactions?: Record<string, string[]>;
+  /** Number of answers in the thread (only on messages, not on answers). */
+  replyCount?: number;
+  lastReplyAt?: Timestamp | null;
 }
