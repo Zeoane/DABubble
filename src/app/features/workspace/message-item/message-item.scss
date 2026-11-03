@@ -82,6 +82,16 @@ time {
   transition: background-color 0.1s ease;
 }
 
+// Mentions: purple and bold; white on the own purple bubble.
+.mention {
+  font-weight: 700;
+  color: $color-purple-3;
+}
+
+:host(.own) .mention {
+  color: $color-white;
+}
+
 // 52. Reaction bar: on hover above the message, padding 3/15/3/20, radius 25 25 0 25.
 .bar {
   position: absolute;

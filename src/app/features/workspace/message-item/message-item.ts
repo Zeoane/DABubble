@@ -2,9 +2,11 @@ import { Component, computed, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Message } from '../../../core/models/message';
 import { AppUser } from '../../../core/models/user-profile';
+import { ChannelService } from '../../../core/services/channel.service';
 import { MessageService } from '../../../core/services/message.service';
 import { RecentEmojisService } from '../../../core/services/recent-emojis.service';
 import { UserService } from '../../../core/services/user.service';
+import { splitMentions } from '../../../core/utils/mentions';
 import { Avatar } from '../../../shared/components/avatar/avatar';
 import { EmojiPicker } from '../emoji-picker/emoji-picker';
 import { MessageReactions } from '../message-reactions/message-reactions';
@@ -25,6 +27,7 @@ export class MessageItem {
   private messages = inject(MessageService);
   private users = inject(UserService);
   private router = inject(Router);
+  private channels = inject(ChannelService);
   recent = inject(RecentEmojisService);
 
   readonly message = input.required<Message>();
@@ -41,6 +44,13 @@ export class MessageItem {
   avatar = computed(() => this.author()?.avatar ?? 'img/avatars/avatar-1.svg');
 
   /** "14:25 Uhr" */
+  /** Text with "@Name" and "#channel" marked, for highlighting. */
+  parts = computed(() => {
+    const people = this.users.users().map((user) => '@' + user.name);
+    const channels = this.channels.all().map((channel) => '#' + channel.name);
+    return splitMentions(this.message().text, [...people, ...channels]);
+  });
+
   time = computed(() => clock(this.message().createdAt?.toDate()) + ' Uhr');
 
   /** "2 Antworten" / "1 Antwort" */
