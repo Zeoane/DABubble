@@ -1,0 +1,75 @@
+<div class="backdrop" (click)="close()"></div>
+
+<section class="dialog" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+  <header>
+    <h2 id="edit-title"><span class="icon icon-tag" aria-hidden="true"></span>{{ channel().name }}</h2>
+    <button type="button" class="close" aria-label="Schließen" (click)="close()">
+      <span class="icon icon-close" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <div class="card" [class.editing]="editingName()">
+    <div class="card-head">
+      <h3><label for="edit-name">Channel-Name</label></h3>
+      @if (editingName()) {
+        <button type="button" class="link" (click)="saveName()">Speichern</button>
+        <button type="button" class="round" aria-label="Namen speichern" (click)="saveName()">
+          <span class="icon icon-check" aria-hidden="true"></span>
+        </button>
+      } @else {
+        <button type="button" class="link" (click)="editName()">Bearbeiten</button>
+        <button type="button" class="round" aria-label="Namen bearbeiten" (click)="editName()">
+          <span class="icon icon-edit" aria-hidden="true"></span>
+        </button>
+      }
+    </div>
+    @if (editingName()) {
+      <div class="name-field" [class.invalid]="nameError()">
+        <span class="icon icon-tag small" aria-hidden="true"></span>
+        <input id="edit-name" type="text" [formControl]="name" autocomplete="off" (keydown.enter)="saveName()" />
+      </div>
+      @if (nameError(); as error) {
+        <p class="error-message">{{ error }}</p>
+      }
+    } @else {
+      <p class="value"><span class="icon icon-tag small" aria-hidden="true"></span>{{ channel().name }}</p>
+    }
+  </div>
+
+  <div class="card" [class.editing]="editingDescription()">
+    <div class="card-head">
+      <h3><label for="edit-description">Beschreibung</label></h3>
+      @if (editingDescription()) {
+        <button type="button" class="link" (click)="saveDescription()">Speichern</button>
+        <button type="button" class="round" aria-label="Beschreibung speichern" (click)="saveDescription()">
+          <span class="icon icon-check" aria-hidden="true"></span>
+        </button>
+      } @else {
+        <button type="button" class="link" (click)="editDescription()">Bearbeiten</button>
+        <button type="button" class="round" aria-label="Beschreibung bearbeiten" (click)="editDescription()">
+          <span class="icon icon-edit" aria-hidden="true"></span>
+        </button>
+      }
+    </div>
+    @if (editingDescription()) {
+      <textarea id="edit-description" rows="2" placeholder="Dein Text hier" [formControl]="description"></textarea>
+    } @else {
+      <p class="value">{{ channel().description || 'Noch keine Beschreibung.' }}</p>
+    }
+    <hr />
+    <h3>Erstellt von</h3>
+    <p class="creator">{{ creator() }}</p>
+  </div>
+
+  <section class="mobile-members" aria-labelledby="edit-members">
+    <h3 id="edit-members">Mitglieder</h3>
+    <app-member-list [members]="members()" (add)="addMembers.emit()" />
+  </section>
+
+  @if (failed()) {
+    <p class="error-message">*Das hat nicht geklappt. Bitte versuche es erneut.</p>
+  }
+  <div class="actions">
+    <button type="button" class="btn-primary" (click)="leave()">Channel verlassen</button>
+  </div>
+</section>

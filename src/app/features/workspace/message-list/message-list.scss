@@ -1,0 +1,59 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+:host {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.scroller {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+
+.intro-slot {
+  margin-top: auto;
+  padding: 0 45px 20px;
+}
+
+// Time separator: line #adb0d9 with the day in a white pill (padding 5/15, radius 30).
+.day {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: 15px 45px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    border-top: 1px solid $color-lines;
+  }
+
+  span {
+    position: relative;
+    padding: 5px 15px;
+    border: 1px solid $color-lines;
+    border-radius: 30px;
+    background-color: $color-white;
+    font-size: $font-size-18;
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .intro-slot {
+    padding: 0 16px 20px;
+  }
+
+  .day {
+    margin: 15px 16px;
+  }
+}

@@ -1,0 +1,32 @@
+<div class="box">
+  @if (trigger()) {
+    <app-mention-list [options]="options()" [active]="active()" [channels]="trigger()?.char === '#'" (picked)="pick($event)" />
+  }
+  <textarea
+    #field
+    rows="1"
+    [placeholder]="placeholder()"
+    [attr.aria-label]="placeholder()"
+    [value]="text()"
+    (input)="onInput()"
+    (click)="onInput()"
+    (keydown)="onKeydown($event)"
+    (blur)="trigger.set(null)"
+  ></textarea>
+  <div class="tools">
+    <div class="add-elements">
+      <button type="button" class="tool" aria-label="Emoji einfügen" (click)="picking.set(true)">
+        <span class="icon icon-emoji" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="tool" aria-label="Person erwähnen" (mousedown)="$event.preventDefault()" [attr.aria-expanded]="!!trigger()" (click)="toggleMention()">
+        <span class="icon icon-mention" aria-hidden="true"></span>
+      </button>
+      @if (picking()) {
+        <app-emoji-picker (picked)="insertEmoji($event)" (closed)="picking.set(false)" />
+      }
+    </div>
+    <button type="button" class="send" aria-label="Nachricht senden" [disabled]="!canSend()" (click)="send()">
+      <span class="icon icon-send" aria-hidden="true"></span>
+    </button>
+  </div>
+</div>

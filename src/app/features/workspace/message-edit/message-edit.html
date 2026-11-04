@@ -1,0 +1,21 @@
+<textarea
+  #field
+  rows="1"
+  aria-label="Nachricht bearbeiten"
+  (input)="text.set(field.value)"
+  (keydown)="onKeydown($event)"
+></textarea>
+<div class="tools">
+  <div class="add-elements">
+    <button type="button" class="tool" aria-label="Emoji einfügen" (click)="picking.set(true)">
+      <span class="icon icon-emoji" aria-hidden="true"></span>
+    </button>
+    @if (picking()) {
+      <app-emoji-picker (picked)="insertEmoji($event)" (closed)="picking.set(false)" />
+    }
+  </div>
+  <div class="buttons">
+    <button type="button" class="btn-secondary" (click)="cancelled.emit()">Abbrechen</button>
+    <button type="button" class="btn-primary" [disabled]="!canSave()" (click)="save()">Speichern</button>
+  </div>
+</div>

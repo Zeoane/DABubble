@@ -1,0 +1,181 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Figma 06: header at 25px, panels from 115px to 25px above the bottom, 20px gaps.
+.workspace {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100dvh;
+  padding: 25px 20px;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.menu {
+  flex-shrink: 0;
+  width: 366px;
+  margin-right: 20px;
+  border-radius: $radius-card;
+  background-color: $color-white;
+  overflow: hidden;
+  transition:
+    width 0.3s ease,
+    margin-right 0.3s ease,
+    opacity 0.3s ease;
+
+  app-workspace-menu {
+    width: 366px;
+  }
+}
+
+.content.menu-closed .menu {
+  width: 0;
+  margin-right: 0;
+  opacity: 0;
+}
+
+.chat {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: $radius-card;
+  background-color: $color-white;
+}
+
+// Secondary chat: 485px wide, 20px from the chat.
+.thread {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 485px;
+  margin-left: 20px;
+  border-radius: $radius-card;
+  background-color: $color-white;
+  overflow: hidden;
+
+  app-thread-view {
+    flex: 1;
+  }
+}
+
+// Not enough room for three columns: the thread pushes the menu away.
+@media (max-width: 1400px) and (min-width: $breakpoint-tablet + 1) {
+  .thread-open {
+    .menu {
+      width: 0;
+      margin-right: 0;
+      opacity: 0;
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+  }
+}
+
+// 77. Hide/show navigation bar: tab on the left edge, vertical label.
+.menu-toggle {
+  position: absolute;
+  left: 0;
+  bottom: 152px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 56px;
+  padding: 20px 12px;
+  border-radius: 0 30px 30px 0;
+  background-color: $color-white;
+  box-shadow: 4px 4px 7px rgba(0, 0, 0, 0.2);
+
+  .label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: $font-size-20;
+    font-weight: 500;
+    line-height: $line-height;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    color: $color-purple-3;
+
+    .label {
+      font-weight: 700;
+    }
+  }
+}
+
+.icon-hide {
+  @include icon('hide-menu', 18px);
+  margin: 7px;
+}
+
+.icon-show {
+  @include icon('show-menu', 18px);
+  margin: 7px;
+}
+
+// Mobile: separate views. Without an open chat only the menu is shown.
+@media (max-width: $breakpoint-tablet) {
+  .workspace {
+    gap: 0;
+    padding: 0;
+    background-color: $color-white;
+  }
+
+  .menu {
+    flex: 1;
+    width: auto;
+    margin-right: 0;
+    border-radius: 0;
+
+    app-workspace-menu {
+      width: auto;
+    }
+  }
+
+  .content.menu-closed .menu {
+    width: auto;
+    opacity: 1;
+  }
+
+  .chat,
+  .menu-toggle {
+    display: none;
+  }
+
+  .chat,
+  .thread {
+    border-radius: 0;
+  }
+
+  .thread {
+    flex: 1;
+    width: auto;
+    margin-left: 0;
+  }
+
+  .thread-open.chat-open .chat {
+    display: none;
+  }
+
+  .chat-open {
+    .menu {
+      display: none;
+    }
+
+    .chat {
+      display: flex;
+    }
+  }
+}

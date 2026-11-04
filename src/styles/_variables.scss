@@ -1,0 +1,43 @@
+// Farben (Figma: Variablen der Datei)
+$color-black: #000000;
+$color-white: #ffffff;
+$color-purple-1: #444df2;
+$color-purple-2: #797ef3;
+$color-purple-3: #535af1;
+$color-bg: #eceefe;
+$color-text-gray: #686868;
+$color-lines: #adb0d9;
+$color-error: #ed1e79;
+$color-online: #92c83e;
+$color-menu: #42526e;
+$color-avatar-hover: #e6e6e6;
+
+// Schrift (Figma: 00d. Font size - Nunito)
+$font-family: 'Nunito', sans-serif;
+$font-family-link: 'Figtree', sans-serif;
+$font-family-body: 'Open Sans', sans-serif;
+$font-size-46: 46px;
+$font-size-38: 38px;
+$font-size-32: 32px;
+$font-size-26: 26px;
+$font-size-22: 22px;
+$font-size-20: 20px;
+$font-size-18: 18px;
+$font-size-17: 17px;
+$font-size-16: 16px;
+$font-size-15: 15px;
+$font-size-14: 14px;
+$font-size-12: 12px;
+$line-height: 1.2;
+
+// Schatten (Figma: header)
+$shadow-card: 0 2px 10px 0 rgba(0, 0, 0, 0.08);
+
+// Radien
+$radius-button: 25px;
+$radius-input: 100px;
+$radius-card: 30px;
+
+// Breakpoints
+$breakpoint-mobile: 600px;
+$breakpoint-tablet: 1024px;

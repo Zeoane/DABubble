@@ -1,0 +1,66 @@
+@if (channel(); as channel) {
+  <header class="head">
+    <button type="button" class="title" (click)="panel.set('edit')">
+      <span class="tag" aria-hidden="true"></span>
+      <span class="title-name">{{ channel.name }}</span>
+      <span class="chevron" aria-hidden="true"></span>
+    </button>
+    <div class="head-actions">
+      <button
+        type="button"
+        class="members"
+        [attr.aria-label]="'Mitglieder anzeigen (' + members().length + ')'"
+        (click)="panel.set('members')"
+      >
+        <span class="faces">
+          @for (member of preview(); track member.uid) {
+            <img [src]="member.avatar" alt="" referrerpolicy="no-referrer" />
+          }
+        </span>
+        <span class="count">{{ members().length }}</span>
+      </button>
+      <button type="button" class="add-member" aria-label="Mitglieder hinzufügen" (click)="panel.set('add')">
+        <span class="person-add" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <app-message-list [path]="'channels/' + channel.id">
+    <div class="intro">
+      <p class="intro-title"><span class="tag" aria-hidden="true"></span>{{ channel.name }}</p>
+      <p class="intro-text">
+        {{ createdText(channel) }}
+        <span class="intro-name"><span class="tag small" aria-hidden="true"></span>{{ channel.name }}.</span>
+      </p>
+      @if (channel.description) {
+        <p class="intro-description">{{ channel.description }}</p>
+      }
+    </div>
+  </app-message-list>
+
+  <div class="write">
+    <app-message-box
+      [placeholder]="'Nachricht an #' + channel.name"
+      [focusKey]="channel.id"
+      [busy]="sending()"
+      (sent)="send('channels/' + channel.id, $event)"
+    />
+    @if (sendFailed()) {
+      <p class="error-message">*Die Nachricht konnte nicht gesendet werden. Bitte versuche es erneut.</p>
+    }
+  </div>
+
+  @switch (panel()) {
+    @case ('edit') {
+      <app-channel-edit [channel]="channel" [members]="members()" (closed)="panel.set(null)" (addMembers)="panel.set('add')" />
+    }
+    @case ('members') {
+      <app-channel-members [members]="members()" (closed)="panel.set(null)" (addMembers)="panel.set('add')" />
+    }
+    @case ('add') {
+      <app-add-members [channel]="channel" (closed)="panel.set(null)" />
+    }
+  }
+} @else if (loaded()) {
+  <p class="missing">Diesen Channel gibt es nicht oder du bist kein Mitglied.</p>
+}

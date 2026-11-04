@@ -1,0 +1,10 @@
+// Single-colour icon from public/img/icons, tinted with the text colour.
+// So hover states only need to change `color`.
+@mixin icon($name, $size: 24px) {
+  display: inline-block;
+  flex-shrink: 0;
+  width: $size;
+  height: $size;
+  background-color: currentColor;
+  mask: url('/img/icons/#{$name}.svg') center / contain no-repeat;
+}

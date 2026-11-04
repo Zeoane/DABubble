@@ -1,0 +1,77 @@
+@use 'variables' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.privacy-group {
+  margin-top: -8px;
+}
+
+.privacy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-family: $font-family-body;
+  font-size: $font-size-16;
+  line-height: $line-height;
+  color: $color-menu;
+
+  span:first-of-type {
+    margin-left: 8px;
+  }
+}
+
+// Figma: 78. Check button
+.checkbox {
+  display: flex;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: $color-bg;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.privacy-link {
+  padding: 5px 4px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .form {
+    gap: 30px;
+  }
+
+  .input-field {
+    padding-top: 13px;
+    padding-bottom: 13px;
+  }
+
+  .privacy-group {
+    margin-top: -10px;
+  }
+
+  .privacy {
+    font-size: $font-size-15;
+  }
+
+  .privacy-link {
+    font-size: $font-size-17;
+  }
+}

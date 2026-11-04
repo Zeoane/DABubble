@@ -1,0 +1,24 @@
+<div class="workspace" [class.chat-open]="chatOpen()" [class.thread-open]="thread()">
+  <app-workspace-header class="header" [chatOpen]="chatOpen()" />
+
+  <div class="content" [class.menu-closed]="!menuOpen()">
+    <aside class="menu" [attr.aria-hidden]="!menuOpen()" [inert]="!menuOpen()">
+      <app-workspace-menu />
+    </aside>
+
+    <main class="chat">
+      <router-outlet />
+    </main>
+
+    @if (thread(); as target) {
+      <aside class="thread" aria-label="Thread">
+        <app-thread-view [target]="target" />
+      </aside>
+    }
+  </div>
+
+  <button type="button" class="menu-toggle" [attr.aria-expanded]="menuOpen()" (click)="toggleMenu()">
+    <span class="icon" [class.icon-hide]="menuOpen()" [class.icon-show]="!menuOpen()" aria-hidden="true"></span>
+    <span class="label">{{ menuOpen() ? 'Workspace-Menü schließen' : 'Workspace-Menü öffnen' }}</span>
+  </button>
+</div>

@@ -1,0 +1,92 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Desktop: logo at 45px, search aligned with the chat column, profile at the right.
+:host {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 70px;
+}
+
+.desktop-logo {
+  width: 366px;
+  padding-left: 25px;
+  flex-shrink: 0;
+}
+
+.mobile-logo,
+.mobile-back {
+  display: none;
+}
+
+// Mobile chat header (Figma "Component 2"): arrow 25px, Devspace logo 50px.
+.mobile-back {
+  align-items: center;
+  gap: 2px;
+  color: $color-black;
+  text-decoration: none;
+
+  &:hover {
+    color: $color-purple-3;
+  }
+}
+
+.back-icon {
+  @include icon('keyboard-arrow-down', 25px);
+  transform: rotate(90deg);
+}
+
+.devspace-logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.devspace-name {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.search {
+  flex: 1;
+  max-width: 989px;
+}
+
+app-profile-menu {
+  margin-left: auto;
+  padding-right: 14px;
+}
+
+@media (max-width: 1400px) {
+  .desktop-logo {
+    width: auto;
+  }
+}
+
+// Mobile (69. head mobile): 80px, padding 15/16, small logo and avatar only.
+@media (max-width: $breakpoint-tablet) {
+  :host {
+    height: 80px;
+    padding: 15px 16px;
+    background-color: $color-bg;
+  }
+
+  .desktop-logo,
+  .search {
+    display: none;
+  }
+
+  .mobile-logo {
+    display: block;
+  }
+
+  .mobile-back {
+    display: flex;
+  }
+
+  app-profile-menu {
+    padding-right: 0;
+  }
+}

@@ -1,0 +1,118 @@
+@use 'variables' as *;
+
+:host {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+// Head: 110px, padding 32/45/20, light shadow.
+.head {
+  z-index: 1;
+  padding: 32px 45px 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+// 25.–29. contact: padding 4/8, gap 15, avatar 50, name 24 bold.
+.person {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+  padding: 4px 8px;
+
+  h1 {
+    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    font-size: 24px;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  p {
+    margin: 0;
+  }
+}
+
+.intro-person {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.intro-name {
+  font-size: 24px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.intro-text {
+  font-size: $font-size-20;
+  line-height: 1.35;
+  color: $color-text-gray;
+}
+
+.mention {
+  color: $color-purple-3;
+}
+
+.write {
+  padding: 0 45px 45px;
+
+  .error-message {
+    margin: 8px 0 0 20px;
+  }
+}
+
+.missing {
+  margin: auto;
+  padding: 32px;
+  font-size: $font-size-20;
+  color: $color-text-gray;
+  text-align: center;
+}
+
+// Mobile (11 – Direct message mobile): head padding 10/16, intro avatar 88, name 20.
+@media (max-width: $breakpoint-tablet) {
+  .head {
+    padding: 10px 16px;
+  }
+
+  .person {
+    padding: 4px 0;
+
+    h1 {
+      font-size: $font-size-20;
+    }
+  }
+
+  .intro-person {
+    gap: 10px;
+
+    app-avatar {
+      width: 88px;
+      height: 88px;
+    }
+  }
+
+  .intro-name {
+    font-size: $font-size-20;
+  }
+
+  .intro-text {
+    font-size: $font-size-18;
+  }
+
+  .write {
+    padding: 0 16px 16px;
+  }
+}

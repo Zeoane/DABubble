@@ -1,0 +1,83 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Signed-in users see all profiles (for member lists), but only edit their own.
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow create, update: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Everyone signed in may read channels (duplicate-name check, "#" search).
+    // Only the creator creates a channel, and only members change it.
+    match /channels/{channelId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null
+        && request.resource.data.createdBy == request.auth.uid
+        && request.auth.uid in request.resource.data.members;
+      allow update: if request.auth != null && request.auth.uid in resource.data.members;
+
+      // Only members read and write messages; everyone writes in their own name.
+      match /messages/{messageId} {
+        allow read: if isMember(channelId);
+        allow create: if isMember(channelId) && validNew();
+        allow update: if isMember(channelId) && (onlyReactions() || countsReply() || ownText());
+
+        // Answers in the thread of the message.
+        match /replies/{replyId} {
+          allow read: if isMember(channelId);
+          allow create: if isMember(channelId) && validNew();
+          allow update: if isMember(channelId) && (onlyReactions() || ownText());
+        }
+      }
+    }
+
+    // Direct chats: the id is "uidA_uidB" (sorted), so only those two read and write.
+    match /directMessages/{chatId}/messages/{messageId} {
+      allow read: if inChat(chatId);
+      allow create: if inChat(chatId) && validNew();
+      allow update: if inChat(chatId) && (onlyReactions() || countsReply() || ownText());
+
+      match /replies/{replyId} {
+        allow read: if inChat(chatId);
+        allow create: if inChat(chatId) && validNew();
+        allow update: if inChat(chatId) && (onlyReactions() || ownText());
+      }
+    }
+
+    // A new message or answer: own name and a text that is not empty.
+    function validNew() {
+      return request.resource.data.authorId == request.auth.uid
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0;
+    }
+
+    // Reacting changes nothing but the "reactions" field.
+    function onlyReactions() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions']);
+    }
+
+    // Editing: only the author changes the text, and it must not be empty.
+    function ownText() {
+      return resource.data.authorId == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['text'])
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0;
+    }
+
+    // An answer raises the count by one and sets the time of the last answer.
+    function countsReply() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['replyCount', 'lastReplyAt'])
+        && request.resource.data.replyCount == resource.data.get('replyCount', 0) + 1
+        && request.resource.data.lastReplyAt == request.time;
+    }
+
+    function isMember(channelId) {
+      return request.auth != null
+        && request.auth.uid in get(/databases/$(database)/documents/channels/$(channelId)).data.members;
+    }
+
+    function inChat(chatId) {
+      return request.auth != null && request.auth.uid in chatId.split('_');
+    }
+  }
+}

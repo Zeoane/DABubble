@@ -1,0 +1,44 @@
+@use 'variables' as *;
+
+// Text inside the Impressum and Datenschutz pages
+.legal-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  h2 {
+    margin: 25px 0 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: $color-purple-1;
+  }
+
+  p,
+  li {
+    margin: 0;
+    font-size: $font-size-20;
+    line-height: $line-height;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 24px;
+  }
+
+  a {
+    color: $color-purple-2;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .legal-text {
+    h2 {
+      font-size: $font-size-20;
+    }
+
+    p,
+    li {
+      font-size: $font-size-16;
+    }
+  }
+}

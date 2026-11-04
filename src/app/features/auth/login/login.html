@@ -1,0 +1,73 @@
+<div class="auth-page">
+  <header class="header">
+    <app-logo [class.hidden]="showIntro()" />
+    <div class="sign-up">
+      <span>Neu bei DABubble?</span>
+      <a class="text-link" routerLink="/registrierung">Konto erstellen</a>
+    </div>
+  </header>
+
+  <main class="auth-main">
+    <section class="auth-card login-card">
+      <h1>Anmeldung</h1>
+      <p class="auth-intro">Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</p>
+
+      <form class="form" [formGroup]="loginForm" (ngSubmit)="logIn()" novalidate>
+        <div class="input-group">
+          <label class="input-field">
+            <img src="img/icons/mail.svg" alt="" />
+            <input type="email" formControlName="email" placeholder="beispielname@email.com" autocomplete="email" />
+          </label>
+          @if (showError('email')) {
+            <p class="error-message">*Diese E-Mail-Adresse ist leider ungültig.</p>
+          }
+        </div>
+
+        <div class="input-group">
+          <label class="input-field">
+            <img src="img/icons/lock.svg" alt="" />
+            <input type="password" formControlName="password" placeholder="Passwort" autocomplete="current-password" />
+          </label>
+          @if (showError('password')) {
+            <p class="error-message">*Bitte geben Sie ein Passwort ein.</p>
+          } @else if (loginError(); as error) {
+            <p class="error-message">{{ error }}</p>
+          }
+        </div>
+
+        <a class="text-link forgot" routerLink="/passwort-vergessen">Passwort vergessen?</a>
+
+        <div class="divider"><span>ODER</span></div>
+
+        <div class="google-group">
+          <button type="button" class="google-btn" [disabled]="loading()" (click)="logInWithGoogle()">
+            <img src="img/icons/google.svg" alt="" />
+            <span>Anmelden mit Google</span>
+          </button>
+          @if (googleError(); as error) {
+            <p class="error-message">{{ error }}</p>
+          }
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || loading()">Anmelden</button>
+          <button type="button" class="btn-secondary" [disabled]="loading()" (click)="logInAsGuest()">Gäste-Login</button>
+        </div>
+        @if (guestError(); as error) {
+          <p class="error-message">{{ error }}</p>
+        }
+      </form>
+    </section>
+
+    <div class="sign-up sign-up-mobile">
+      <span>Neu bei DABubble?</span>
+      <a class="btn-secondary btn-small" routerLink="/registrierung">Konto erstellen</a>
+    </div>
+  </main>
+
+  <app-legal-links />
+
+  @if (showIntro()) {
+    <app-intro (done)="showIntro.set(false)" />
+  }
+</div>
