@@ -82,6 +82,12 @@ export class MessageService {
   }
 
 
+  /** Changes the text of an own message or answer; the rules allow nothing else. */
+  async edit(listPath: string, messageId: string, text: string): Promise<void> {
+    await this.inContext(() => updateDoc(doc(this.firestore, listPath, messageId), { text: text.trim() }));
+  }
+
+
   /** Path of the direct chat between two members; the same for both sides. */
   directPath(uidA: string, uidB: string): string {
     return 'directMessages/' + [uidA, uidB].sort().join('_');

@@ -1,34 +1,58 @@
 <app-avatar [src]="avatar()" [size]="70" />
-<div class="content">
-  <p class="meta">
-    <span class="name">{{ name() }}</span>
-    <time>{{ time() }}</time>
-  </p>
-  <p class="bubble">@for (part of parts(); track $index) {@if (part.mention) {<span class="mention">{{ part.text }}</span>} @else {{{ part.text }}}}</p>
-  @if (threadable() && message().replyCount) {
-    <p class="answers">
-      <button type="button" class="answers-link" (click)="openThread()">{{ replies() }}</button>
-      <span class="last-reply">Letzte Antwort {{ lastReply() }}</span>
+@if (editing()) {
+  <app-message-edit [initial]="message().text" (saved)="saveEdit($event)" (cancelled)="editing.set(false)" />
+} @else {
+  <div class="content">
+    <p class="meta">
+      <span class="name">{{ name() }}</span>
+      <time>{{ time() }}</time>
     </p>
-  }
-  <app-message-reactions [reactions]="message().reactions ?? {}" (toggled)="toggle($event)" />
-</div>
+    <p class="bubble">@for (part of parts(); track $index) {@if (part.mention) {<span class="mention">{{ part.text }}</span>} @else {{{ part.text }}}}</p>
+    @if (threadable() && message().replyCount) {
+      <p class="answers">
+        <button type="button" class="answers-link" (click)="openThread()">{{ replies() }}</button>
+        <span class="last-reply">Letzte Antwort {{ lastReply() }}</span>
+      </p>
+    }
+    <app-message-reactions [reactions]="message().reactions ?? {}" (toggled)="toggle($event)" />
+  </div>
 
-<div class="bar" role="toolbar" aria-label="Reagieren">
-  @for (emoji of recent.recent(); track emoji) {
-    <button type="button" class="bar-button emoji" [attr.aria-label]="'Mit ' + emoji + ' reagieren'" (click)="toggle(emoji)">
-      {{ emoji }}
+  <div class="bar" role="toolbar" aria-label="Reagieren">
+    @for (emoji of recent.recent(); track emoji) {
+      <button type="button" class="bar-button emoji" [attr.aria-label]="'Mit ' + emoji + ' reagieren'" (click)="toggle(emoji)">
+        {{ emoji }}
+      </button>
+    }
+    <button type="button" class="bar-button" aria-label="Reaktion hinzufügen" (click)="picking.set(true)">
+      <span class="icon icon-add-reaction" aria-hidden="true"></span>
     </button>
-  }
-  <button type="button" class="bar-button" aria-label="Reaktion hinzufügen" (click)="picking.set(true)">
-    <span class="icon icon-add-reaction" aria-hidden="true"></span>
-  </button>
-  @if (threadable()) {
-    <button type="button" class="bar-button" aria-label="Im Thread antworten" (click)="openThread()">
-      <span class="icon icon-comment" aria-hidden="true"></span>
-    </button>
-  }
-  @if (picking()) {
-    <app-emoji-picker (picked)="toggle($event)" (closed)="picking.set(false)" />
-  }
-</div>
+    @if (threadable()) {
+      <button type="button" class="bar-button" aria-label="Im Thread antworten" (click)="openThread()">
+        <span class="icon icon-comment" aria-hidden="true"></span>
+      </button>
+    }
+    @if (own()) {
+      <div class="more">
+        <button
+          type="button"
+          class="bar-button"
+          aria-label="Weitere Optionen"
+          aria-haspopup="menu"
+          [attr.aria-expanded]="menuOpen()"
+          (click)="menuOpen.set(!menuOpen())"
+        >
+          <span class="icon icon-more" aria-hidden="true"></span>
+        </button>
+        @if (menuOpen()) {
+          <div class="menu-backdrop" (click)="menuOpen.set(false)"></div>
+          <div class="menu" role="menu">
+            <button type="button" class="menu-item" role="menuitem" (click)="startEdit()">Nachricht bearbeiten</button>
+          </div>
+        }
+      </div>
+    }
+    @if (picking()) {
+      <app-emoji-picker (picked)="toggle($event)" (closed)="picking.set(false)" />
+    }
+  </div>
+}

@@ -20,13 +20,13 @@ service cloud.firestore {
       match /messages/{messageId} {
         allow read: if isMember(channelId);
         allow create: if isMember(channelId) && validNew();
-        allow update: if isMember(channelId) && (onlyReactions() || countsReply());
+        allow update: if isMember(channelId) && (onlyReactions() || countsReply() || ownText());
 
         // Answers in the thread of the message.
         match /replies/{replyId} {
           allow read: if isMember(channelId);
           allow create: if isMember(channelId) && validNew();
-          allow update: if isMember(channelId) && onlyReactions();
+          allow update: if isMember(channelId) && (onlyReactions() || ownText());
         }
       }
     }
@@ -35,12 +35,12 @@ service cloud.firestore {
     match /directMessages/{chatId}/messages/{messageId} {
       allow read: if inChat(chatId);
       allow create: if inChat(chatId) && validNew();
-      allow update: if inChat(chatId) && (onlyReactions() || countsReply());
+      allow update: if inChat(chatId) && (onlyReactions() || countsReply() || ownText());
 
       match /replies/{replyId} {
         allow read: if inChat(chatId);
         allow create: if inChat(chatId) && validNew();
-        allow update: if inChat(chatId) && onlyReactions();
+        allow update: if inChat(chatId) && (onlyReactions() || ownText());
       }
     }
 
@@ -54,6 +54,14 @@ service cloud.firestore {
     // Reacting changes nothing but the "reactions" field.
     function onlyReactions() {
       return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions']);
+    }
+
+    // Editing: only the author changes the text, and it must not be empty.
+    function ownText() {
+      return resource.data.authorId == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['text'])
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0;
     }
 
     // An answer raises the count by one and sets the time of the last answer.

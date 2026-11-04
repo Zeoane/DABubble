@@ -1,0 +1,94 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// 61. Message box main (edit): padding 20, gap 16, radius 20, border #adb0d9.
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+  border: 1px solid $color-lines;
+  border-radius: 20px;
+  background-color: $color-white;
+  transition: border-color 0.15s ease;
+
+  &:focus-within {
+    border-color: $color-purple-1;
+  }
+}
+
+textarea {
+  width: 100%;
+  min-height: 25px;
+  max-height: 250px;
+  padding: 0;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  font-size: $font-size-18;
+  line-height: 25px;
+  color: $color-text-gray;
+  field-sizing: content;
+}
+
+// 60B. Icons text box aux for edit message: emoji left, buttons right with gap 32.
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.add-elements {
+  position: relative;
+
+  app-emoji-picker {
+    bottom: calc(100% + 10px);
+    left: 0;
+  }
+}
+
+.tool {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 20px;
+  background: none;
+  color: $color-text-gray;
+
+  &:hover {
+    background-color: $color-bg;
+    color: $color-purple-3;
+  }
+}
+
+.icon-emoji {
+  @include icon('sentiment-satisfied');
+}
+
+.buttons {
+  display: flex;
+  gap: 32px;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  :host {
+    padding: 16px;
+  }
+
+  .buttons {
+    gap: 16px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 10px 18px;
+    font-size: $font-size-16;
+  }
+}
