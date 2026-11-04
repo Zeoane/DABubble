@@ -238,3 +238,70 @@ time {
     left: 16px;
   }
 }
+
+// Own messages: the three dots (Figma 52. "option" / more_vert) open "Nachricht bearbeiten".
+.icon-more {
+  @include icon('more-vert');
+}
+
+.more {
+  position: relative;
+}
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+}
+
+// 76. Edit message button: white, radius 0 30 30 30, shadow 0 6 14 rgba(0,0,0,0.2).
+.menu {
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 20px;
+  z-index: 4;
+  padding: 10px 20px;
+  border-radius: 0 30px 30px 30px;
+  background-color: $color-white;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+.menu-item {
+  padding: 10px 20px;
+  border-radius: 100px;
+  background: none;
+  font-size: $font-size-20;
+  font-weight: 600;
+  white-space: nowrap;
+  color: $color-black;
+
+  &:hover {
+    background-color: $color-bg;
+    color: $color-purple-1;
+    font-weight: 700;
+  }
+}
+
+// Editing (Figma 48. "Edit message"): background #eceefe, the box fills the row up to 146px from the left.
+:host(.editing) {
+  background-color: $color-bg;
+
+  .bar {
+    display: none;
+  }
+}
+
+:host(.editing.own) {
+  padding-left: 146px;
+}
+
+:host(.editing.compact.own) {
+  padding-left: 40px;
+}
+
+@media (max-width: $breakpoint-tablet) {
+  :host(.editing.own),
+  :host(.editing.compact.own) {
+    padding-left: 16px;
+  }
+}
