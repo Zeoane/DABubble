@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { WorkspaceHeader } from './header/workspace-header';
+import { MemberProfile } from './member-profile/member-profile';
 import { ThreadTarget, ThreadView } from './thread-view/thread-view';
 import { WorkspaceMenu } from './workspace-menu/workspace-menu';
 
@@ -12,7 +13,7 @@ import { WorkspaceMenu } from './workspace-menu/workspace-menu';
  */
 @Component({
   selector: 'app-workspace',
-  imports: [WorkspaceHeader, WorkspaceMenu, RouterOutlet, ThreadView],
+  imports: [WorkspaceHeader, WorkspaceMenu, RouterOutlet, ThreadView, MemberProfile],
   templateUrl: './workspace.html',
   styleUrl: './workspace.scss',
 })

@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { MessageService } from '../../../core/services/message.service';
+import { ProfileViewService } from '../../../core/services/profile-view.service';
 import { UserService } from '../../../core/services/user.service';
 import { Avatar } from '../../../shared/components/avatar/avatar';
 import { MessageBox } from '../message-box/message-box';
@@ -18,6 +19,7 @@ import { MessageList } from '../message-list/message-list';
 export class DirectView {
   private users = inject(UserService);
   private messages = inject(MessageService);
+  profiles = inject(ProfileViewService);
 
   /** Route parameter ":uid" – the other member. */
   readonly uid = input.required<string>();

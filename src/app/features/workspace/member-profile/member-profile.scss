@@ -1,0 +1,140 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+// 65. Profile view other users: white, radius 30, padding 40, gap 45, shadow 0 6 10.
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 41;
+  display: flex;
+  flex-direction: column;
+  gap: 45px;
+  width: 500px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
+  padding: 40px;
+  overflow-y: auto;
+  border-radius: 30px;
+  background-color: $color-white;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%);
+  animation: fade-in 0.15s ease-in;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 20px;
+  background: none;
+
+  &:hover {
+    background-color: $color-bg;
+    color: $color-purple-3;
+  }
+}
+
+.picture {
+  align-self: center;
+}
+
+.name {
+  margin: 0 0 -15px;
+  font-size: $font-size-32;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.email {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  a {
+    padding-left: 50px;
+    font-size: $font-size-18;
+    color: #1381ff;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 0;
+  font-size: $font-size-20;
+  font-weight: 700;
+}
+
+// 58. Button primary + icon: gap 10.
+.message {
+  align-self: center;
+  gap: 10px;
+}
+
+.icon-close {
+  @include icon('close');
+}
+
+.icon-mail {
+  @include icon('mail', 30px);
+}
+
+.icon-message {
+  @include icon('mode-comment');
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+// Mobile: 398px wide, padding 45/20.
+@media (max-width: $breakpoint-tablet) {
+  .dialog {
+    width: 398px;
+    padding: 45px 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .picture {
+    --size: 160px !important;
+  }
+
+  .name {
+    font-size: $font-size-26;
+  }
+}

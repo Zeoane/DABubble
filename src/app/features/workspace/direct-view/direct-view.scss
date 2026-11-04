@@ -19,8 +19,16 @@
   display: flex;
   align-items: center;
   gap: 15px;
+  max-width: 100%;
   min-width: 0;
   padding: 4px 8px;
+  border-radius: 35px;
+  background: none;
+
+  &:hover {
+    background-color: $color-bg;
+    color: $color-purple-3;
+  }
 
   h1 {
     margin: 0;
@@ -62,7 +70,14 @@
 }
 
 .mention {
+  padding: 0;
+  background: none;
+  font-size: inherit;
   color: $color-purple-3;
+
+  &:hover {
+    font-weight: 700;
+  }
 }
 
 .write {

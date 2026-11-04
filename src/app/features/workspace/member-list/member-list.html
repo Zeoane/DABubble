@@ -1,9 +1,11 @@
 <ul class="members">
   @let myId = users.uid();
   @for (member of members(); track member.uid) {
-    <li class="member">
-      <app-avatar [src]="member.avatar" [online]="member.uid === myId" />
-      <span class="name">{{ member.name }}@if (member.uid === myId) { (Du)}</span>
+    <li>
+      <button type="button" class="member" (click)="profiles.open(member.uid)">
+        <app-avatar [src]="member.avatar" [online]="member.uid === myId" />
+        <span class="name">{{ member.name }}@if (member.uid === myId) { (Du)}</span>
+      </button>
     </li>
   }
 </ul>
