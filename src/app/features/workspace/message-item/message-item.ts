@@ -4,6 +4,7 @@ import { Message } from '../../../core/models/message';
 import { AppUser } from '../../../core/models/user-profile';
 import { ChannelService } from '../../../core/services/channel.service';
 import { MessageService } from '../../../core/services/message.service';
+import { ProfileViewService } from '../../../core/services/profile-view.service';
 import { RecentEmojisService } from '../../../core/services/recent-emojis.service';
 import { UserService } from '../../../core/services/user.service';
 import { splitMentions } from '../../../core/utils/mentions';
@@ -36,6 +37,7 @@ export class MessageItem {
   private users = inject(UserService);
   private router = inject(Router);
   private channels = inject(ChannelService);
+  private profiles = inject(ProfileViewService);
   recent = inject(RecentEmojisService);
 
   readonly message = input.required<Message>();
@@ -91,6 +93,12 @@ export class MessageItem {
   saveEdit(text: string): void {
     this.editing.set(false);
     this.messages.edit(this.listPath(), this.message().id, text).catch(() => undefined);
+  }
+
+
+  /** Profile card of the author (Figma 65. Profile view other users). */
+  openProfile(): void {
+    this.profiles.open(this.message().authorId);
   }
 
 

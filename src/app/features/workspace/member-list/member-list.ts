@@ -1,10 +1,11 @@
 import { Component, inject, input, output } from '@angular/core';
 import { AppUser } from '../../../core/models/user-profile';
+import { ProfileViewService } from '../../../core/services/profile-view.service';
 import { UserService } from '../../../core/services/user.service';
 import { Avatar } from '../../../shared/components/avatar/avatar';
 
 /**
- * Channel members with "Mitglieder hinzufügen" at the end (Figma 43. Members).
+ * Channel members with "Mitglieder hinzufügen" at the end (Figma 43. Members). A click on a member opens the profile card.
  */
 @Component({
   selector: 'app-member-list',
@@ -14,6 +15,7 @@ import { Avatar } from '../../../shared/components/avatar/avatar';
 })
 export class MemberList {
   users = inject(UserService);
+  profiles = inject(ProfileViewService);
 
   readonly members = input.required<AppUser[]>();
   readonly add = output<void>();
