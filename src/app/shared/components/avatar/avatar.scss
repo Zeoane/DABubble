@@ -17,16 +17,16 @@ img {
   object-fit: cover;
 }
 
-.online {
+.status {
   position: absolute;
   right: 0;
   bottom: 0;
   width: 28%;
   height: 28%;
   border-radius: 50%;
-  background-color: $color-online;
-}
-
-.online.away {
   background-color: $color-text-gray;
+
+  &.online {
+    background-color: $color-online;
+  }
 }

@@ -7,8 +7,8 @@ const FALLBACK = 'img/avatars/avatar-1.svg';
   selector: 'app-avatar',
   template: `
     <img [src]="image()" alt="" referrerpolicy="no-referrer" (error)="useFallback()" />
-    @if (status() !== 'offline') {
-      <span class="online" [class.away]="status() === 'away'"></span>
+    @if (status(); as status) {
+      <span class="status" [class.online]="status === 'online'"></span>
     }
   `,
   styleUrl: './avatar.scss',
@@ -17,7 +17,7 @@ const FALLBACK = 'img/avatars/avatar-1.svg';
 export class Avatar {
   readonly src = input.required<string>();
   readonly size = input(50);
-  readonly status = input<OnlineStatus>('offline');
+  readonly status = input<OnlineStatus | null>(null);
 
   readonly image = linkedSignal(() => this.src());
 
