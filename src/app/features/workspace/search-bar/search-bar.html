@@ -1,0 +1,59 @@
+<div class="wrapper">
+  <label class="search" [class.compact]="compact()">
+    <input
+      type="text"
+      autocomplete="off"
+      [placeholder]="placeholder()"
+      [attr.aria-label]="placeholder()"
+      [value]="query()"
+      (input)="onInput($any($event.target).value)"
+      (focus)="onFocus()"
+      (blur)="open.set(false)"
+    />
+    <span class="icon" aria-hidden="true"></span>
+  </label>
+
+  @if (showList()) {
+    @if (tag() === '@') {
+      <app-mention-list [options]="people()" (picked)="openPerson($event)" />
+    } @else if (tag() === '#') {
+      <app-mention-list [options]="channelHits()" [channels]="true" (picked)="openChannel($event)" />
+    } @else {
+      <div class="results" role="listbox" aria-label="Suchergebnisse" (mousedown)="$event.preventDefault()">
+        @if (channelHits().length) {
+          <p class="section">Channels</p>
+          @for (channel of channelHits(); track channel.id) {
+            <button type="button" class="row" (click)="openChannel(channel)">
+              <span class="icon-tag" aria-hidden="true"></span>
+              <span class="label">{{ channel.label }}</span>
+            </button>
+          }
+        }
+        @if (people().length) {
+          <p class="section">Personen</p>
+          @for (person of people(); track person.id) {
+            <button type="button" class="row" (click)="openPerson(person)">
+              <app-avatar [src]="person.avatar ?? ''" [size]="40" />
+              <span class="label">{{ person.label }}</span>
+            </button>
+          }
+        }
+        @if (messageHits().length) {
+          <p class="section">Nachrichten</p>
+          @for (hit of messageHits(); track hit.chat.path + hit.message.id) {
+            <button type="button" class="row hit" (click)="openMessage(hit)">
+              <span class="context">
+                <span class="chat">{{ hit.chat.label }}</span>
+                <span>{{ authorName(hit) }} · {{ when(hit) }}</span>
+              </span>
+              <span class="text">{{ hit.message.text }}</span>
+            </button>
+          }
+        }
+        @if (!channelHits().length && !people().length && !messageHits().length) {
+          <p class="empty">Keine Ergebnisse für „{{ query().trim() }}“</p>
+        }
+      </div>
+    }
+  }
+</div>
