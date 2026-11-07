@@ -3,10 +3,6 @@ import { Component, ElementRef, output, viewChild } from '@angular/core';
 const HOLD_MS = 2500;
 const EXIT_MS = 500;
 
-/**
- * Splash screen before the login: the logo moves aside, the name slides out
- * of it, then both fly to the logo in the page header.
- */
 @Component({
   selector: 'app-intro',
   templateUrl: './intro.html',
@@ -20,6 +16,7 @@ export class Intro {
   private name = viewChild.required<ElementRef<HTMLElement>>('name');
 
 
+  /** Starts the exit animation after the logo has been shown. */
   constructor() {
     setTimeout(() => this.exit(), HOLD_MS);
   }
@@ -52,6 +49,7 @@ export class Intro {
   }
 
 
+  /** Fixes the element at the given position and size on the screen. */
   private pin(element: HTMLElement, rect: DOMRect): void {
     Object.assign(element.style, {
       left: `${rect.left}px`,

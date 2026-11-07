@@ -13,11 +13,6 @@ interface Reaction {
   verb: string;
 }
 
-/**
- * Reactions below a message: emoji with count, who reacted on hover,
- * and a button to add one (Figma 54.–57., 59. add reaction).
- * Desktop shows up to 20, mobile 7 plus "+ x weitere".
- */
 @Component({
   selector: 'app-message-reactions',
   imports: [EmojiPicker],
@@ -42,12 +37,14 @@ export class MessageReactions {
   );
 
 
+  /** Closes the picker and adds the chosen reaction. */
   pick(emoji: string): void {
     this.picking.set(false);
     this.toggled.emit(emoji);
   }
 
 
+  /** Reaction with count and the names of everyone who reacted. */
   private describe(emoji: string, ids: string[]): Reaction {
     const me = this.users.uid();
     const others = ids.filter((id) => id !== me).map((id) => this.nameOf(id));
@@ -58,6 +55,7 @@ export class MessageReactions {
   }
 
 
+  /** Name of a member, or "Unbekannt". */
   private nameOf(uid: string): string {
     return this.users.users().find((user) => user.uid === uid)?.name ?? 'Unbekannt';
   }

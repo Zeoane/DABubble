@@ -8,10 +8,6 @@ import { PresenceService } from '../../core/services/presence.service';
 import { ThreadTarget, ThreadView } from './thread-view/thread-view';
 import { WorkspaceMenu } from './workspace-menu/workspace-menu';
 
-/**
- * Workspace layout: header, menu with channels and direct messages, chat area and
- * the thread of a message ("?thread=id"). On mobile only one of them is shown.
- */
 @Component({
   selector: 'app-workspace',
   imports: [WorkspaceHeader, WorkspaceMenu, RouterOutlet, ThreadView, MemberProfile],
@@ -21,6 +17,7 @@ import { WorkspaceMenu } from './workspace-menu/workspace-menu';
 export class Workspace {
   private router = inject(Router);
 
+  /** Starts reporting the own online status. */
   constructor() {
     inject(PresenceService).start();
   }
@@ -36,11 +33,11 @@ export class Workspace {
     { initialValue: this.router.url },
   );
 
-  /** True while a channel or chat is open (decides the mobile view). */
   chatOpen = computed(() => this.url().split('?')[0] !== '/workspace');
   thread = computed(() => this.threadOf(this.url()));
 
 
+  /** Opens or closes the workspace menu. */
   toggleMenu(): void {
     this.menuOpen.update((open) => !open);
   }

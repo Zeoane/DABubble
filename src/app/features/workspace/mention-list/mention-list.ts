@@ -5,18 +5,11 @@ import { Avatar } from '../../../shared/components/avatar/avatar';
 
 export interface MentionOption {
   id: string;
-  /** Inserted after "@" / "#". */
   value: string;
-  /** Shown in the list, e.g. "Frederik Beck (Du)". */
   label: string;
-  /** Avatar of a person; channels have none. */
   avatar?: string;
 }
 
-/**
- * Suggestions above the message box while typing "@" or "#"
- * (Figma "Tagging person", User searching menu).
- */
 @Component({
   selector: 'app-mention-list',
   imports: [Avatar],

@@ -2,9 +2,6 @@ import { Component, computed, input, model, signal } from '@angular/core';
 import { AppUser } from '../../../core/models/user-profile';
 import { Avatar } from '../../../shared/components/avatar/avatar';
 
-/**
- * Name field with chips and a suggestion list (Figma 38 / 41: "Name eingeben").
- */
 @Component({
   selector: 'app-people-picker',
   imports: [Avatar],
@@ -12,7 +9,6 @@ import { Avatar } from '../../../shared/components/avatar/avatar';
   styleUrl: './people-picker.scss',
 })
 export class PeoplePicker {
-  /** Everyone who may be picked. */
   readonly candidates = input.required<AppUser[]>();
   readonly picked = model<AppUser[]>([]);
 
@@ -26,12 +22,14 @@ export class PeoplePicker {
   });
 
 
+  /** Adds a person to the selection. */
   pick(user: AppUser): void {
     this.picked.update((list) => [...list, user]);
     this.query.set('');
   }
 
 
+  /** Removes a person from the selection. */
   unpick(user: AppUser): void {
     this.picked.update((list) => list.filter((u) => u.uid !== user.uid));
   }

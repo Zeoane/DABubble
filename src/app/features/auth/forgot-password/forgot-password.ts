@@ -29,6 +29,7 @@ export class ForgotPassword {
   sendError = signal<string | null>(null);
 
 
+  /** True if the e-mail field shows an error. */
   showError(): boolean {
     const control = this.form.controls.email;
     return control.invalid && control.touched;
@@ -55,6 +56,7 @@ export class ForgotPassword {
   }
 
 
+  /** Shows the confirmation and returns to the login afterwards. */
   private showSent(): void {
     this.sent.set(true);
     setTimeout(() => this.router.navigate(['/']), TOAST_DURATION);
@@ -62,6 +64,7 @@ export class ForgotPassword {
 }
 
 
+/** Error text for a failed reset mail. */
 function sendErrorMessage(code: string): string {
   return code === 'auth/too-many-requests'
     ? '*Zu viele Versuche. Bitte versuchen Sie es später erneut.'

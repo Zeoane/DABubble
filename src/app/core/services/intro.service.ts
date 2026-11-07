@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 
-/**
- * Remembers whether the intro already ran, so it only plays once per visit.
- */
 @Injectable({ providedIn: 'root' })
 export class IntroService {
   private played = false;

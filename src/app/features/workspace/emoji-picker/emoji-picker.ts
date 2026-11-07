@@ -1,9 +1,6 @@
 import { Component, output } from '@angular/core';
 import { EMOJIS } from '../../../core/services/recent-emojis.service';
 
-/**
- * Small grid of emojis; closes on Escape or a click outside.
- */
 @Component({
   selector: 'app-emoji-picker',
   template: `

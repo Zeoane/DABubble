@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
 
-/**
- * Chat area before a channel or direct message is chosen.
- */
 @Component({
   selector: 'app-workspace-home',
   template: `<p>Wähle links einen Channel oder eine Direktnachricht aus.</p>`,

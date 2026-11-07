@@ -5,7 +5,6 @@
   display: block;
 }
 
-// 61. Message box: padding 20, gap 40, radius 20, border #adb0d9; hover #797ef3, typing #444df2.
 .box {
   position: relative;
   display: flex;
@@ -61,7 +60,6 @@ textarea {
   }
 }
 
-// Icons: 40px, padding 8, radius 20; hover background #eceefe and purple icon.
 .tool {
   display: flex;
   align-items: center;
@@ -87,7 +85,6 @@ textarea {
   @include icon('alternate-email');
 }
 
-// Suggestions open upwards from the text field.
 app-mention-list {
   bottom: calc(100% - 15px);
   left: 20px;

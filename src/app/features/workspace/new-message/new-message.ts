@@ -11,15 +11,9 @@ const LIST_KEYS = ['ArrowDown', 'ArrowUp', 'Enter', 'Tab', 'Escape'];
 interface Recipient {
   kind: 'channel' | 'person';
   id: string;
-  /** Shown in the address field, e.g. "#Entwicklerteam" or "@Sofia Müller". */
   label: string;
 }
 
-/**
- * "Neue Nachricht" (Figma 11 – Desktop new message, 09 – New message mobile):
- * "#" in the address field lists the channels, "@" the members; a name or
- * e-mail address also finds members. After sending, the chat opens.
- */
 @Component({
   selector: 'app-new-message',
   imports: [MentionList, MessageBox],
@@ -39,7 +33,6 @@ export class NewMessage {
   sending = signal(false);
   error = signal('');
 
-  /** "#…" searches channels; everything else searches members by name or e-mail. */
   searchesChannels = computed(() => this.query().trimStart().startsWith('#'));
 
   options = computed<MentionOption[]>(() => {
@@ -52,6 +45,7 @@ export class NewMessage {
   showList = computed(() => this.listOpen() && !this.recipient() && this.query().trim().length > 0);
 
 
+  /** Takes over the typed text and forgets an earlier recipient. */
   onInput(value: string): void {
     this.query.set(value);
     this.recipient.set(null);
@@ -61,6 +55,7 @@ export class NewMessage {
   }
 
 
+  /** Arrow keys, Enter, Tab and Escape inside the recipient list. */
   onKeydown(event: KeyboardEvent): void {
     if (!this.showList() || !LIST_KEYS.includes(event.key)) return;
     event.preventDefault();
@@ -72,6 +67,7 @@ export class NewMessage {
   }
 
 
+  /** Sets the chosen channel or person as recipient. */
   pick(option: MentionOption): void {
     const channel = this.searchesChannels();
     const label = (channel ? '#' : '@') + option.value;

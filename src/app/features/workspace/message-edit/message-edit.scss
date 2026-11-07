@@ -1,7 +1,6 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
-// 61. Message box main (edit): padding 20, gap 16, radius 20, border #adb0d9.
 :host {
   display: flex;
   flex-direction: column;
@@ -33,7 +32,6 @@ textarea {
   field-sizing: content;
 }
 
-// 60B. Icons text box aux for edit message: emoji left, buttons right with gap 32.
 .tools {
   display: flex;
   flex-wrap: wrap;

@@ -4,10 +4,6 @@ import { Logo } from '../../../shared/components/logo/logo';
 import { ProfileMenu } from '../profile-menu/profile-menu';
 import { SearchBar } from '../search-bar/search-bar';
 
-/**
- * Top bar: logo, search and profile menu (Figma 14., Search bar, 65.).
- * On mobile with an open chat it shows "back to the menu" with the Devspace logo.
- */
 @Component({
   selector: 'app-workspace-header',
   imports: [Logo, SearchBar, ProfileMenu, RouterLink],

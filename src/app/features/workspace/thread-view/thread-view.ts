@@ -11,15 +11,10 @@ import { MessageItem } from '../message-item/message-item';
 
 export interface ThreadTarget {
   kind: 'channel' | 'dm';
-  /** Channel id, or the uid of the other member in a direct chat. */
   chatId: string;
   messageId: string;
 }
 
-/**
- * Thread next to the chat (Figma 06 "Secondary chat", mobile 08): the message,
- * "x Antworten", the answers and a box to answer.
- */
 @Component({
   selector: 'app-thread-view',
   imports: [MessageItem, MessageBox],
@@ -49,7 +44,6 @@ export class ThreadView {
     initialValue: [] as Message[],
   });
 
-  /** "# Entwicklerteam" in a channel, the other member's name in a direct chat. */
   subtitle = computed(() => {
     const { kind, chatId } = this.target();
     if (kind === 'channel') return this.channels.byId(chatId)?.name ?? '';
@@ -60,6 +54,7 @@ export class ThreadView {
   sending = signal(false);
   sendFailed = signal(false);
 
+  /** Scrolls to the newest answer whenever the answers change. */
   constructor() {
     effect(() => {
       this.replies();
@@ -73,11 +68,13 @@ export class ThreadView {
   }
 
 
+  /** Profile of the message author. */
   author(message: Message) {
     return this.users.users().find((user) => user.uid === message.authorId);
   }
 
 
+  /** Sends an answer; on failure the error text stays until the next try. */
   async send(text: string): Promise<void> {
     this.sending.set(true);
     this.sendFailed.set(false);
@@ -90,11 +87,13 @@ export class ThreadView {
   }
 
 
+  /** Closes the thread by removing "?thread" from the URL. */
   close(): void {
     this.router.navigateByUrl(this.router.url.split('?')[0]);
   }
 
 
+  /** Firestore path of the chat the thread belongs to. */
   private pathOf({ kind, chatId }: ThreadTarget): string {
     if (kind === 'channel') return 'channels/' + chatId;
     return this.messages.directPath(this.users.uid() ?? '', chatId);

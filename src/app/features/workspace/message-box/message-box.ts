@@ -7,11 +7,6 @@ import { MentionList, MentionOption } from '../mention-list/mention-list';
 
 const LIST_KEYS = ['ArrowDown', 'ArrowUp', 'Enter', 'Tab', 'Escape'];
 
-/**
- * Text field with emoji, "@" and send button (Figma 61. Message box main).
- * Enter sends, Shift+Enter starts a new line. Typing "@" suggests people,
- * "#" suggests channels (Figma "Tagging person").
- */
 @Component({
   selector: 'app-message-box',
   imports: [EmojiPicker, MentionList],
@@ -23,7 +18,6 @@ export class MessageBox {
   private channels = inject(ChannelService);
 
   readonly placeholder = input('Nachricht schreiben');
-  /** Changes when another chat opens; the field then gets the focus again. */
   readonly focusKey = input<string>('');
   readonly busy = input(false);
   readonly sent = output<string>();
@@ -42,6 +36,7 @@ export class MessageBox {
     return all.filter((option) => option.value.toLowerCase().includes(query));
   });
 
+  /** Empties and focuses the field whenever another chat opens. */
   constructor() {
     effect(() => {
       this.focusKey();
@@ -52,11 +47,13 @@ export class MessageBox {
   }
 
 
+  /** True if there is text and nothing is being sent. */
   canSend(): boolean {
     return !this.busy() && this.text().trim().length > 0;
   }
 
 
+  /** Takes over the text and looks for a typed "@" or "#". */
   onInput(): void {
     const field = this.field().nativeElement;
     this.text.set(field.value);
@@ -65,6 +62,7 @@ export class MessageBox {
   }
 
 
+  /** Enter sends, Shift+Enter starts a new line; arrow keys move in the suggestions. */
   onKeydown(event: KeyboardEvent): void {
     if (this.trigger() && LIST_KEYS.includes(event.key)) return this.onListKey(event);
     if (event.key !== 'Enter' || event.shiftKey) return;
@@ -95,6 +93,7 @@ export class MessageBox {
   }
 
 
+  /** Inserts an "@" at the cursor, with a space before it if needed. */
   private startMention(): void {
     const field = this.field().nativeElement;
     const start = field.selectionStart ?? this.text().length;
@@ -113,6 +112,7 @@ export class MessageBox {
   }
 
 
+  /** Sends the text and empties the field. */
   send(): void {
     if (!this.canSend()) return;
     this.sent.emit(this.text().trim());
@@ -122,6 +122,7 @@ export class MessageBox {
   }
 
 
+  /** Arrow keys, Enter, Tab and Escape inside the suggestion list. */
   private onListKey(event: KeyboardEvent): void {
     event.preventDefault();
     const count = this.options().length;
@@ -158,6 +159,7 @@ export class MessageBox {
   }
 
 
+  /** The own channels as suggestions for "#". */
   private channelOptions(): MentionOption[] {
     return this.channels.mine().map((channel) => ({ id: channel.id, value: channel.name, label: channel.name }));
   }

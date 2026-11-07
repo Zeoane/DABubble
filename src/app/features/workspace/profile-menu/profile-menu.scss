@@ -37,7 +37,6 @@
   z-index: 10;
 }
 
-// Desktop popup: 15px below the trigger, radius 30 0 30 30, padding 30.
 .popup {
   position: absolute;
   top: calc(100% + 15px);
@@ -91,7 +90,6 @@
   }
 }
 
-// Mobile: only the avatar; the menu opens as a sheet from the bottom (64b).
 @media (max-width: $breakpoint-tablet) {
   .name,
   .arrow {

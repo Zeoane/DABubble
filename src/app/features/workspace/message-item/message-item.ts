@@ -13,12 +13,6 @@ import { EmojiPicker } from '../emoji-picker/emoji-picker';
 import { MessageEdit } from '../message-edit/message-edit';
 import { MessageReactions } from '../message-reactions/message-reactions';
 
-/**
- * One message: others on the left in a light bubble, own messages on the right in purple
- * (Figma 48. Messages main chat). On hover a reaction bar with the two last used emojis
- * and, in the main chat, "Antworten" to open the thread (Figma 52B). On own messages
- * the three dots open "Nachricht bearbeiten" (Figma 52. Reaction bar, 76. Edit message button).
- */
 @Component({
   selector: 'app-message-item',
   imports: [Avatar, EmojiPicker, MessageEdit, MessageReactions],
@@ -41,11 +35,9 @@ export class MessageItem {
   recent = inject(RecentEmojisService);
 
   readonly message = input.required<Message>();
-  /** Collection the message is in, e.g. "channels/abc/messages". */
   readonly listPath = input.required<string>();
   readonly author = input<AppUser>();
   readonly own = input(false);
-  /** False inside the thread: no "Antworten", narrower layout. */
   readonly threadable = input(true);
 
   picking = signal(false);
@@ -55,17 +47,14 @@ export class MessageItem {
   name = computed(() => this.author()?.name ?? 'Unbekannt');
   avatar = computed(() => this.author()?.avatar ?? 'img/avatars/avatar-1.svg');
 
-  /** Text with "@Name" and "#channel" marked, for highlighting. */
   parts = computed(() => {
     const people = this.users.users().map((user) => '@' + user.name);
     const channels = this.channels.all().map((channel) => '#' + channel.name);
     return splitMentions(this.message().text, [...people, ...channels]);
   });
 
-  /** "14:25 Uhr" */
   time = computed(() => clock(this.message().createdAt?.toDate()) + ' Uhr');
 
-  /** "2 Antworten" / "1 Antwort" */
   replies = computed(() => {
     const count = this.message().replyCount ?? 0;
     return count === 1 ? '1 Antwort' : count + ' Antworten';
@@ -83,6 +72,7 @@ export class MessageItem {
   }
 
 
+  /** Closes the menu and shows the edit box. */
   startEdit(): void {
     this.menuOpen.set(false);
     this.editing.set(true);

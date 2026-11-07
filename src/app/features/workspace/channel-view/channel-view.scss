@@ -9,7 +9,6 @@
   min-height: 0;
 }
 
-// Head + members: 96px, padding 25/45, light shadow.
 .head {
   display: flex;
   align-items: center;
@@ -20,7 +19,6 @@
   z-index: 1;
 }
 
-// 39. Channel title button: padding 6/10, radius 100; hover background and purple.
 .title {
   display: flex;
   align-items: center;
@@ -68,7 +66,6 @@
   }
 }
 
-// 46. Members Miniatures: 40px faces overlapping by 10px, white ring, count 20px.
 .members {
   display: flex;
   align-items: center;
@@ -87,7 +84,6 @@
   }
 }
 
-// 44. Add members button: 40px round on #eceefe.
 .add-member {
   display: flex;
   align-items: center;
@@ -129,7 +125,6 @@
   font-weight: 600;
 }
 
-// Start of the channel (projected into the message list).
 .intro {
   display: flex;
   flex-direction: column;
@@ -166,7 +161,6 @@
   color: $color-text-gray;
 }
 
-// Message box: 45px from the edges (mobile 16px).
 .write {
   padding: 0 45px 45px;
 
@@ -183,7 +177,6 @@
   text-align: center;
 }
 
-// Mobile: head 60px, padding 10/16, title 20px.
 @media (max-width: $breakpoint-tablet) {
   .head {
     padding: 10px 16px;

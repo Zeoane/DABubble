@@ -6,9 +6,6 @@ export interface RegistrationData {
   password: string;
 }
 
-/**
- * Keeps the sign-up data in memory between the form and the avatar step.
- */
 @Injectable({ providedIn: 'root' })
 export class RegistrationService {
   readonly data = signal<RegistrationData | null>(null);
@@ -18,16 +15,19 @@ export class RegistrationService {
   readonly avatars = [1, 2, 3, 4, 5, 6].map((n) => `img/avatars/avatar-${n}.svg`);
 
 
+  /** Keeps the form data of step 1 until the avatar is chosen. */
   saveData(data: RegistrationData): void {
     this.data.set(data);
   }
 
 
+  /** Remembers the chosen avatar. */
   selectAvatar(path: string): void {
     this.avatar.set(path);
   }
 
 
+  /** Forgets all data of the sign-up. */
   reset(): void {
     this.data.set(null);
     this.avatar.set(null);

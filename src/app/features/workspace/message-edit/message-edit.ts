@@ -1,11 +1,6 @@
 import { Component, ElementRef, afterNextRender, input, output, signal, viewChild } from '@angular/core';
 import { EmojiPicker } from '../emoji-picker/emoji-picker';
 
-/**
- * Editing an own message in place (Figma 13. Desktop edit message view,
- * 48. Messages main chat "Edit message"): text field, emoji, "Abbrechen" and "Speichern".
- * Enter saves, Shift+Enter starts a new line, Escape cancels.
- */
 @Component({
   selector: 'app-message-edit',
   imports: [EmojiPicker],
@@ -13,7 +8,6 @@ import { EmojiPicker } from '../emoji-picker/emoji-picker';
   styleUrl: './message-edit.scss',
 })
 export class MessageEdit {
-  /** Text the message has now. */
   readonly initial = input.required<string>();
   readonly saved = output<string>();
   readonly cancelled = output<void>();
@@ -22,6 +16,7 @@ export class MessageEdit {
   picking = signal(false);
   private field = viewChild.required<ElementRef<HTMLTextAreaElement>>('field');
 
+  /** Fills in the current text and puts the cursor at its end. */
   constructor() {
     afterNextRender(() => {
       this.text.set(this.initial());
@@ -33,11 +28,13 @@ export class MessageEdit {
   }
 
 
+  /** True if the text is not empty. */
   canSave(): boolean {
     return this.text().trim().length > 0;
   }
 
 
+  /** Escape cancels, Enter saves, Shift+Enter starts a new line. */
   onKeydown(event: KeyboardEvent): void {
     if (event.key === 'Escape' && !this.picking()) {
       event.preventDefault();

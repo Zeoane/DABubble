@@ -3,9 +3,6 @@ import { Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Logo } from '../../../shared/components/logo/logo';
 
-/**
- * Frame for Impressum and Datenschutz: logo, back button, title, content.
- */
 @Component({
   selector: 'app-legal-page',
   imports: [Logo],

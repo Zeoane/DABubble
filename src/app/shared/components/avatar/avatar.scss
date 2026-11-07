@@ -1,6 +1,5 @@
 @use 'variables' as *;
 
-// Figma: Avatar 50px with "Online" 14px at 36/36; 70px with 17px and a 2px ring.
 :host {
   position: relative;
   display: inline-block;
@@ -28,7 +27,6 @@ img {
   background-color: $color-online;
 }
 
-// Away (Figma "Abwesend"): gray dot.
 .online.away {
   background-color: $color-text-gray;
 }
