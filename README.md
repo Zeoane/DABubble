@@ -1,59 +1,54 @@
-# Dabubble
+# DABubble
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.29.
+DABubble ist ein Business-Chat im Stil von Slack, entstanden als Abschlussprojekt an der Developer Akademie.
+Die Umsetzung folgt der Figma-Vorgabe und der Projekt-Checkliste der Akademie.
 
-## Development server
+## Funktionen
 
-To start a local development server, run:
+- **Konto:** Registrierung mit Avatar-Auswahl, Login per E-Mail, Google oder als Gast, Passwort zurücksetzen
+- **Profil:** eigenen Namen und Avatar bearbeiten, Profilkarten anderer Mitglieder ansehen
+- **Online-Status:** aktiv, abwesend oder offline – in Echtzeit an allen Avataren
+- **Channels:** erstellen, Name und Beschreibung bearbeiten (mit Duplikat-Prüfung), Mitglieder hinzufügen, Channel verlassen
+- **Nachrichten:** in Channels und Direktnachrichten schreiben und bearbeiten, Emojis, Reaktionen, Erwähnungen mit `@` und `#`
+- **Threads:** auf einzelne Nachrichten in einer eigenen Spalte antworten
+- **Neue Nachricht:** Empfänger per `#channel`, `@person` oder E-Mail-Adresse wählen
+- **Suche:** Nachrichten, Channels und Personen im ganzen Workspace finden
+- **Responsive:** Desktop, Tablet und Mobil (ab 320 px) mit eigener Menü- und Chat-Ansicht
+
+## Technik
+
+- [Angular 21](https://angular.dev) (Standalone Components, Signals, SCSS, Strict Mode)
+- [Firebase](https://firebase.google.com) mit AngularFire: Authentication und Cloud Firestore
+- Sicherheitsregeln für Firestore in [`firestore.rules`](firestore.rules)
+
+## Projekt starten
+
+Voraussetzungen: Node.js 20 oder neuer und die Angular CLI.
 
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Danach läuft die App unter `http://localhost:4200/`.
+Die Firebase-Konfiguration steht in `src/environments/environment.ts`.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Produktions-Build:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Ordnerstruktur
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```
+src/app/
+├── core/       Modelle, Services, Guards, Validatoren und Hilfsfunktionen
+├── features/   Seiten und Bereiche: auth (Login, Registrierung …), legal, workspace
+└── shared/     wiederverwendbare Komponenten, z. B. Avatar und Toast
+public/img/     Logo, Icons und Avatare
 ```
 
-## Running end-to-end tests
+## Autorin
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Gabriele Lerch – [GitHub](https://github.com/Zeoane)
