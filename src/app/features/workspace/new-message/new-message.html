@@ -1,0 +1,29 @@
+<header class="head">
+  <h1>Neue Nachricht</h1>
+  <div class="address">
+    <input
+      type="text"
+      placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+      aria-label="Empfänger"
+      autocomplete="off"
+      [class.chosen]="recipient()"
+      [value]="query()"
+      (input)="onInput($any($event.target).value)"
+      (focus)="listOpen.set(true)"
+      (blur)="listOpen.set(false)"
+      (keydown)="onKeydown($event)"
+    />
+    @if (showList()) {
+      <app-mention-list [options]="options()" [active]="active()" [channels]="searchesChannels()" (picked)="pick($event)" />
+    }
+  </div>
+</header>
+
+<div class="space"></div>
+
+<div class="write">
+  <app-message-box placeholder="Starte eine neue Nachricht" [busy]="sending()" (sent)="send($event)" />
+  @if (error()) {
+    <p class="error-message">{{ error() }}</p>
+  }
+</div>

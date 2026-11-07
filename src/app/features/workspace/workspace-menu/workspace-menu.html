@@ -5,9 +5,9 @@
 <header class="devspace">
   <img class="devspace-logo" src="img/workspace-logo.svg" alt="" />
   <h2>Devspace</h2>
-  <button type="button" class="icon-button" aria-label="Neue Nachricht">
+  <a class="icon-button" routerLink="/workspace/neue-nachricht" aria-label="Neue Nachricht">
     <span class="icon icon-edit" aria-hidden="true"></span>
-  </button>
+  </a>
 </header>
 
 <section class="group">
@@ -76,9 +76,9 @@
   }
 </section>
 
-<button type="button" class="fab" aria-label="Neue Nachricht">
+<a class="fab" routerLink="/workspace/neue-nachricht" aria-label="Neue Nachricht">
   <span class="icon icon-edit" aria-hidden="true"></span>
-</button>
+</a>
 
 @if (creating()) {
   <app-create-channel (closed)="creating.set(false)" />
