@@ -72,7 +72,12 @@ export class AuthService {
   }
 
 
+  /** Marks the member as offline first; only signed in may they change their profile. */
   async logOut(): Promise<void> {
+    const uid = this.auth.currentUser?.uid;
+    if (uid) {
+      await this.inContext(() => updateDoc(doc(this.firestore, 'users', uid), { presence: 'offline' })).catch(() => undefined);
+    }
     await this.inContext(() => signOut(this.auth));
   }
 

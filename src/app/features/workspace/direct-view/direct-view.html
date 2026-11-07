@@ -3,7 +3,7 @@
 @if (person && chatPath) {
   <header class="head">
     <button type="button" class="person" (click)="profiles.open(person.uid)">
-      <app-avatar [src]="person.avatar" [online]="isMe()" />
+      <app-avatar [src]="person.avatar" [status]="presence.statusOf(person)" />
       <h1>{{ person.name }}@if (isMe()) { (Du)}</h1>
     </button>
   </header>

@@ -10,7 +10,10 @@
 
     <app-avatar class="picture" [src]="member.avatar" [size]="200" />
 
-    <p class="name">{{ member.name }}@if (member.uid === users.uid()) { (Du)}</p>
+    <div class="identity">
+      <p class="name">{{ member.name }}@if (member.uid === users.uid()) { (Du)}</p>
+      <p class="status" [class]="presence.statusOf(member)"><span class="dot"></span>{{ presence.labelOf(member) }}</p>
+    </div>
 
     @if (member.email) {
       <div class="email">
