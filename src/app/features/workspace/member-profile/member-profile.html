@@ -1,0 +1,27 @@
+@if (profiles.shown(); as member) {
+  <div class="backdrop" (click)="profiles.close()"></div>
+  <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="member-profile-title">
+    <header>
+      <h2 id="member-profile-title">Profil</h2>
+      <button type="button" class="close" aria-label="Schließen" (click)="profiles.close()">
+        <span class="icon icon-close" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <app-avatar class="picture" [src]="member.avatar" [size]="200" />
+
+    <p class="name">{{ member.name }}@if (member.uid === users.uid()) { (Du)}</p>
+
+    @if (member.email) {
+      <div class="email">
+        <p class="label"><span class="icon icon-mail" aria-hidden="true"></span>E-Mail-Adresse</p>
+        <a [href]="'mailto:' + member.email">{{ member.email }}</a>
+      </div>
+    }
+
+    <button type="button" class="btn-primary message" (click)="writeTo(member.uid)">
+      <span class="icon icon-message" aria-hidden="true"></span>
+      Nachricht
+    </button>
+  </section>
+}

@@ -30,6 +30,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/workspace/channel-view/channel-view').then((m) => m.ChannelView),
       },
       {
+        path: 'neue-nachricht',
+        loadComponent: () => import('./features/workspace/new-message/new-message').then((m) => m.NewMessage),
+      },
+      {
         path: 'dm/:uid',
         loadComponent: () => import('./features/workspace/direct-view/direct-view').then((m) => m.DirectView),
       },

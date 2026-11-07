@@ -2,10 +2,10 @@
 @let chatPath = path();
 @if (person && chatPath) {
   <header class="head">
-    <div class="person">
+    <button type="button" class="person" (click)="profiles.open(person.uid)">
       <app-avatar [src]="person.avatar" [online]="isMe()" />
       <h1>{{ person.name }}@if (isMe()) { (Du)}</h1>
-    </div>
+    </button>
   </header>
 
   <app-message-list [path]="chatPath">
@@ -21,7 +21,7 @@
         </p>
       } @else {
         <p class="intro-text">
-          Diese Unterhaltung findet nur zwischen <span class="mention">&#64;{{ person.name }}</span> und dir statt.
+          Diese Unterhaltung findet nur zwischen <button type="button" class="mention" (click)="profiles.open(person.uid)">&#64;{{ person.name }}</button> und dir statt.
         </p>
       }
     </div>
