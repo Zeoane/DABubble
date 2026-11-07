@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { PresenceService } from '../../../core/services/presence.service';
 import { UserService } from '../../../core/services/user.service';
 import { Avatar } from '../../../shared/components/avatar/avatar';
 import { ProfileDialog } from '../profile-dialog/profile-dialog';
@@ -20,6 +21,7 @@ export class ProfileMenu {
   private auth = inject(AuthService);
   private router = inject(Router);
   users = inject(UserService);
+  presence = inject(PresenceService);
 
   open = signal(false);
   profileOpen = signal(false);

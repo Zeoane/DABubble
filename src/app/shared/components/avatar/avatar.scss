@@ -27,3 +27,8 @@ img {
   border-radius: 50%;
   background-color: $color-online;
 }
+
+// Away (Figma "Abwesend"): gray dot.
+.online.away {
+  background-color: $color-text-gray;
+}

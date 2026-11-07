@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ChannelService } from '../../../core/services/channel.service';
+import { PresenceService } from '../../../core/services/presence.service';
 import { UserService } from '../../../core/services/user.service';
 import { Avatar } from '../../../shared/components/avatar/avatar';
 import { CreateChannel } from '../create-channel/create-channel';
@@ -18,6 +19,7 @@ import { SearchBar } from '../search-bar/search-bar';
 })
 export class WorkspaceMenu {
   users = inject(UserService);
+  presence = inject(PresenceService);
   channels = inject(ChannelService);
 
   creating = signal(false);
