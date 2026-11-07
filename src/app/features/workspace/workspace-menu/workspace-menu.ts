@@ -7,10 +7,6 @@ import { Avatar } from '../../../shared/components/avatar/avatar';
 import { CreateChannel } from '../create-channel/create-channel';
 import { SearchBar } from '../search-bar/search-bar';
 
-/**
- * Left menu with Devspace, channels and direct messages
- * (Figma 32. Final menu UX).
- */
 @Component({
   selector: 'app-workspace-menu',
   imports: [Avatar, SearchBar, CreateChannel, RouterLink, RouterLinkActive],
@@ -28,11 +24,13 @@ export class WorkspaceMenu {
   contactsOpen = signal(true);
 
 
+  /** Opens or closes the channel list. */
   toggleChannels(): void {
     this.channelsOpen.update((open) => !open);
   }
 
 
+  /** Opens or closes the list of direct messages. */
   toggleContacts(): void {
     this.contactsOpen.update((open) => !open);
   }

@@ -7,10 +7,6 @@ import { Avatar } from '../../../shared/components/avatar/avatar';
 import { MessageBox } from '../message-box/message-box';
 import { MessageList } from '../message-list/message-list';
 
-/**
- * Direct messages with one member, or a private space with yourself
- * (Figma 12 – Direct message).
- */
 @Component({
   selector: 'app-direct-view',
   imports: [Avatar, MessageList, MessageBox],
@@ -23,7 +19,6 @@ export class DirectView {
   profiles = inject(ProfileViewService);
   presence = inject(PresenceService);
 
-  /** Route parameter ":uid" – the other member. */
   readonly uid = input.required<string>();
 
   contact = computed(() => this.users.users().find((user) => user.uid === this.uid()));
@@ -38,6 +33,7 @@ export class DirectView {
   sending = signal(false);
   sendFailed = signal(false);
 
+  /** Hides an old send error when another chat opens. */
   constructor() {
     effect(() => {
       this.uid();
@@ -46,6 +42,7 @@ export class DirectView {
   }
 
 
+  /** Sends a message; on failure the error text stays until the next try. */
   async send(path: string, text: string): Promise<void> {
     this.sending.set(true);
     this.sendFailed.set(false);

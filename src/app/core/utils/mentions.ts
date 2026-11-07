@@ -1,8 +1,6 @@
-/** "@" or "#" right before the cursor, with what was typed after it. */
 export interface MentionTrigger {
   char: '@' | '#';
   query: string;
-  /** Index of "@" / "#" in the text. */
   start: number;
 }
 
@@ -38,6 +36,7 @@ export function splitMentions(text: string, tokens: string[]): TextPart[] {
 }
 
 
+/** Escapes characters that have a meaning in regular expressions. */
 function escape(token: string): string {
   return token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

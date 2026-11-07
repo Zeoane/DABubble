@@ -15,7 +15,6 @@ li {
   position: relative;
 }
 
-// Reaction indicator: padding 5/10, gap 10, radius 20, border #adb0d9; hover #797ef3.
 .pill {
   display: flex;
   align-items: center;
@@ -45,7 +44,6 @@ li {
   font-size: $font-size-16;
 }
 
-// Bubble: #444df2, radius 30 30 30 0, padding 15/10, emoji 30, name 18 bold, text 16.
 .bubble {
   position: absolute;
   bottom: calc(100% + 4px);
@@ -78,7 +76,6 @@ li:hover .bubble {
   display: flex;
 }
 
-// 59. add reaction: 34px round, hover #eceefe.
 .add {
   display: flex;
   align-items: center;
@@ -135,7 +132,6 @@ app-emoji-picker {
   }
 }
 
-// Mobile: 7 reactions, then "+ x weitere".
 @media (max-width: $breakpoint-tablet) {
   .pills:not(.expanded) li:nth-child(n + 8):not(.more):not(.add-wrap) {
     display: none;

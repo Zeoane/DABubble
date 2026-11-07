@@ -5,23 +5,15 @@ import { UserService } from './user.service';
 
 export type OnlineStatus = 'online' | 'away' | 'offline';
 
-/** How often the own status is renewed while the app is open. */
 const HEARTBEAT_MS = 60_000;
-/** Without a sign of life for this long, a member counts as offline (closed tab, lost network). */
 const OFFLINE_AFTER_MS = 150_000;
 
-/**
- * Online status (Benutzeraccount, User Story 6): while the app is open, the own profile
- * gets "online" (tab in front) or "away" (tab in the background) and a time stamp every
- * minute. Others count as offline when the time stamp is too old or after logging out.
- */
 @Injectable({ providedIn: 'root' })
 export class PresenceService {
   private users = inject(UserService);
   private firestore = inject(Firestore);
   private injector = inject(EnvironmentInjector);
 
-  /** Current time, renewed every 30 s, so old time stamps turn into "offline" on their own. */
   private now = signal(Date.now());
   private started = false;
 
@@ -37,6 +29,7 @@ export class PresenceService {
   }
 
 
+  /** Current status of a member: online, away or offline. */
   statusOf(user: AppUser | null | undefined): OnlineStatus {
     if (!user || user.presence === 'offline' || !user.lastActive) return 'offline';
     if (this.now() - user.lastActive.toMillis() > OFFLINE_AFTER_MS) return 'offline';
@@ -50,6 +43,7 @@ export class PresenceService {
   }
 
 
+  /** Saves the own status and time stamp in the profile. */
   private report(): void {
     const uid = this.users.uid();
     if (!uid) return;

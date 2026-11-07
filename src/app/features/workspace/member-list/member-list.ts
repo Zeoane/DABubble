@@ -5,9 +5,6 @@ import { PresenceService } from '../../../core/services/presence.service';
 import { UserService } from '../../../core/services/user.service';
 import { Avatar } from '../../../shared/components/avatar/avatar';
 
-/**
- * Channel members with "Mitglieder hinzufügen" at the end (Figma 43. Members). A click on a member opens the profile card.
- */
 @Component({
   selector: 'app-member-list',
   imports: [Avatar],

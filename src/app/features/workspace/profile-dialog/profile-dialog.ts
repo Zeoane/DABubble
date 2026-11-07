@@ -6,10 +6,6 @@ import { RegistrationService } from '../../../core/services/registration.service
 import { UserService } from '../../../core/services/user.service';
 import { NAME_PATTERN } from '../../../core/validators/patterns';
 
-/**
- * Own profile: view (Figma "Profile view main") and edit name and avatar
- * ("Dein Profil bearbeiten").
- */
 @Component({
   selector: 'app-profile-dialog',
   imports: [ReactiveFormsModule],
@@ -35,10 +31,10 @@ export class ProfileDialog {
   });
   form = new FormGroup({ name: this.name });
 
-  /** The fixed avatars, plus the current picture if it is a Google photo. */
   avatars = computed(() => withCurrent(this.avatarList, this.me()?.avatar));
 
 
+  /** Opens the edit mode with the current name and avatar. */
   startEditing(user: AppUser): void {
     this.name.reset(user.name);
     this.avatar.set(user.avatar);
@@ -47,16 +43,19 @@ export class ProfileDialog {
   }
 
 
+  /** Leaves the edit mode without saving. */
   cancel(): void {
     this.editing.set(false);
   }
 
 
+  /** Closes the dialog. */
   close(): void {
     this.closed.emit();
   }
 
 
+  /** True if the name field shows an error. */
   showNameError(): boolean {
     return this.name.invalid && (this.name.touched || this.name.dirty);
   }
@@ -80,6 +79,7 @@ export class ProfileDialog {
 }
 
 
+/** The avatar list, with the current picture first if it is not one of them. */
 function withCurrent(avatars: string[], current?: string): string[] {
   return current && !avatars.includes(current) ? [current, ...avatars] : avatars;
 }

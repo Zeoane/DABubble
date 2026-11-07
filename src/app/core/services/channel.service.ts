@@ -16,10 +16,6 @@ import { Channel } from '../models/channel';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 
-/**
- * Channels from Firestore: all of them (for the duplicate check) and the ones
- * the signed-in member belongs to (for the menu).
- */
 @Injectable({ providedIn: 'root' })
 export class ChannelService {
   private auth = inject(AuthService);
@@ -32,7 +28,6 @@ export class ChannelService {
     { initialValue: null },
   );
 
-  /** False until the first list arrived from Firestore. */
   readonly loaded = computed(() => this.state() !== null);
 
   readonly all = computed(() => this.state() ?? []);
@@ -45,6 +40,7 @@ export class ChannelService {
   });
 
 
+  /** The channel with this id, if it exists. */
   byId(id: string): Channel | undefined {
     return this.all().find((channel) => channel.id === id);
   }
@@ -77,16 +73,19 @@ export class ChannelService {
   }
 
 
+  /** Saves a new channel name. */
   rename(id: string, name: string): Promise<void> {
     return this.change(id, { name: normalizeName(name) });
   }
 
 
+  /** Saves a new channel description. */
   describe(id: string, description: string): Promise<void> {
     return this.change(id, { description: description.trim() });
   }
 
 
+  /** Adds members to the channel; existing ones are kept. */
   addMembers(id: string, memberIds: string[]): Promise<void> {
     return this.change(id, { members: arrayUnion(...memberIds) });
   }
@@ -98,11 +97,13 @@ export class ChannelService {
   }
 
 
+  /** Updates fields of the channel document. */
   private change(id: string, data: Record<string, unknown>): Promise<void> {
     return this.inContext(() => updateDoc(doc(this.firestore, 'channels', id), data));
   }
 
 
+  /** Streams all channels; an error ends in an empty list. */
   private watchChannels(): Observable<Channel[]> {
     const data$ = this.inContext(() =>
       collectionData(collection(this.firestore, 'channels'), { idField: 'id' }),
@@ -114,6 +115,7 @@ export class ChannelService {
   }
 
 
+  /** Runs Firestore calls inside the injection context AngularFire needs. */
   private inContext<T>(fn: () => T): T {
     return runInInjectionContext(this.injector, fn);
   }
@@ -126,6 +128,7 @@ export function normalizeName(name: string): string {
 }
 
 
+/** Fills in fields that older channel documents may lack. */
 function withDefaults(channel: Channel): Channel {
   return { ...channel, description: channel.description ?? '', members: channel.members ?? [] };
 }

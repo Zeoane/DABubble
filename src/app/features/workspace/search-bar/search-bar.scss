@@ -6,7 +6,6 @@
   min-width: 0;
 }
 
-// Desktop: 70px, padding 17.5/45, radius 42, text 24px gray, icon 35px.
 .search {
   display: flex;
   align-items: center;
@@ -36,7 +35,6 @@
   }
 }
 
-// Mobile: 48px, 1px border, padding 8/24, text 17px, icon 32px.
 .search.compact {
   height: 48px;
   padding: 0 24px;
@@ -56,7 +54,6 @@
   position: relative;
 }
 
-// Lists open below the field (Figma "Searching bar person/channels").
 app-mention-list {
   top: calc(100% - 4px);
   left: 45px;
@@ -66,7 +63,6 @@ app-mention-list {
   left: 16px;
 }
 
-// Results for free text: same look as the lists, radius 0 20 20 20.
 .results {
   position: absolute;
   top: calc(100% - 4px);
@@ -133,7 +129,6 @@ app-mention-list {
   margin: 0 8px;
 }
 
-// A message hit: chat, author and time above the text (the context of the hit).
 .row.hit {
   flex-direction: column;
   align-items: flex-start;

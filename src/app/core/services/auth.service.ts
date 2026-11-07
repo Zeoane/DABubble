@@ -23,9 +23,6 @@ import { RegistrationData } from './registration.service';
 const DEFAULT_AVATAR = 'img/avatars/avatar-1.svg';
 const GUEST_PROFILE: UserProfile = { name: 'Gast', email: '', avatar: DEFAULT_AVATAR };
 
-/**
- * Wraps Firebase Authentication and keeps the user document in Firestore.
- */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private auth = inject(Auth);
@@ -53,6 +50,7 @@ export class AuthService {
   }
 
 
+  /** Signs in with e-mail and password. */
   async logIn(email: string, password: string): Promise<void> {
     await this.inContext(() => signInWithEmailAndPassword(this.auth, email, password));
   }
@@ -112,6 +110,7 @@ export class AuthService {
   }
 
 
+  /** Sets the new password with the code from the reset link. */
   async resetPassword(code: string, password: string): Promise<void> {
     await this.inContext(() => confirmPasswordReset(this.auth, code, password));
   }
@@ -153,6 +152,7 @@ export function authErrorCode(error: unknown): string {
 }
 
 
+/** Profile data from a Google account, with fallbacks for missing name or photo. */
 function googleProfile(user: User): UserProfile {
   return {
     name: user.displayName ?? user.email ?? 'Gast',

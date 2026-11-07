@@ -2,9 +2,6 @@ import { Component, input, output } from '@angular/core';
 import { AppUser } from '../../../core/models/user-profile';
 import { MemberList } from '../member-list/member-list';
 
-/**
- * Members popup under the member faces (Figma 43. Members, desktop).
- */
 @Component({
   selector: 'app-channel-members',
   imports: [MemberList],

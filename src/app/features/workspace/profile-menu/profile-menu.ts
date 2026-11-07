@@ -6,10 +6,6 @@ import { UserService } from '../../../core/services/user.service';
 import { Avatar } from '../../../shared/components/avatar/avatar';
 import { ProfileDialog } from '../profile-dialog/profile-dialog';
 
-/**
- * Name and avatar at the top right; opens "Profil" / "Log out"
- * (Figma 65. Profile menu, 64. Edit user and Log out).
- */
 @Component({
   selector: 'app-profile-menu',
   imports: [Avatar, ProfileDialog],
@@ -27,22 +23,26 @@ export class ProfileMenu {
   profileOpen = signal(false);
 
 
+  /** Opens or closes the menu. */
   toggle(): void {
     this.open.update((open) => !open);
   }
 
 
+  /** Closes the menu. */
   close(): void {
     this.open.set(false);
   }
 
 
+  /** Opens the own profile. */
   showProfile(): void {
     this.close();
     this.profileOpen.set(true);
   }
 
 
+  /** Logs out and returns to the login page. */
   async logOut(): Promise<void> {
     this.close();
     await this.auth.logOut();

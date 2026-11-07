@@ -1,7 +1,6 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
-// Message 1: padding 10/45, gap 30, avatar 70; hover background #eceefe.
 :host {
   position: relative;
   display: flex;
@@ -24,7 +23,6 @@
   }
 }
 
-// Message 2 (own): mirrored, purple bubble with white text.
 :host(.own) {
   flex-direction: row-reverse;
 
@@ -73,7 +71,6 @@ p {
   }
 }
 
-// Avatar and name open the profile card of the author.
 .avatar-button {
   flex-shrink: 0;
   padding: 0;
@@ -97,7 +94,6 @@ time {
   transition: background-color 0.1s ease;
 }
 
-// Mentions: purple and bold; white on the own purple bubble.
 .mention {
   font-weight: 700;
   color: $color-purple-3;
@@ -107,7 +103,6 @@ time {
   color: $color-white;
 }
 
-// 52. Reaction bar: on hover above the message, padding 3/15/3/20, radius 25 25 0 25.
 .bar {
   position: absolute;
   top: -23px;
@@ -157,7 +152,6 @@ time {
   @include icon('comment');
 }
 
-// "2 Antworten" in purple 1, "Letzte Antwort 14:56" gray 14px, gap 20.
 .answers {
   display: flex;
   flex-wrap: wrap;
@@ -181,7 +175,6 @@ time {
   color: $color-text-gray;
 }
 
-// Thread (Figma 49. Direct messages): padding 10/40, gap 20, bubble radius 20.
 :host(.compact) {
   gap: 20px;
   padding: 10px 40px;
@@ -217,7 +210,6 @@ time {
   left: 0;
 }
 
-// Mobile (48B): padding 10/16, gap 16, avatar 50, text 17.
 @media (max-width: $breakpoint-tablet) {
   :host {
     gap: 16px;
@@ -254,7 +246,6 @@ time {
   }
 }
 
-// Own messages: the three dots (Figma 52. "option" / more_vert) open "Nachricht bearbeiten".
 .icon-more {
   @include icon('more-vert');
 }
@@ -269,7 +260,6 @@ time {
   z-index: 3;
 }
 
-// 76. Edit message button: white, radius 0 30 30 30, shadow 0 6 14 rgba(0,0,0,0.2).
 .menu {
   position: absolute;
   top: calc(100% + 3px);
@@ -297,7 +287,6 @@ time {
   }
 }
 
-// Editing (Figma 48. "Edit message"): background #eceefe, the box fills the row up to 146px from the left.
 :host(.editing) {
   background-color: $color-bg;
 

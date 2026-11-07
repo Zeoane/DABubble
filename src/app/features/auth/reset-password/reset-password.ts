@@ -11,9 +11,6 @@ const LINK_ERROR = '*Der Link ist ungültig oder abgelaufen. Bitte fordern Sie e
 
 type PasswordField = 'password' | 'confirm';
 
-/**
- * Opened from the reset mail; the link carries the one-time "oobCode".
- */
 @Component({
   selector: 'app-reset-password',
   imports: [ReactiveFormsModule, RouterLink, Logo, LegalLinks, Toast],
@@ -39,17 +36,20 @@ export class ResetPassword {
   linkError = signal<string | null>(null);
 
 
+  /** Checks the code of the reset link right away. */
   constructor() {
     this.auth.verifyResetCode(this.code).catch(() => this.linkError.set(LINK_ERROR));
   }
 
 
+  /** True if the field shows an error. */
   showError(field: PasswordField): boolean {
     const control = this.form.controls[field];
     return control.invalid && control.touched;
   }
 
 
+  /** True if the field has this validation error. */
   hasError(field: PasswordField, error: string): boolean {
     return this.form.controls[field].hasError(error);
   }
@@ -84,6 +84,7 @@ export class ResetPassword {
 }
 
 
+/** Form validator: both passwords must be the same. */
 function passwordsMatch(group: AbstractControl): ValidationErrors | null {
   const { password, confirm } = group.value;
   return confirm && password !== confirm ? { mismatch: true } : null;

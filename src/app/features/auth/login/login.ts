@@ -39,6 +39,7 @@ export class Login {
   guestError = signal<string | null>(null);
 
 
+  /** Hides the login error as soon as the user types again. */
   constructor() {
     this.loginForm.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => this.loginError.set(null));
   }

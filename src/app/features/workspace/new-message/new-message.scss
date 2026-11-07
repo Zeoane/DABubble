@@ -7,7 +7,6 @@
   min-height: 0;
 }
 
-// Head: padding 32/45/20, gap 20, light shadow (Figma "Head + members").
 .head {
   z-index: 1;
   display: flex;
@@ -26,14 +25,12 @@
 .address {
   position: relative;
 
-  // The list opens below the field.
   app-mention-list {
     top: calc(100% + 8px);
     left: 20px;
   }
 }
 
-// 35. Basic Text box: padding 15/20, radius 30, border #adb0d9.
 input {
   width: 100%;
   padding: 15px 20px;
@@ -74,7 +71,6 @@ input {
   }
 }
 
-// Mobile (09 – New message): padding 16.
 @media (max-width: $breakpoint-tablet) {
   .head {
     padding: 16px;

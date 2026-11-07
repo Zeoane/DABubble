@@ -7,9 +7,6 @@ import { UserService } from '../../../core/services/user.service';
 import { channelNameError, channelNameValidators } from '../channel-name';
 import { PeoplePicker } from '../people-picker/people-picker';
 
-/**
- * "Channel erstellen" (Figma 37) followed by "Leute hinzufügen" (Figma 38).
- */
 @Component({
   selector: 'app-create-channel',
   imports: [ReactiveFormsModule, PeoplePicker],
@@ -38,17 +35,18 @@ export class CreateChannel {
     description: new FormControl('', { nonNullable: true }),
   });
 
-  /** Everyone who could join: all members except me and guests. */
   others = computed(() => this.users.contacts().filter((u) => u.uid !== this.users.uid()));
 
   canCreate = computed(() => !this.saving() && (this.addAll() || this.picked().length > 0));
 
 
+  /** Closes the dialog. */
   close(): void {
     this.closed.emit();
   }
 
 
+  /** Error text for the channel name, or null. */
   nameError(): string | null {
     return channelNameError(this.form.controls.name);
   }
@@ -80,6 +78,7 @@ export class CreateChannel {
   }
 
 
+  /** Ids of the new members: everyone or only the picked people. */
   private memberIds(): string[] {
     return (this.addAll() ? this.others() : this.picked()).map((user) => user.uid);
   }

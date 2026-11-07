@@ -5,9 +5,6 @@ import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { AppUser } from '../models/user-profile';
 import { AuthService } from './auth.service';
 
-/**
- * Live list of all members from Firestore, plus the signed-in member.
- */
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private auth = inject(AuthService);

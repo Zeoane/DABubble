@@ -1,6 +1,5 @@
 @use 'variables' as *;
 
-// Gemeinsamer Rahmen der Auth-Seiten (Login, Registrierung, Avatar)
 .auth-page {
   display: flex;
   flex-direction: column;
@@ -47,7 +46,6 @@
   line-height: $line-height;
 }
 
-// Figma: 13. Go back
 .back-button {
   position: absolute;
   top: 45px;

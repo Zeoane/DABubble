@@ -8,7 +8,6 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-// 41. Add members R corner: 514 wide under the add button, padding 40, gap 20, radius 30 0 30 30.
 .dialog {
   position: absolute;
   top: 85px;
@@ -93,7 +92,6 @@ header {
   @include icon('tag');
 }
 
-// 41b. Mobile: bottom sheet with handle, radius 30 30 0 0, padding 30/16.
 @media (max-width: $breakpoint-tablet) {
   .dialog {
     position: fixed;

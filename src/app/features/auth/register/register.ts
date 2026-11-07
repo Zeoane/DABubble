@@ -19,9 +19,6 @@ export class Register {
   private router = inject(Router);
   private registration = inject(RegistrationService);
 
-  /**
-   * Flags the address that Firebase already rejected as taken.
-   */
   private emailNotTaken: ValidatorFn = (control: AbstractControl) =>
     control.value === this.registration.takenEmail() ? { taken: true } : null;
 
@@ -34,6 +31,7 @@ export class Register {
   });
 
 
+  /** Shows the error at once if the e-mail turned out to be taken. */
   constructor() {
     if (this.registration.takenEmail()) {
       this.registerForm.controls.email.markAsTouched();
@@ -58,6 +56,7 @@ export class Register {
   }
 
 
+  /** Ticks or unticks the privacy policy checkbox. */
   togglePrivacy(): void {
     const control = this.registerForm.controls.privacy;
     control.setValue(!control.value);

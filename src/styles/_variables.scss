@@ -1,4 +1,3 @@
-// Farben (Figma: Variablen der Datei)
 $color-black: #000000;
 $color-white: #ffffff;
 $color-purple-1: #444df2;
@@ -12,7 +11,6 @@ $color-online: #92c83e;
 $color-menu: #42526e;
 $color-avatar-hover: #e6e6e6;
 
-// Schrift (Figma: 00d. Font size - Nunito)
 $font-family: 'Nunito', sans-serif;
 $font-family-link: 'Figtree', sans-serif;
 $font-family-body: 'Open Sans', sans-serif;
@@ -30,14 +28,11 @@ $font-size-14: 14px;
 $font-size-12: 12px;
 $line-height: 1.2;
 
-// Schatten (Figma: header)
 $shadow-card: 0 2px 10px 0 rgba(0, 0, 0, 0.08);
 
-// Radien
 $radius-button: 25px;
 $radius-input: 100px;
 $radius-card: 30px;
 
-// Breakpoints
 $breakpoint-mobile: 600px;
 $breakpoint-tablet: 1024px;

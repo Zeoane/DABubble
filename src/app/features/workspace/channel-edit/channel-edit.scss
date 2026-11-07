@@ -8,7 +8,6 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-// Desktop: 872 wide below the channel title, padding 40, radius 0 30 30 30.
 .dialog {
   position: absolute;
   top: 85px;
@@ -73,7 +72,6 @@ p {
   }
 }
 
-// 71./72.: card with border #adb0d9, radius 20, padding 20; no frame while editing.
 .card {
   display: flex;
   flex-direction: column;
@@ -95,7 +93,6 @@ p {
   gap: 16px;
 }
 
-// 40. Bearbeiten: 18 semibold purple, bold on hover.
 .link {
   padding: 0;
   background: none;
@@ -109,7 +106,6 @@ p {
   }
 }
 
-// 70./75. Mobile: 30px round button on #eceefe.
 .round {
   display: none;
   align-items: center;
@@ -236,7 +232,6 @@ hr {
   @include icon('check-circle');
 }
 
-// Mobile: full screen with the channel name on top, round edit buttons and the members.
 @media (max-width: $breakpoint-tablet) {
   .backdrop {
     display: none;

@@ -24,6 +24,7 @@ export class ChooseAvatar {
   failed = signal(false);
 
 
+  /** Without data from step 1, sends the user back to the sign-up form. */
   constructor() {
     if (!this.registration.data()) {
       this.router.navigate(['/registrierung']);
@@ -31,6 +32,7 @@ export class ChooseAvatar {
   }
 
 
+  /** Selects an avatar from the list. */
   selectAvatar(path: string): void {
     this.registration.selectAvatar(path);
   }

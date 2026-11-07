@@ -3,9 +3,6 @@ import { OnlineStatus } from '../../../core/services/presence.service';
 
 const FALLBACK = 'img/avatars/avatar-1.svg';
 
-/**
- * Round profile picture with the status dot: green when online, gray when away, none when offline.
- */
 @Component({
   selector: 'app-avatar',
   template: `
@@ -22,10 +19,10 @@ export class Avatar {
   readonly size = input(50);
   readonly status = input<OnlineStatus>('offline');
 
-  /** Shown picture; falls back to a default avatar if e.g. a Google photo cannot load. */
   readonly image = linkedSignal(() => this.src());
 
 
+  /** Shows the default avatar when the picture cannot be loaded. */
   useFallback(): void {
     this.image.set(FALLBACK);
   }
