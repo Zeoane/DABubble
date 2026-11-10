@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService, authErrorCode } from '../../../core/services/auth.service';
+import { emailMessage } from '../../../core/validators/form-errors';
 import { EMAIL_PATTERN } from '../../../core/validators/patterns';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
@@ -24,6 +25,7 @@ export class ForgotPassword {
     email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
   });
 
+  readonly emailMessage = emailMessage;
   loading = signal(false);
   sent = signal(false);
   sendError = signal<string | null>(null);

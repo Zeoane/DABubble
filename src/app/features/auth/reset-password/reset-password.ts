@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { passwordRule } from '../../../core/validators/form-errors';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
 import { Toast } from '../../../shared/components/toast/toast';
@@ -25,7 +26,7 @@ export class ResetPassword {
 
   form = this.formBuilder.nonNullable.group(
     {
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', passwordRule],
       confirm: ['', Validators.required],
     },
     { validators: passwordsMatch },
@@ -46,6 +47,13 @@ export class ResetPassword {
   showError(field: PasswordField): boolean {
     const control = this.form.controls[field];
     return control.invalid && control.touched;
+  }
+
+
+  /** Shows the password rule while typing or after leaving the field. */
+  showPasswordHint(): boolean {
+    const control = this.form.controls.password;
+    return control.invalid && (control.dirty || control.touched);
   }
 
 
