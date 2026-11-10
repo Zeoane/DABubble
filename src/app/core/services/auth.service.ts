@@ -93,12 +93,12 @@ export class AuthService {
 
 
   /**
-   * Sends the reset mail; its link opens "/passwort-zuruecksetzen" once the
-   * action URL is set in the Firebase console (Authentication → Templates).
+   * Sends the reset mail; after the reset the user can go straight back to our login.
    */
   async sendPasswordReset(email: string): Promise<void> {
     this.auth.languageCode = 'de';
-    await this.inContext(() => sendPasswordResetEmail(this.auth, email));
+    const settings = { url: `${location.origin}/` };
+    await this.inContext(() => sendPasswordResetEmail(this.auth, email, settings));
   }
 
 
