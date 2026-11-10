@@ -63,6 +63,10 @@ app-mention-list {
   left: 16px;
 }
 
+.search.compact + app-mention-list.inline {
+  margin-top: 24px;
+}
+
 .results {
   position: absolute;
   top: calc(100% - 4px);

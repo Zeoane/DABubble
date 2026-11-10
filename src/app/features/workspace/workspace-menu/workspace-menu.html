@@ -1,80 +1,91 @@
+@if (searching()) {
+  <div class="search-head">
+    <h2>Search</h2>
+    <button type="button" class="icon-button" aria-label="Suche schließen" (click)="closeSearch()">
+      <span class="icon icon-close" aria-hidden="true"></span>
+    </button>
+  </div>
+}
+
 <div class="mobile-search">
   <app-search-bar placeholder="Gehe zu..." [compact]="true" />
 </div>
 
-<header class="devspace">
-  <img class="devspace-logo" src="img/workspace-logo.svg" alt="" />
-  <h2>Devspace</h2>
-  <a class="icon-button" routerLink="/workspace/neue-nachricht" aria-label="Neue Nachricht">
-    <span class="icon icon-edit" aria-hidden="true"></span>
-  </a>
-</header>
+@if (!searching()) {
+  <header class="devspace">
+    <img class="devspace-logo" src="img/workspace-logo.svg" alt="" />
+    <h2>Devspace</h2>
+    <a class="icon-button" routerLink="/workspace/neue-nachricht" aria-label="Neue Nachricht">
+      <span class="icon icon-edit" aria-hidden="true"></span>
+    </a>
+  </header>
 
-<section class="group">
-  <div class="group-head">
-    <button
-      type="button"
-      class="group-toggle"
-      [class.closed]="!channelsOpen()"
-      [attr.aria-expanded]="channelsOpen()"
-      (click)="toggleChannels()"
-    >
-      <span class="icon icon-arrow" aria-hidden="true"></span>
-      <span class="icon icon-channels" aria-hidden="true"></span>
-      Channels
-    </button>
-    <button type="button" class="icon-button small" aria-label="Channel erstellen" (click)="creating.set(true)">
-      <span class="icon icon-add" aria-hidden="true"></span>
-    </button>
-  </div>
-  @if (channelsOpen()) {
-    <ul class="items">
-      @for (channel of channels.mine(); track channel.id) {
+  <section class="group">
+    <div class="group-head">
+      <button
+        type="button"
+        class="group-toggle"
+        [class.closed]="!channelsOpen()"
+        [attr.aria-expanded]="channelsOpen()"
+        (click)="toggleChannels()"
+      >
+        <span class="icon icon-arrow" aria-hidden="true"></span>
+        <span class="icon icon-channels" aria-hidden="true"></span>
+        Channels
+      </button>
+      <button type="button" class="icon-button small" aria-label="Channel erstellen" (click)="creating.set(true)">
+        <span class="icon icon-add" aria-hidden="true"></span>
+      </button>
+    </div>
+    @if (channelsOpen()) {
+      <ul class="items">
+        @for (channel of channels.mine(); track channel.id) {
+          <li>
+            <a class="channel" [routerLink]="['/workspace/channel', channel.id]" routerLinkActive="active">
+              <span class="icon icon-tag" aria-hidden="true"></span>
+              <span class="channel-name">{{ channel.name }}</span>
+            </a>
+          </li>
+        }
         <li>
-          <a class="channel" [routerLink]="['/workspace/channel', channel.id]" routerLinkActive="active">
-            <span class="icon icon-tag" aria-hidden="true"></span>
-            <span class="channel-name">{{ channel.name }}</span>
-          </a>
+          <button type="button" class="add-channel" (click)="creating.set(true)">
+            <span class="icon icon-add-circle" aria-hidden="true"></span>
+            Channel hinzufügen
+          </button>
         </li>
-      }
-      <li>
-        <button type="button" class="add-channel" (click)="creating.set(true)">
-          <span class="icon icon-add-circle" aria-hidden="true"></span>
-          Channel hinzufügen
-        </button>
-      </li>
-    </ul>
-  }
-</section>
+      </ul>
+    }
+  </section>
 
-<section class="group">
-  <div class="group-head">
-    <button
-      type="button"
-      class="group-toggle"
-      [class.closed]="!contactsOpen()"
-      [attr.aria-expanded]="contactsOpen()"
-      (click)="toggleContacts()"
-    >
-      <span class="icon icon-arrow" aria-hidden="true"></span>
-      <span class="icon icon-contacts" aria-hidden="true"></span>
-      Direktnachrichten
-    </button>
-  </div>
-  @if (contactsOpen()) {
-    <ul class="items">
-      @let myId = users.currentUser()?.uid;
-      @for (user of users.contacts(); track user.uid) {
-        <li>
-          <a class="contact" [routerLink]="['/workspace/dm', user.uid]" routerLinkActive="active">
-            <app-avatar [src]="user.avatar" [status]="presence.statusOf(user)" />
-            <span class="contact-name">{{ user.name }}@if (user.uid === myId) { (Du)}</span>
-          </a>
-        </li>
-      }
-    </ul>
-  }
-</section>
+  <section class="group">
+    <div class="group-head">
+      <button
+        type="button"
+        class="group-toggle"
+        [class.closed]="!contactsOpen()"
+        [attr.aria-expanded]="contactsOpen()"
+        (click)="toggleContacts()"
+      >
+        <span class="icon icon-arrow" aria-hidden="true"></span>
+        <span class="icon icon-contacts" aria-hidden="true"></span>
+        Direktnachrichten
+      </button>
+    </div>
+    @if (contactsOpen()) {
+      <ul class="items">
+        @let myId = users.currentUser()?.uid;
+        @for (user of users.contacts(); track user.uid) {
+          <li>
+            <a class="contact" [routerLink]="['/workspace/dm', user.uid]" routerLinkActive="active">
+              <app-avatar [src]="user.avatar" [status]="presence.statusOf(user)" />
+              <span class="contact-name">{{ user.name }}@if (user.uid === myId) { (Du)}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+}
 
 <a class="fab" routerLink="/workspace/neue-nachricht" aria-label="Neue Nachricht">
   <span class="icon icon-edit" aria-hidden="true"></span>

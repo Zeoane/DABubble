@@ -7,10 +7,11 @@ import { MemberProfile } from './member-profile/member-profile';
 import { PresenceService } from '../../core/services/presence.service';
 import { ThreadTarget, ThreadView } from './thread-view/thread-view';
 import { WorkspaceMenu } from './workspace-menu/workspace-menu';
+import { LegalLinks } from '../../shared/components/legal-links/legal-links';
 
 @Component({
   selector: 'app-workspace',
-  imports: [WorkspaceHeader, WorkspaceMenu, RouterOutlet, ThreadView, MemberProfile],
+  imports: [WorkspaceHeader, WorkspaceMenu, RouterOutlet, ThreadView, MemberProfile, LegalLinks],
   templateUrl: './workspace.html',
   styleUrl: './workspace.scss',
 })

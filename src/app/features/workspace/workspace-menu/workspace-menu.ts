@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, viewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ChannelService } from '../../../core/services/channel.service';
 import { PresenceService } from '../../../core/services/presence.service';
@@ -23,10 +23,19 @@ export class WorkspaceMenu {
   channelsOpen = signal(true);
   contactsOpen = signal(true);
 
+  private searchBar = viewChild(SearchBar);
+  searching = computed(() => this.searchBar()?.takeover() ?? false);
+
 
   /** Opens or closes the channel list. */
   toggleChannels(): void {
     this.channelsOpen.update((open) => !open);
+  }
+
+
+  /** Leaves the @ or # search and shows the menu again. */
+  closeSearch(): void {
+    this.searchBar()?.reset();
   }
 
 
