@@ -79,6 +79,10 @@
   }
 }
 
+.footer {
+  margin: -12px 0 -18px;
+}
+
 .menu-toggle {
   position: absolute;
   left: 0;
@@ -164,8 +168,14 @@
     display: none;
   }
 
+  .footer {
+    margin: 0;
+    padding: 8px 0 16px;
+  }
+
   .chat-open {
-    .menu {
+    .menu,
+    .footer {
       display: none;
     }
 
