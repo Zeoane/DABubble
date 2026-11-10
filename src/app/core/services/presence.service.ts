@@ -31,6 +31,7 @@ export class PresenceService {
 
   /** Current status of a member: online, away or offline. */
   statusOf(user: AppUser | null | undefined): OnlineStatus {
+    if (user && user.uid === this.users.uid()) return 'online';
     if (!user || user.presence === 'offline' || !user.lastActive) return 'offline';
     if (this.now() - user.lastActive.toMillis() > OFFLINE_AFTER_MS) return 'offline';
     return user.presence ?? 'offline';

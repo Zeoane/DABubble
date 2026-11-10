@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService, authErrorCode } from '../../../core/services/auth.service';
 import { IntroService } from '../../../core/services/intro.service';
+import { emailMessage } from '../../../core/validators/form-errors';
 import { EMAIL_PATTERN } from '../../../core/validators/patterns';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
@@ -33,6 +34,7 @@ export class Login {
   });
 
   showIntro = signal(inject(IntroService).shouldPlay());
+  readonly emailMessage = emailMessage;
   loading = signal(false);
   loginError = signal<string | null>(null);
   googleError = signal<string | null>(null);

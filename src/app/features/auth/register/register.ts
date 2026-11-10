@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { RegistrationService } from '../../../core/services/registration.service';
+import { emailMessage, passwordRule } from '../../../core/validators/form-errors';
 import { EMAIL_PATTERN, NAME_PATTERN } from '../../../core/validators/patterns';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
@@ -26,9 +27,11 @@ export class Register {
   registerForm = this.formBuilder.nonNullable.group({
     name: [this.registration.data()?.name ?? '', [Validators.required, Validators.pattern(NAME_PATTERN)]],
     email: [this.registration.data()?.email ?? '', [Validators.required, Validators.pattern(EMAIL_PATTERN), this.emailNotTaken]],
-    password: [this.registration.data()?.password ?? '', [Validators.required, Validators.minLength(8)]],
+    password: [this.registration.data()?.password ?? '', passwordRule],
     privacy: [this.registration.data() !== null, Validators.requiredTrue],
   });
+
+  readonly emailMessage = emailMessage;
 
 
   /** Shows the error at once if the e-mail turned out to be taken. */
@@ -45,6 +48,13 @@ export class Register {
   showError(field: RegisterField): boolean {
     const control = this.registerForm.controls[field];
     return control.invalid && control.touched;
+  }
+
+
+  /** Shows the password rule while typing or after leaving the field. */
+  showPasswordHint(): boolean {
+    const control = this.registerForm.controls.password;
+    return control.invalid && (control.dirty || control.touched);
   }
 
 
