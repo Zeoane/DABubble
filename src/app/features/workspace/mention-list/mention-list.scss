@@ -62,8 +62,28 @@
   color: $color-text-gray;
 }
 
-@media (max-width: $breakpoint-mobile) {
+:host(.inline) {
+  position: static;
+  width: auto;
+  max-width: none;
+
   .list {
+    gap: 4px;
+    max-height: none;
+    padding: 0 24px 0 44px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .option {
+    min-height: 50px;
+    padding: 4px 20px;
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  :host(:not(.inline)) .list {
     padding: 12px;
     gap: 8px;
   }

@@ -50,7 +50,9 @@ export class SearchBar {
 
   messageHits = computed(() => (this.tag() ? [] : this.search.find(this.term())));
 
-  showList = computed(() => this.open() && this.term().length > 0);
+  takeover = computed(() => this.compact() && !!this.tag());
+
+  showList = computed(() => (this.open() && this.term().length > 0) || this.takeover());
 
 
   /** Starts loading the messages and shows the results. */
@@ -104,7 +106,7 @@ export class SearchBar {
 
 
   /** Empties the field and closes the results. */
-  private reset(): void {
+  reset(): void {
     this.query.set('');
     this.open.set(false);
   }

@@ -37,6 +37,7 @@ export interface MentionOption {
     </ul>
   `,
   styleUrl: './mention-list.scss',
+  host: { '[class.inline]': 'inline()' },
 })
 export class MentionList {
   private users = inject(UserService);
@@ -45,6 +46,7 @@ export class MentionList {
   readonly options = input.required<MentionOption[]>();
   readonly active = input(0);
   readonly channels = input(false);
+  readonly inline = input(false);
   readonly picked = output<MentionOption>();
 
 
