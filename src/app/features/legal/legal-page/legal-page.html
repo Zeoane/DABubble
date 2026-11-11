@@ -1,6 +1,12 @@
 <div class="legal-page">
-  <header>
-    <app-logo />
+  <header class="legal-header">
+    <app-logo class="desktop-logo" [link]="home()" />
+    <app-logo class="mobile-logo" [link]="home()" [compact]="true" />
+    @if (me(); as user) {
+      <a class="me" routerLink="/workspace" aria-label="Zurück zum Workspace">
+        <app-avatar [src]="user.avatar" [size]="50" />
+      </a>
+    }
   </header>
 
   <main class="content" [class.card]="card()">

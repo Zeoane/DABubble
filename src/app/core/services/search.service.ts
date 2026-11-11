@@ -6,11 +6,8 @@ import { ChannelService } from './channel.service';
 import { MessageService } from './message.service';
 import { UserService } from './user.service';
 
-/** A chat the member can read: one of their channels or a direct chat. */
 export interface SearchChat {
-  /** Firestore path, e.g. "channels/abc" or "directMessages/uidA_uidB". */
   path: string;
-  /** "#Entwicklerteam" or "Sofia Müller". */
   label: string;
   route: string[];
 }
@@ -20,18 +17,12 @@ export interface SearchHit {
   chat: SearchChat;
 }
 
-/**
- * Searches the messages of all own channels and direct chats (User Story 6).
- * Firestore has no full-text search, so the messages are streamed while the
- * search field is in use and filtered here; new messages show up in real time.
- */
 @Injectable({ providedIn: 'root' })
 export class SearchService {
   private users = inject(UserService);
   private channels = inject(ChannelService);
   private messages = inject(MessageService);
 
-  /** True while the search field is in use; only then are the messages loaded. */
   readonly active = signal(false);
 
   readonly chats = computed<SearchChat[]>(() => {
@@ -50,7 +41,6 @@ export class SearchService {
     return [...channels, ...direct];
   });
 
-  /** Chats only change when a path or name changes, not on every new array. */
   private watched = computed(() => (this.active() ? this.chats() : []), {
     equal: (a, b) => a.length === b.length && a.every((chat, i) => chat.path === b[i].path && chat.label === b[i].label),
   });

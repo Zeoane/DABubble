@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { RegistrationService } from '../../../core/services/registration.service';
+import { emailMessage, passwordRule } from '../../../core/validators/form-errors';
 import { EMAIL_PATTERN, NAME_PATTERN } from '../../../core/validators/patterns';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
@@ -19,9 +20,6 @@ export class Register {
   private router = inject(Router);
   private registration = inject(RegistrationService);
 
-  /**
-   * Flags the address that Firebase already rejected as taken.
-   */
   private emailNotTaken: ValidatorFn = (control: AbstractControl) =>
     control.value === this.registration.takenEmail() ? { taken: true } : null;
 
@@ -29,11 +27,14 @@ export class Register {
   registerForm = this.formBuilder.nonNullable.group({
     name: [this.registration.data()?.name ?? '', [Validators.required, Validators.pattern(NAME_PATTERN)]],
     email: [this.registration.data()?.email ?? '', [Validators.required, Validators.pattern(EMAIL_PATTERN), this.emailNotTaken]],
-    password: [this.registration.data()?.password ?? '', [Validators.required, Validators.minLength(8)]],
+    password: [this.registration.data()?.password ?? '', passwordRule],
     privacy: [this.registration.data() !== null, Validators.requiredTrue],
   });
 
+  readonly emailMessage = emailMessage;
 
+
+  /** Shows the error at once if the e-mail turned out to be taken. */
   constructor() {
     if (this.registration.takenEmail()) {
       this.registerForm.controls.email.markAsTouched();
@@ -50,6 +51,13 @@ export class Register {
   }
 
 
+  /** Shows the password rule while typing or after leaving the field. */
+  showPasswordHint(): boolean {
+    const control = this.registerForm.controls.password;
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+
   /**
    * Tells which rule a field breaks, e.g. empty or too short.
    */
@@ -58,6 +66,7 @@ export class Register {
   }
 
 
+  /** Ticks or unticks the privacy policy checkbox. */
   togglePrivacy(): void {
     const control = this.registerForm.controls.privacy;
     control.setValue(!control.value);

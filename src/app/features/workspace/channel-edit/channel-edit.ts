@@ -8,10 +8,6 @@ import { UserService } from '../../../core/services/user.service';
 import { channelNameError, channelNameValidators } from '../channel-name';
 import { MemberList } from '../member-list/member-list';
 
-/**
- * Channel details: edit name and description, see the creator, leave the channel
- * (Figma Channel Edition; mobile also lists the members).
- */
 @Component({
   selector: 'app-channel-edit',
   imports: [ReactiveFormsModule, MemberList],
@@ -39,28 +35,33 @@ export class ChannelEdit {
   creator = computed(() => this.users.users().find((user) => user.uid === this.channel().createdBy)?.name ?? 'Unbekannt');
 
 
+  /** Closes the channel details. */
   close(): void {
     this.closed.emit();
   }
 
 
+  /** Error text for the channel name, or null. */
   nameError(): string | null {
     return channelNameError(this.name);
   }
 
 
+  /** Opens the name for editing. */
   editName(): void {
     this.name.reset(this.channel().name);
     this.editingName.set(true);
   }
 
 
+  /** Opens the description for editing. */
   editDescription(): void {
     this.description.reset(this.channel().description);
     this.editingDescription.set(true);
   }
 
 
+  /** Saves the new name if it is valid and not taken. */
   async saveName(): Promise<void> {
     this.name.markAsTouched();
     this.name.updateValueAndValidity();
@@ -69,6 +70,7 @@ export class ChannelEdit {
   }
 
 
+  /** Saves the new description. */
   async saveDescription(): Promise<void> {
     if (await this.run(() => this.channels.describe(this.channel().id, this.description.value))) {
       this.editingDescription.set(false);
@@ -76,6 +78,7 @@ export class ChannelEdit {
   }
 
 
+  /** Leaves the channel and goes back to the workspace. */
   async leave(): Promise<void> {
     if (!(await this.run(() => this.channels.leave(this.channel().id)))) return;
     this.close();

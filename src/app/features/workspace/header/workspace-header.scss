@@ -1,7 +1,6 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
-// Desktop: logo at 45px, search aligned with the chat column, profile at the right.
 :host {
   display: flex;
   align-items: center;
@@ -20,7 +19,6 @@
   display: none;
 }
 
-// Mobile chat header (Figma "Component 2"): arrow 25px, Devspace logo 50px.
 .mobile-back {
   align-items: center;
   gap: 2px;
@@ -65,7 +63,6 @@ app-profile-menu {
   }
 }
 
-// Mobile (69. head mobile): 80px, padding 15/16, small logo and avatar only.
 @media (max-width: $breakpoint-tablet) {
   :host {
     height: 80px;

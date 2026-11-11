@@ -23,9 +23,6 @@ import { RegistrationData } from './registration.service';
 const DEFAULT_AVATAR = 'img/avatars/avatar-1.svg';
 const GUEST_PROFILE: UserProfile = { name: 'Gast', email: '', avatar: DEFAULT_AVATAR };
 
-/**
- * Wraps Firebase Authentication and keeps the user document in Firestore.
- */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private auth = inject(Auth);
@@ -53,6 +50,7 @@ export class AuthService {
   }
 
 
+  /** Signs in with e-mail and password. */
   async logIn(email: string, password: string): Promise<void> {
     await this.inContext(() => signInWithEmailAndPassword(this.auth, email, password));
   }
@@ -64,15 +62,19 @@ export class AuthService {
    */
   async logInWithGoogle(): Promise<void> {
     const { user } = await this.inContext(() => signInWithPopup(this.auth, new GoogleAuthProvider()));
-    const profileRef = doc(this.firestore, 'users', user.uid);
-    const existing = await this.inContext(() => getDoc(profileRef));
+    const existing = await this.inContext(() => getDoc(doc(this.firestore, 'users', user.uid)));
     if (!existing.exists()) {
       await this.saveUser(user.uid, googleProfile(user));
     }
   }
 
 
+  /** Marks the member as offline first; only signed in may they change their profile. */
   async logOut(): Promise<void> {
+    const uid = this.auth.currentUser?.uid;
+    if (uid) {
+      await this.inContext(() => updateDoc(doc(this.firestore, 'users', uid), { presence: 'offline' })).catch(() => undefined);
+    }
     await this.inContext(() => signOut(this.auth));
   }
 
@@ -90,12 +92,12 @@ export class AuthService {
 
 
   /**
-   * Sends the reset mail; its link opens "/passwort-zuruecksetzen" once the
-   * action URL is set in the Firebase console (Authentication → Templates).
+   * Sends the reset mail; after the reset the user can go straight back to our login.
    */
   async sendPasswordReset(email: string): Promise<void> {
     this.auth.languageCode = 'de';
-    await this.inContext(() => sendPasswordResetEmail(this.auth, email));
+    const settings = { url: `${location.origin}/` };
+    await this.inContext(() => sendPasswordResetEmail(this.auth, email, settings));
   }
 
 
@@ -107,6 +109,7 @@ export class AuthService {
   }
 
 
+  /** Sets the new password with the code from the reset link. */
   async resetPassword(code: string, password: string): Promise<void> {
     await this.inContext(() => confirmPasswordReset(this.auth, code, password));
   }
@@ -148,6 +151,7 @@ export function authErrorCode(error: unknown): string {
 }
 
 
+/** Profile data from a Google account, with fallbacks for missing name or photo. */
 function googleProfile(user: User): UserProfile {
   return {
     name: user.displayName ?? user.email ?? 'Gast',

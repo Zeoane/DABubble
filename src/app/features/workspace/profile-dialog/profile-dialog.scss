@@ -8,7 +8,6 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-// Desktop: 500px wide below the profile menu, radius 30 0 30 30, padding 45/40, gap 38.
 .dialog {
   position: fixed;
   top: 110px;
@@ -93,7 +92,6 @@ header {
   overflow-wrap: anywhere;
 }
 
-// 40. Bearbeiten: 18px semibold purple, bold on hover.
 .edit-link {
   flex-shrink: 0;
   padding: 0;
@@ -164,7 +162,6 @@ header {
   margin-top: -8px;
 }
 
-// Same interaction as the avatar choice at sign-up (80. avatar interaction).
 .avatar-option {
   display: flex;
   padding: 4px;
@@ -241,7 +238,6 @@ header {
   }
 }
 
-// Mobile: centred card 398px, padding 45/20; edit pencil instead of the text link.
 @media (max-width: $breakpoint-tablet) {
   .dialog {
     top: 50%;

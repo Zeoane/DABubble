@@ -7,11 +7,6 @@ import { UserService } from '../../../core/services/user.service';
 import { Avatar } from '../../../shared/components/avatar/avatar';
 import { MentionList, MentionOption } from '../mention-list/mention-list';
 
-/**
- * Search field of the workspace (Figma "Search bar", "Searching bar person/channels").
- * "@" lists members (opens their profile), "#" lists channels. Any other text
- * finds channels, members and messages of all own chats, with chat, author and time.
- */
 @Component({
   selector: 'app-search-bar',
   imports: [Avatar, MentionList],
@@ -33,7 +28,6 @@ export class SearchBar {
   open = signal(false);
 
   private term = computed(() => this.query().trim());
-  /** "@" or "#" at the start: only members or only channels. */
   tag = computed(() => (/^[@#]/.test(this.term()) ? this.term()[0] : null));
   private word = computed(() => this.term().replace(/^[@#]/, '').trim().toLowerCase());
 
@@ -56,39 +50,47 @@ export class SearchBar {
 
   messageHits = computed(() => (this.tag() ? [] : this.search.find(this.term())));
 
-  showList = computed(() => this.open() && this.term().length > 0);
+  takeover = computed(() => this.compact() && !!this.tag());
+
+  showList = computed(() => (this.open() && this.term().length > 0) || this.takeover());
 
 
+  /** Starts loading the messages and shows the results. */
   onFocus(): void {
     this.search.active.set(true);
     this.open.set(true);
   }
 
 
+  /** Takes over the typed text. */
   onInput(value: string): void {
     this.query.set(value);
     this.open.set(true);
   }
 
 
+  /** Opens the profile card of the person. */
   openPerson(option: MentionOption): void {
     this.profiles.open(option.id);
     this.reset();
   }
 
 
+  /** Opens the channel. */
   openChannel(option: MentionOption): void {
     this.router.navigate(['/workspace/channel', option.id]);
     this.reset();
   }
 
 
+  /** Opens the chat of the found message. */
   openMessage(hit: SearchHit): void {
     this.router.navigate(hit.chat.route);
     this.reset();
   }
 
 
+  /** Name of the author of a found message. */
   authorName(hit: SearchHit): string {
     return this.users.users().find((user) => user.uid === hit.message.authorId)?.name ?? 'Unbekannt';
   }
@@ -103,7 +105,8 @@ export class SearchBar {
   }
 
 
-  private reset(): void {
+  /** Empties the field and closes the results. */
+  reset(): void {
     this.query.set('');
     this.open.set(false);
   }

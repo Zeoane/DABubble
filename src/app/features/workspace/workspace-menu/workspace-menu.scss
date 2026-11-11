@@ -1,7 +1,6 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
-// Figma: Menu 1 – padding 32/30, gap 25 between Devspace, Channels and Direktnachrichten.
 :host {
   display: flex;
   flex-direction: column;
@@ -26,6 +25,27 @@ button {
 .mobile-search,
 .fab {
   display: none;
+}
+
+.search-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  margin: -32px -16px -17px;
+  padding: 0 16px 0 15px;
+  background-color: $color-white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    margin: 0;
+    font-size: $font-size-18;
+    font-weight: 700;
+  }
+}
+
+.icon-close {
+  @include icon('close');
 }
 
 .devspace {
@@ -81,7 +101,6 @@ button {
   padding: 3px 0;
 }
 
-// 17. Channels UX: arrow 30, gap 15, icon 24 + gap 10, 20px bold; hover purple.
 .group-toggle {
   display: flex;
   align-items: center;
@@ -115,10 +134,10 @@ button {
   gap: 13px;
 }
 
-// 18. # Menu button: indented 25px, padding 4/20, gap 10, 18px; hover/active background, active bold purple.
 .channel {
   display: flex;
   align-items: center;
+  width: fit-content;
   gap: 10px;
   max-width: calc(100% - 25px);
   margin-left: 25px;
@@ -151,7 +170,6 @@ button {
   @include icon('tag');
 }
 
-// 20. Channel hinzufügen: indented 35px, padding 4/10, hover purple.
 .add-channel {
   display: flex;
   align-items: center;
@@ -165,10 +183,10 @@ button {
   }
 }
 
-// 25.–29. Contact: indented 25px, padding 4/20, gap 15, hover background.
 .contact {
   display: flex;
   align-items: center;
+  width: fit-content;
   gap: 15px;
   max-width: calc(100% - 25px);
   margin-left: 25px;
@@ -185,6 +203,7 @@ button {
 
   &.active {
     background-color: $color-bg;
+    color: $color-purple-3;
     font-weight: 700;
   }
 }
@@ -219,7 +238,6 @@ button {
   @include icon('add-circle');
 }
 
-// Mobile (06. Main menu): search on top, no Devspace row, round edit button.
 @media (max-width: $breakpoint-tablet) {
   :host {
     padding: 32px 16px 100px;
@@ -246,7 +264,7 @@ button {
   .fab {
     position: fixed;
     right: 16px;
-    bottom: 57px;
+    bottom: 84px;
     display: flex;
     align-items: center;
     justify-content: center;

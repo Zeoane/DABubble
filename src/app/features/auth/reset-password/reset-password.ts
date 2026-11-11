@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { passwordRule } from '../../../core/validators/form-errors';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
 import { Toast } from '../../../shared/components/toast/toast';
@@ -11,9 +12,6 @@ const LINK_ERROR = '*Der Link ist ungültig oder abgelaufen. Bitte fordern Sie e
 
 type PasswordField = 'password' | 'confirm';
 
-/**
- * Opened from the reset mail; the link carries the one-time "oobCode".
- */
 @Component({
   selector: 'app-reset-password',
   imports: [ReactiveFormsModule, RouterLink, Logo, LegalLinks, Toast],
@@ -28,7 +26,7 @@ export class ResetPassword {
 
   form = this.formBuilder.nonNullable.group(
     {
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', passwordRule],
       confirm: ['', Validators.required],
     },
     { validators: passwordsMatch },
@@ -39,17 +37,27 @@ export class ResetPassword {
   linkError = signal<string | null>(null);
 
 
+  /** Checks the code of the reset link right away. */
   constructor() {
     this.auth.verifyResetCode(this.code).catch(() => this.linkError.set(LINK_ERROR));
   }
 
 
+  /** True if the field shows an error. */
   showError(field: PasswordField): boolean {
     const control = this.form.controls[field];
     return control.invalid && control.touched;
   }
 
 
+  /** Shows the password rule while typing or after leaving the field. */
+  showPasswordHint(): boolean {
+    const control = this.form.controls.password;
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+
+  /** True if the field has this validation error. */
   hasError(field: PasswordField, error: string): boolean {
     return this.form.controls[field].hasError(error);
   }
@@ -84,6 +92,7 @@ export class ResetPassword {
 }
 
 
+/** Form validator: both passwords must be the same. */
 function passwordsMatch(group: AbstractControl): ValidationErrors | null {
   const { password, confirm } = group.value;
   return confirm && password !== confirm ? { mismatch: true } : null;

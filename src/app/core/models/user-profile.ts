@@ -1,16 +1,14 @@
-/**
- * Profile stored in Firestore under "users/{uid}".
- */
+import { Timestamp } from '@angular/fire/firestore';
+
 export interface UserProfile {
   name: string;
   email: string;
   avatar: string;
+  presence?: 'online' | 'away' | 'offline';
+  lastActive?: Timestamp | null;
 }
 
 
-/**
- * A profile together with its document id (the Firebase uid).
- */
 export interface AppUser extends UserProfile {
   uid: string;
 }

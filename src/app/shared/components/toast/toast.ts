@@ -1,8 +1,5 @@
 import { Component, input } from '@angular/core';
 
-/**
- * Short confirmation that slides in from the right, e.g. "Konto erfolgreich erstellt!".
- */
 @Component({
   selector: 'app-toast',
   template: `

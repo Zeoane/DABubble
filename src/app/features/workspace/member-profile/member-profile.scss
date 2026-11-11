@@ -8,7 +8,6 @@
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-// 65. Profile view other users: white, radius 30, padding 40, gap 45, shadow 0 6 10.
 .dialog {
   position: fixed;
   top: 50%;
@@ -63,8 +62,38 @@ header {
   align-self: center;
 }
 
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 0;
+  font-size: $font-size-20;
+  color: $color-text-gray;
+
+  .dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: $color-text-gray;
+  }
+
+  &.online {
+    color: $color-online;
+
+    .dot {
+      background-color: $color-online;
+    }
+  }
+}
+
 .name {
-  margin: 0 0 -15px;
+  margin: 0;
   font-size: $font-size-32;
   font-weight: 700;
   overflow-wrap: anywhere;
@@ -97,7 +126,6 @@ header {
   font-weight: 700;
 }
 
-// 58. Button primary + icon: gap 10.
 .message {
   align-self: center;
   gap: 10px;
@@ -121,7 +149,6 @@ header {
   }
 }
 
-// Mobile: 398px wide, padding 45/20.
 @media (max-width: $breakpoint-tablet) {
   .dialog {
     width: 398px;

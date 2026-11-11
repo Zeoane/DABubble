@@ -12,10 +12,6 @@ import { MessageList } from '../message-list/message-list';
 
 const PREVIEW_MEMBERS = 3;
 
-/**
- * Open channel: header with name and members, intro at the start of the channel
- * (Figma 10 – Desktop Office Team), messages, message box and the channel popups.
- */
 @Component({
   selector: 'app-channel-view',
   imports: [ChannelEdit, ChannelMembers, AddMembers, MessageList, MessageBox],
@@ -27,7 +23,6 @@ export class ChannelView {
   private users = inject(UserService);
   private messages = inject(MessageService);
 
-  /** Route parameter ":id". */
   readonly id = input.required<string>();
 
   loaded = this.channels.loaded;
@@ -40,11 +35,11 @@ export class ChannelView {
 
   preview = computed(() => this.members().slice(0, PREVIEW_MEMBERS));
 
-  /** Open popup: channel details, member list or "Leute hinzufügen". */
   panel = signal<'edit' | 'members' | 'add' | null>(null);
   sending = signal(false);
   sendFailed = signal(false);
 
+  /** Closes popups and errors when another channel opens. */
   constructor() {
     effect(() => {
       this.id();
@@ -79,6 +74,7 @@ export class ChannelView {
   }
 
 
+  /** Name of the member who created the channel. */
   private creatorName(channel: Channel): string {
     return this.users.users().find((user) => user.uid === channel.createdBy)?.name ?? 'Jemand';
   }

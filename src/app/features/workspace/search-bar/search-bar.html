@@ -15,9 +15,9 @@
 
   @if (showList()) {
     @if (tag() === '@') {
-      <app-mention-list [options]="people()" (picked)="openPerson($event)" />
+      <app-mention-list [options]="people()" [inline]="takeover()" [active]="takeover() ? -1 : 0" (picked)="openPerson($event)" />
     } @else if (tag() === '#') {
-      <app-mention-list [options]="channelHits()" [channels]="true" (picked)="openChannel($event)" />
+      <app-mention-list [options]="channelHits()" [channels]="true" [inline]="takeover()" [active]="takeover() ? -1 : 0" (picked)="openChannel($event)" />
     } @else {
       <div class="results" role="listbox" aria-label="Suchergebnisse" (mousedown)="$event.preventDefault()">
         @if (channelHits().length) {

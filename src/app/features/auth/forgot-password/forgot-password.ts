@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService, authErrorCode } from '../../../core/services/auth.service';
+import { emailMessage } from '../../../core/validators/form-errors';
 import { EMAIL_PATTERN } from '../../../core/validators/patterns';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
@@ -24,11 +25,13 @@ export class ForgotPassword {
     email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
   });
 
+  readonly emailMessage = emailMessage;
   loading = signal(false);
   sent = signal(false);
   sendError = signal<string | null>(null);
 
 
+  /** True if the e-mail field shows an error. */
   showError(): boolean {
     const control = this.form.controls.email;
     return control.invalid && control.touched;
@@ -55,6 +58,7 @@ export class ForgotPassword {
   }
 
 
+  /** Shows the confirmation and returns to the login afterwards. */
   private showSent(): void {
     this.sent.set(true);
     setTimeout(() => this.router.navigate(['/']), TOAST_DURATION);
@@ -62,6 +66,7 @@ export class ForgotPassword {
 }
 
 
+/** Error text for a failed reset mail. */
 function sendErrorMessage(code: string): string {
   return code === 'auth/too-many-requests'
     ? '*Zu viele Versuche. Bitte versuchen Sie es später erneut.'

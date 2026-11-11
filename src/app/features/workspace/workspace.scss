@@ -1,7 +1,6 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
-// Figma 06: header at 25px, panels from 115px to 25px above the bottom, 20px gaps.
 .workspace {
   position: relative;
   display: flex;
@@ -51,7 +50,6 @@
   background-color: $color-white;
 }
 
-// Secondary chat: 485px wide, 20px from the chat.
 .thread {
   display: flex;
   flex-direction: column;
@@ -67,7 +65,6 @@
   }
 }
 
-// Not enough room for three columns: the thread pushes the menu away.
 @media (max-width: 1400px) and (min-width: $breakpoint-tablet + 1) {
   .thread-open {
     .menu {
@@ -82,7 +79,10 @@
   }
 }
 
-// 77. Hide/show navigation bar: tab on the left edge, vertical label.
+.footer {
+  margin: -12px 0 -18px;
+}
+
 .menu-toggle {
   position: absolute;
   left: 0;
@@ -125,7 +125,6 @@
   margin: 7px;
 }
 
-// Mobile: separate views. Without an open chat only the menu is shown.
 @media (max-width: $breakpoint-tablet) {
   .workspace {
     gap: 0;
@@ -169,8 +168,14 @@
     display: none;
   }
 
+  .footer {
+    margin: 0;
+    padding: 8px 0 16px;
+  }
+
   .chat-open {
-    .menu {
+    .menu,
+    .footer {
       display: none;
     }
 

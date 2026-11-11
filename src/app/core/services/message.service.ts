@@ -20,12 +20,6 @@ import { Observable, catchError, map, of } from 'rxjs';
 import { Message } from '../models/message';
 import { UserService } from './user.service';
 
-/**
- * Messages of a chat, oldest first. A chat is a channel ("channels/{id}") or a
- * direct conversation ("directMessages/{uidA_uidB}"). Answers to a message live
- * in its "replies" collection. A "list path" is the path of such a collection,
- * e.g. "channels/{id}/messages" or "channels/{id}/messages/{messageId}/replies".
- */
 @Injectable({ providedIn: 'root' })
 export class MessageService {
   private firestore = inject(Firestore);
@@ -33,6 +27,7 @@ export class MessageService {
   private injector = inject(EnvironmentInjector);
 
 
+  /** Streams the messages of a list, oldest first; an error ends in an empty list. */
   watch(listPath: string): Observable<Message[]> {
     const messages$ = this.inContext(() => {
       const ref = collection(this.firestore, listPath);
@@ -52,6 +47,7 @@ export class MessageService {
   }
 
 
+  /** Sends a new message to the chat. */
   async send(chatPath: string, text: string): Promise<void> {
     const data = this.newMessage(text);
     await this.inContext(() => addDoc(collection(this.firestore, chatPath, 'messages'), data));
@@ -94,6 +90,7 @@ export class MessageService {
   }
 
 
+  /** Data of a new message from the signed-in member. */
   private newMessage(text: string) {
     const authorId = this.users.uid();
     if (!authorId) throw new Error('Nicht angemeldet');
@@ -101,6 +98,7 @@ export class MessageService {
   }
 
 
+  /** Runs Firestore calls inside the injection context AngularFire needs. */
   private inContext<T>(fn: () => T): T {
     return runInInjectionContext(this.injector, fn);
   }

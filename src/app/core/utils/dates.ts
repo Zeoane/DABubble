@@ -1,5 +1,3 @@
-// German date texts for chats.
-
 /** "Heute", "Gestern" or "Dienstag, 14. Januar" */
 export function dayLabel(date: Date): string {
   const yesterday = new Date();
@@ -10,11 +8,13 @@ export function dayLabel(date: Date): string {
 }
 
 
+/** True if both dates are on the same calendar day. */
 export function isSameDay(a: Date, b: Date): boolean {
   return a.toDateString() === b.toDateString();
 }
 
 
+/** German date such as "Dienstag, 14. Januar"; the year only if it is not the current one. */
 export function formatDate(date: Date, withWeekday: boolean): string {
   const year = date.getFullYear() === new Date().getFullYear() ? undefined : 'numeric';
   const weekday = withWeekday ? 'long' : undefined;

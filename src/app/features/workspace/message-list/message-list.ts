@@ -12,10 +12,6 @@ interface Day {
   messages: Message[];
 }
 
-/**
- * Messages of a channel or direct chat, grouped by day (Figma "Time separator"),
- * below the projected intro. Scrolls to the newest message.
- */
 @Component({
   selector: 'app-message-list',
   imports: [MessageItem],
@@ -26,7 +22,6 @@ export class MessageList {
   private messageService = inject(MessageService);
   users = inject(UserService);
 
-  /** Firestore path of the chat, e.g. "channels/abc" or "directMessages/a_b". */
   readonly path = input.required<string>();
   private scroller = viewChild.required<ElementRef<HTMLElement>>('scroller');
 
@@ -36,6 +31,7 @@ export class MessageList {
 
   days = computed(() => groupByDay(this.messages()));
 
+  /** Scrolls to the newest message whenever the list changes. */
   constructor() {
     effect(() => {
       this.messages();
@@ -45,12 +41,14 @@ export class MessageList {
   }
 
 
+  /** Profile of the message author. */
   author(message: Message) {
     return this.users.users().find((user) => user.uid === message.authorId);
   }
 }
 
 
+/** Groups the messages by day for the date separators. */
 function groupByDay(messages: Message[]): Day[] {
   const days: Day[] = [];
   for (const message of messages) {
