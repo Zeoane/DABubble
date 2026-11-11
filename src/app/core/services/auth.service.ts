@@ -62,8 +62,7 @@ export class AuthService {
    */
   async logInWithGoogle(): Promise<void> {
     const { user } = await this.inContext(() => signInWithPopup(this.auth, new GoogleAuthProvider()));
-    const profileRef = doc(this.firestore, 'users', user.uid);
-    const existing = await this.inContext(() => getDoc(profileRef));
+    const existing = await this.inContext(() => getDoc(doc(this.firestore, 'users', user.uid)));
     if (!existing.exists()) {
       await this.saveUser(user.uid, googleProfile(user));
     }
