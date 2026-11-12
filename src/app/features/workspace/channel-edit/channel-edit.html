@@ -24,13 +24,15 @@
       }
     </div>
     @if (editingName()) {
-      <div class="name-field" [class.invalid]="nameError()">
-        <span class="icon icon-tag small" aria-hidden="true"></span>
-        <input id="edit-name" type="text" [formControl]="name" autocomplete="off" (keydown.enter)="saveName()" />
+      <div class="field-group name-group">
+        <div class="name-field" [class.invalid]="nameError()">
+          <span class="icon icon-tag small" aria-hidden="true"></span>
+          <input id="edit-name" type="text" [formControl]="name" autocomplete="off" (keydown.enter)="saveName()" />
+        </div>
+        @if (nameError(); as error) {
+          <p class="error-message">{{ error }}</p>
+        }
       </div>
-      @if (nameError(); as error) {
-        <p class="error-message">{{ error }}</p>
-      }
     } @else {
       <p class="value"><span class="icon icon-tag small" aria-hidden="true"></span>{{ channel().name }}</p>
     }

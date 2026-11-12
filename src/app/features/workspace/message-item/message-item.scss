@@ -95,8 +95,19 @@ time {
 }
 
 .mention {
+  display: inline;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
   font-weight: 700;
   color: $color-purple-3;
+  text-align: inherit;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 :host(.own) .mention {

@@ -42,9 +42,10 @@
             <input type="password" formControlName="password" placeholder="Passwort" autocomplete="new-password" />
           </label>
           @if (showPasswordHint()) {
-            <p class="error-message">
+            <p class="error-message popup" role="alert">
               {{ registerForm.controls.password.getError('passwordRule') }}
             </p>
+            <p class="error-message short">{{ passwordProblem(registerForm.controls.password.value) }}</p>
           }
         </div>
 

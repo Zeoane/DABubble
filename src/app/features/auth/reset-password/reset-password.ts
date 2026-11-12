@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { passwordRule } from '../../../core/validators/form-errors';
+import { passwordProblem, passwordRule } from '../../../core/validators/form-errors';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
 import { Toast } from '../../../shared/components/toast/toast';
@@ -32,6 +32,7 @@ export class ResetPassword {
     { validators: passwordsMatch },
   );
 
+  readonly passwordProblem = passwordProblem;
   loading = signal(false);
   changed = signal(false);
   linkError = signal<string | null>(null);

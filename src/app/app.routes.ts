@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard';
+import { authGuard, loginGuard } from './core/guards/auth.guard';
 import { ChooseAvatar } from './features/auth/choose-avatar/choose-avatar';
 import { ForgotPassword } from './features/auth/forgot-password/forgot-password';
 import { Login } from './features/auth/login/login';
@@ -9,7 +9,7 @@ import { Imprint } from './features/legal/imprint/imprint';
 import { Privacy } from './features/legal/privacy/privacy';
 
 export const routes: Routes = [
-  { path: '', component: Login },
+  { path: '', component: Login, canActivate: [loginGuard] },
   { path: 'registrierung', component: Register },
   { path: 'registrierung/avatar', component: ChooseAvatar },
   { path: 'passwort-vergessen', component: ForgotPassword },

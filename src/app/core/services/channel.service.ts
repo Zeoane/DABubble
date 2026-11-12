@@ -8,13 +8,21 @@ import {
   collection,
   collectionData,
   doc,
+  getDoc,
   serverTimestamp,
+  setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
 import { Observable, catchError, map, of, switchMap } from 'rxjs';
 import { Channel } from '../models/channel';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
+
+const GENERAL_ID = 'allgemein';
+const GENERAL_CHANNEL = {
+  name: 'Allgemein',
+  description: 'Hier treffen sich alle Mitglieder von DABubble.',
+};
 
 @Injectable({ providedIn: 'root' })
 export class ChannelService {
@@ -88,6 +96,23 @@ export class ChannelService {
   /** Adds members to the channel; existing ones are kept. */
   addMembers(id: string, memberIds: string[]): Promise<void> {
     return this.change(id, { members: arrayUnion(...memberIds) });
+  }
+
+
+  /**
+   * Puts the signed-in member into the channel "Allgemein" that everyone shares;
+   * the first member creates it.
+   */
+  async joinGeneral(): Promise<void> {
+    const uid = this.users.uid();
+    if (!uid) return;
+    const general = await this.inContext(() => getDoc(doc(this.firestore, 'channels', GENERAL_ID)));
+    if (general.exists()) {
+      if (!(general.get('members') ?? []).includes(uid)) await this.addMembers(GENERAL_ID, [uid]);
+      return;
+    }
+    const data = { ...GENERAL_CHANNEL, createdBy: uid, createdAt: serverTimestamp(), members: [uid] };
+    await this.inContext(() => setDoc(doc(this.firestore, 'channels', GENERAL_ID), data));
   }
 
 

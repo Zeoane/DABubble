@@ -14,7 +14,8 @@ service cloud.firestore {
       allow create: if request.auth != null
         && request.resource.data.createdBy == request.auth.uid
         && request.auth.uid in request.resource.data.members;
-      allow update: if request.auth != null && request.auth.uid in resource.data.members;
+      allow update: if request.auth != null
+        && (request.auth.uid in resource.data.members || joinsGeneral(channelId));
 
       // Only members read and write messages; everyone writes in their own name.
       match /messages/{messageId} {
@@ -69,6 +70,13 @@ service cloud.firestore {
       return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['replyCount', 'lastReplyAt'])
         && request.resource.data.replyCount == resource.data.get('replyCount', 0) + 1
         && request.resource.data.lastReplyAt == request.time;
+    }
+
+    // Everyone may join the shared channel "Allgemein", but only add themselves.
+    function joinsGeneral(channelId) {
+      return channelId == 'allgemein'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['members'])
+        && request.resource.data.members.toSet() == resource.data.members.toSet().union([request.auth.uid].toSet());
     }
 
     function isMember(channelId) {

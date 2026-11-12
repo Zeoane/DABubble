@@ -50,12 +50,14 @@
         <label class="label" for="profile-name">
           <span class="icon icon-person" aria-hidden="true"></span>Vollständiger Name
         </label>
-        <input id="profile-name" type="text" formControlName="name" placeholder="Name eingeben" autocomplete="name" />
-        @if (showNameError()) {
-          <p class="error-message">
-            {{ name.hasError('pattern') ? '*Bitte geben Sie Vor- und Nachnamen ein.' : '*Bitte schreiben Sie einen Namen.' }}
-          </p>
-        }
+        <div class="field-group name-group">
+          <input id="profile-name" type="text" formControlName="name" placeholder="Name eingeben" autocomplete="name" />
+          @if (showNameError()) {
+            <p class="error-message">
+              {{ name.hasError('pattern') ? '*Bitte geben Sie Vor- und Nachnamen ein.' : '*Bitte schreiben Sie einen Namen.' }}
+            </p>
+          }
+        </div>
         @if (failed()) {
           <p class="error-message">*Das Profil konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.</p>
         }

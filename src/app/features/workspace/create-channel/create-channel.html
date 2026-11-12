@@ -14,19 +14,21 @@
 
     <form class="form" novalidate [formGroup]="form" (ngSubmit)="next()">
       <label class="label" for="channel-name">Channel-Name</label>
-      <div class="name-field" [class.invalid]="nameError()">
-        <span class="icon icon-tag" aria-hidden="true"></span>
-        <input
-          id="channel-name"
-          type="text"
-          formControlName="name"
-          placeholder="z.B. Kooperationsprojekte"
-          autocomplete="off"
-        />
+      <div class="field-group name-group">
+        <div class="name-field" [class.invalid]="nameError()">
+          <span class="icon icon-tag" aria-hidden="true"></span>
+          <input
+            id="channel-name"
+            type="text"
+            formControlName="name"
+            placeholder="z.B. Kooperationsprojekte"
+            autocomplete="off"
+          />
+        </div>
+        @if (nameError(); as error) {
+          <p class="error-message">{{ error }}</p>
+        }
       </div>
-      @if (nameError(); as error) {
-        <p class="error-message">{{ error }}</p>
-      }
 
       <label class="label" for="channel-description">Beschreibung <span class="optional">(optional)</span></label>
       <textarea
