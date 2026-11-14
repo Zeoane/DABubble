@@ -49,7 +49,7 @@ export class MessageItem {
 
   parts = computed(() => {
     const people = this.users.users().map((user) => '@' + user.name);
-    const channels = this.channels.all().map((channel) => '#' + channel.name);
+    const channels = this.channels.mine().map((channel) => '#' + channel.name);
     return splitMentions(this.message().text, [...people, ...channels]);
   });
 
