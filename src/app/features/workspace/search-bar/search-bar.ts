@@ -43,7 +43,7 @@ export class SearchBar {
   channelHits = computed<MentionOption[]>(() => {
     if (this.tag() === '@' || (!this.tag() && !this.word())) return [];
     return this.channels
-      .mine()
+      .all()
       .filter((channel) => channel.name.toLowerCase().includes(this.word()))
       .map((channel) => ({ id: channel.id, value: channel.name, label: channel.name }));
   });
@@ -76,10 +76,13 @@ export class SearchBar {
   }
 
 
-  /** Opens the channel. */
+  /** Opens the channel and joins it first if needed. */
   openChannel(option: MentionOption): void {
-    this.router.navigate(['/workspace/channel', option.id]);
     this.reset();
+    this.channels
+      .join(option.id)
+      .then(() => this.router.navigate(['/workspace/channel', option.id]))
+      .catch(() => undefined);
   }
 
 
