@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService, authErrorCode } from '../../../core/services/auth.service';
+import { ChannelService } from '../../../core/services/channel.service';
 import { IntroService } from '../../../core/services/intro.service';
 import { emailMessage } from '../../../core/validators/form-errors';
 import { EMAIL_PATTERN } from '../../../core/validators/patterns';
@@ -27,6 +28,7 @@ export class Login {
   private formBuilder = inject(FormBuilder);
   private router = inject(Router);
   private auth = inject(AuthService);
+  private channels = inject(ChannelService);
 
   loginForm = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
@@ -95,15 +97,16 @@ export class Login {
 
 
   /**
-   * Signs in as guest, without email or password.
+   * Signs in as guest, without email or password, and opens the channel "Allgemein".
    */
   async logInAsGuest(): Promise<void> {
     if (this.loading()) return;
     this.loading.set(true);
     this.guestError.set(null);
     try {
-      await this.auth.logInAsGuest();
-      this.router.navigate(['/workspace']);
+      const uid = await this.auth.logInAsGuest();
+      const general = await this.channels.joinGeneral(uid).catch(() => null);
+      this.router.navigate(general ? ['/workspace/channel', general] : ['/workspace']);
     } catch (error) {
       this.guestError.set(LOGIN_ERRORS[authErrorCode(error)] ?? DEFAULT_LOGIN_ERROR);
       this.loading.set(false);

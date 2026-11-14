@@ -80,14 +80,16 @@ export class AuthService {
 
 
   /**
-   * Signs in without an account (Firebase "anonymous") and stores a guest profile.
+   * Signs in without an account (Firebase "anonymous"), stores a guest profile
+   * and returns the guest's id.
    */
-  async logInAsGuest(): Promise<void> {
+  async logInAsGuest(): Promise<string> {
     const { user } = await this.inContext(() => signInAnonymously(this.auth));
     await this.inContext(() =>
       updateProfile(user, { displayName: GUEST_PROFILE.name, photoURL: GUEST_PROFILE.avatar }),
     );
     await this.saveUser(user.uid, GUEST_PROFILE);
+    return user.uid;
   }
 
 
