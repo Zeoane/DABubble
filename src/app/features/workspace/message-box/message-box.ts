@@ -1,5 +1,4 @@
 import { Component, ElementRef, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { ChannelService } from '../../../core/services/channel.service';
 import { UserService } from '../../../core/services/user.service';
 import { MentionTrigger, findTrigger } from '../../../core/utils/mentions';
@@ -17,7 +16,6 @@ const LIST_KEYS = ['ArrowDown', 'ArrowUp', 'Enter', 'Tab', 'Escape'];
 export class MessageBox {
   private users = inject(UserService);
   private channels = inject(ChannelService);
-  private router = inject(Router);
 
   readonly placeholder = input('Nachricht schreiben');
   readonly focusKey = input<string>('');
@@ -73,11 +71,10 @@ export class MessageBox {
   }
 
 
-  /** Replaces the typed "@So" with "@Sofia Müller "; a picked "#Channel" opens that channel. */
+  /** Replaces the typed "@So" with "@Sofia Müller " (or "#Ent" with "#Entwicklerteam "). */
   pick(option: MentionOption): void {
     const trigger = this.trigger();
     if (!trigger) return;
-    if (trigger.char === '#') return this.openChannel(option.id);
     const cursor = trigger.start + 1 + trigger.query.length;
     this.replace(trigger.start, cursor, trigger.char + option.value + ' ');
     this.trigger.set(null);
@@ -103,16 +100,6 @@ export class MessageBox {
     const before = this.text().slice(0, start);
     this.replace(start, field.selectionEnd ?? start, before && !/\s$/.test(before) ? ' @' : '@');
     this.onInput();
-  }
-
-
-  /** Joins the channel if needed and opens it. */
-  private openChannel(id: string): void {
-    this.trigger.set(null);
-    this.channels
-      .join(id)
-      .then(() => this.router.navigate(['/workspace/channel', id]))
-      .catch(() => undefined);
   }
 
 
