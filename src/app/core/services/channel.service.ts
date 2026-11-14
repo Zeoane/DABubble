@@ -101,18 +101,18 @@ export class ChannelService {
 
   /**
    * Puts the signed-in member into the channel "Allgemein" that everyone shares;
-   * the first member creates it.
+   * the first member creates it. Returns the channel id.
    */
-  async joinGeneral(): Promise<void> {
-    const uid = this.users.uid();
-    if (!uid) return;
+  async joinGeneral(uid = this.users.uid()): Promise<string> {
+    if (!uid) return GENERAL_ID;
     const general = await this.inContext(() => getDoc(doc(this.firestore, 'channels', GENERAL_ID)));
     if (general.exists()) {
       if (!(general.get('members') ?? []).includes(uid)) await this.addMembers(GENERAL_ID, [uid]);
-      return;
+      return GENERAL_ID;
     }
     const data = { ...GENERAL_CHANNEL, createdBy: uid, createdAt: serverTimestamp(), members: [uid] };
     await this.inContext(() => setDoc(doc(this.firestore, 'channels', GENERAL_ID), data));
+    return GENERAL_ID;
   }
 
 
