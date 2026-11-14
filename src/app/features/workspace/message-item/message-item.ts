@@ -49,7 +49,7 @@ export class MessageItem {
 
   parts = computed(() => {
     const people = this.users.users().map((user) => '@' + user.name);
-    const channels = this.channels.mine().map((channel) => '#' + channel.name);
+    const channels = this.channels.all().map((channel) => '#' + channel.name);
     return splitMentions(this.message().text, [...people, ...channels]);
   });
 
@@ -100,8 +100,12 @@ export class MessageItem {
       if (user) this.profiles.open(user.uid);
       return;
     }
-    const channel = this.channels.mine().find((entry) => entry.name === name);
-    if (channel) this.router.navigate(['/workspace/channel', channel.id]);
+    const channel = this.channels.all().find((entry) => entry.name === name);
+    if (!channel) return;
+    this.channels
+      .join(channel.id)
+      .then(() => this.router.navigate(['/workspace/channel', channel.id]))
+      .catch(() => undefined);
   }
 
 

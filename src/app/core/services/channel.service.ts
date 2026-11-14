@@ -99,6 +99,15 @@ export class ChannelService {
   }
 
 
+  /** Adds the signed-in member to the channel, if not in it yet. */
+  async join(id: string): Promise<void> {
+    const uid = this.users.uid();
+    const channel = this.byId(id);
+    if (!uid || !channel || channel.members.includes(uid)) return;
+    await this.addMembers(id, [uid]);
+  }
+
+
   /**
    * Puts the signed-in member into the channel "Allgemein" that everyone shares;
    * the first member creates it. Returns the channel id.
