@@ -92,6 +92,19 @@ export class MessageItem {
   }
 
 
+  /** "@Name" opens the profile card of the member, "#Channel" opens the channel. */
+  openMention(token: string): void {
+    const name = token.slice(1);
+    if (token.startsWith('@')) {
+      const user = this.users.users().find((member) => member.name === name);
+      if (user) this.profiles.open(user.uid);
+      return;
+    }
+    const channel = this.channels.mine().find((entry) => entry.name === name);
+    if (channel) this.router.navigate(['/workspace/channel', channel.id]);
+  }
+
+
   /** Opens the thread next to the chat; the URL keeps it (?thread=id). */
   openThread(): void {
     const chatUrl = this.router.url.split('?')[0];

@@ -85,7 +85,7 @@
   flex-direction: column;
   gap: 15px;
   width: min(100%, 350px);
-  max-height: 260px;
+  max-height: min(463px, 45dvh);
   margin: 0;
   padding: 20px 21px;
   overflow-y: auto;

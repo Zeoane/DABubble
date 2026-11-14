@@ -9,7 +9,7 @@
       <button type="button" class="name" (click)="openProfile()">{{ name() }}</button>
       <time>{{ time() }}</time>
     </p>
-    <p class="bubble">@for (part of parts(); track $index) {@if (part.mention) {<span class="mention">{{ part.text }}</span>} @else {{{ part.text }}}}</p>
+    <p class="bubble">@for (part of parts(); track $index) {@if (part.mention) {<button type="button" class="mention" (click)="openMention(part.text)">{{ part.text }}</button>} @else {{{ part.text }}}}</p>
     @if (threadable() && message().replyCount) {
       <p class="answers">
         <button type="button" class="answers-link" (click)="openThread()">{{ replies() }}</button>

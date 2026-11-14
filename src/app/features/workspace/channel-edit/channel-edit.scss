@@ -295,3 +295,9 @@ hr {
     opacity: 0;
   }
 }
+
+@media (max-width: $breakpoint-mobile) {
+  .name-group {
+    margin-bottom: 16px;
+  }
+}

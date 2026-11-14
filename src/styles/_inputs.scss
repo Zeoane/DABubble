@@ -1,11 +1,45 @@
 @use 'variables' as *;
 
 .input-group {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 6px;
   width: 100%;
   text-align: left;
+
+  > .error-message {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+  }
+
+  > .error-message.popup {
+    z-index: 5;
+    padding: 12px 18px;
+    border: 1px solid $color-error;
+    border-radius: 20px;
+    background-color: $color-white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    line-height: 1.4;
+  }
+
+  &:not(:focus-within) > .error-message.popup,
+  &:focus-within > .error-message.short {
+    display: none;
+  }
+}
+
+.field-group {
+  position: relative;
+
+  > .error-message {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+  }
 }
 
 .input-field {
@@ -56,6 +90,16 @@
 }
 
 @media (max-width: $breakpoint-mobile) {
+  .input-group {
+    padding-bottom: 16px;
+
+    > .error-message {
+      top: calc(100% - 13px);
+      font-size: 13px;
+      line-height: 1.2;
+    }
+  }
+
   .input-field {
     padding: 13px 24px;
     gap: 20px;

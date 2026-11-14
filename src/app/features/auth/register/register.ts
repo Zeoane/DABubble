@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { RegistrationService } from '../../../core/services/registration.service';
-import { emailMessage, passwordRule } from '../../../core/validators/form-errors';
+import { emailMessage, passwordProblem, passwordRule } from '../../../core/validators/form-errors';
 import { EMAIL_PATTERN, NAME_PATTERN } from '../../../core/validators/patterns';
 import { LegalLinks } from '../../../shared/components/legal-links/legal-links';
 import { Logo } from '../../../shared/components/logo/logo';
@@ -32,6 +32,7 @@ export class Register {
   });
 
   readonly emailMessage = emailMessage;
+  readonly passwordProblem = passwordProblem;
 
 
   /** Shows the error at once if the e-mail turned out to be taken. */

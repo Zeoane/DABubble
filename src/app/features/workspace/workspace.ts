@@ -1,10 +1,12 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal, untracked } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { WorkspaceHeader } from './header/workspace-header';
 import { MemberProfile } from './member-profile/member-profile';
+import { ChannelService } from '../../core/services/channel.service';
 import { PresenceService } from '../../core/services/presence.service';
+import { UserService } from '../../core/services/user.service';
 import { ThreadTarget, ThreadView } from './thread-view/thread-view';
 import { WorkspaceMenu } from './workspace-menu/workspace-menu';
 import { LegalLinks } from '../../shared/components/legal-links/legal-links';
@@ -18,9 +20,14 @@ import { LegalLinks } from '../../shared/components/legal-links/legal-links';
 export class Workspace {
   private router = inject(Router);
 
-  /** Starts reporting the own online status. */
+  /** Starts reporting the own online status and joins the channel "Allgemein". */
   constructor() {
     inject(PresenceService).start();
+    const channels = inject(ChannelService);
+    const users = inject(UserService);
+    effect(() => {
+      if (users.uid()) untracked(() => channels.joinGeneral().catch(() => undefined));
+    });
   }
 
 
