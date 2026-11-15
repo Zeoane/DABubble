@@ -159,8 +159,8 @@ export class MessageBox {
   }
 
 
-  /** All channels as suggestions for "#". */
+  /** The own channels as suggestions for "#". */
   private channelOptions(): MentionOption[] {
-    return this.channels.all().map((channel) => ({ id: channel.id, value: channel.name, label: channel.name }));
+    return this.channels.mine().map((channel) => ({ id: channel.id, value: channel.name, label: channel.name }));
   }
 }

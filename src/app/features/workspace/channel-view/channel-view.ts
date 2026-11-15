@@ -26,7 +26,7 @@ export class ChannelView {
   readonly id = input.required<string>();
 
   loaded = this.channels.loaded;
-  channel = computed(() => this.channels.byId(this.id()));
+  channel = computed(() => this.channels.mine().find((channel) => channel.id === this.id()));
 
   members = computed(() => {
     const ids = this.channel()?.members ?? [];
